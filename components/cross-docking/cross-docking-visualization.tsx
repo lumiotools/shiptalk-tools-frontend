@@ -77,9 +77,13 @@ interface CrossDockingResponse {
   };
 }
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const COLORS = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+];
 
-// Custom tooltip component
 const CustomTooltip = ({
   active,
   payload,
@@ -87,12 +91,11 @@ const CustomTooltip = ({
 }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-black text-white p-2 rounded shadow-md">
+      <div className="bg-background text-foreground p-2 rounded shadow-md">
         <p className="label">{`${label} : ${payload[0].value}`}</p>
       </div>
     );
   }
-
   return null;
 };
 
@@ -100,7 +103,7 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
   const { response } = data;
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto p-6">
+    <div className="space-y-8 max-w-4xl mx-auto">
       <Card>
         <CardHeader>
           <CardTitle>Cross Docking Optimization Results</CardTitle>
@@ -110,29 +113,34 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
             <div>
               <h3 className="text-lg font-medium mb-4">Carrier Optimization</h3>
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={response.carrierOptimization.data}>
+                <BarChart
+                  data={response.carrierOptimization.data}
+                  className="hover:bg-black"
+                >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="label" />
                   <YAxis
                     label={{
                       value: response.carrierOptimization.yLabel,
                       angle: -90,
-                      position: "center",
+                      position: "insideLeft",
                     }}
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend />
-                  <Bar dataKey="value" fill="#8884d8" />
+                  <Bar dataKey="value" fill={COLORS[0]} />
                 </BarChart>
               </ResponsiveContainer>
-              <p className="mt-4 text-sm">
+              <p className="mt-4 text-sm text-muted-foreground">
                 {response.carrierOptimization.explanation}
               </p>
             </div>
 
             <div>
               <h3 className="text-lg font-medium mb-4">Dock Scheduling</h3>
-              <p className="text-sm">{response.dockScheduling}</p>
+              <p className="text-sm text-muted-foreground">
+                {response.dockScheduling}
+              </p>
             </div>
 
             <div>
@@ -145,8 +153,9 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
                     cy="50%"
                     labelLine={false}
                     outerRadius={80}
-                    fill="#8884d8"
+                    fill="hsl(var(--primary))"
                     dataKey="value"
+                    nameKey="label"
                     label={({ name, percent }) =>
                       `${name} ${(percent * 100).toFixed(0)}%`
                     }
@@ -161,7 +170,7 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
-              <p className="mt-4 text-sm">
+              <p className="mt-4 text-sm text-muted-foreground">
                 {response.laborAllocation.explanation}
               </p>
             </div>
@@ -174,10 +183,12 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
                 </div>
                 <Progress
                   value={response.riskAssessment.riskProgress}
-                  className="w-full border-2"
+                  className="w-full"
                 />
               </div>
-              <p className="text-sm">{response.riskAssessment.explanation}</p>
+              <p className="text-sm text-muted-foreground">
+                {response.riskAssessment.explanation}
+              </p>
             </div>
 
             <div>
@@ -192,7 +203,7 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
                     label={{
                       value: response.deliveryTimelineComparison.yLabel,
                       angle: -90,
-                      position: "center",
+                      position: "insideLeft",
                     }}
                   />
                   <Tooltip content={<CustomTooltip />} />
@@ -202,18 +213,18 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
                     dataKey="value"
                     data={response.deliveryTimelineComparison.actualData}
                     name={response.deliveryTimelineComparison.yActualLabel}
-                    stroke="#8884d8"
+                    stroke="hsl(var(--chart-1))"
                   />
                   <Line
                     type="monotone"
                     dataKey="value"
                     data={response.deliveryTimelineComparison.comparedData}
                     name={response.deliveryTimelineComparison.yComparedLabel}
-                    stroke="#ffff"
+                    stroke="hsl(var(--chart-2))"
                   />
                 </LineChart>
               </ResponsiveContainer>
-              <p className="mt-4 text-sm">
+              <p className="mt-4 text-sm text-muted-foreground">
                 {response.deliveryTimelineComparison.explanation}
               </p>
             </div>
@@ -223,12 +234,14 @@ export default function Component({ data }: { data: CrossDockingResponse }) {
               <div className="font-medium mb-2">
                 Status: {response.deliveryStatus.status}
               </div>
-              <p className="text-sm">{response.deliveryStatus.explanation}</p>
+              <p className="text-sm text-muted-foreground">
+                {response.deliveryStatus.explanation}
+              </p>
             </div>
 
             <div>
               <h3 className="text-lg font-medium mb-4">Cost Efficiency</h3>
-              <ul className="list-disc pl-5 space-y-2 text-sm">
+              <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
                 <li>
                   Labor Efficiency: {response.costEfficiency.laborEfficiency}
                 </li>
