@@ -96,72 +96,7 @@ const CustomTooltip = ({
   return null;
 };
 
-export default function Component(
-  { data }: { data: CrossDockingResponse } = {
-    data: {
-      tool: "Cross Docking Optimization",
-      response: {
-        carrierOptimization: {
-          xLabel: "Carrier",
-          yLabel: "Optimization Score",
-          chartType: "barChart",
-          data: [
-            { label: "Carrier A", value: 85 },
-            { label: "Carrier B", value: 92 },
-            { label: "Carrier C", value: 78 },
-          ],
-          explanation: "Carrier B shows the highest optimization score.",
-        },
-        dockScheduling: "Optimal dock scheduling achieved with 95% efficiency.",
-        laborAllocation: {
-          xLabel: "Labor Category",
-          yLabel: "Allocation Percentage",
-          chartType: "pieChart",
-          data: [
-            { label: "Loading", value: 30 },
-            { label: "Unloading", value: 35 },
-            { label: "Sorting", value: 25 },
-            { label: "Management", value: 10 },
-          ],
-          explanation: "Labor allocation is balanced across all categories.",
-        },
-        riskAssessment: {
-          riskLevel: "Low",
-          riskProgress: 25,
-          explanation: "Overall risk is low due to efficient processes.",
-        },
-        deliveryTimelineComparison: {
-          xLabel: "Week",
-          yLabel: "Delivery Time (hours)",
-          yActualLabel: "Actual",
-          yComparedLabel: "Projected",
-          chartType: "lineChart",
-          actualData: [
-            { label: "Week 1", value: 24 },
-            { label: "Week 2", value: 22 },
-            { label: "Week 3", value: 20 },
-          ],
-          comparedData: [
-            { label: "Week 1", value: 26 },
-            { label: "Week 2", value: 24 },
-            { label: "Week 3", value: 22 },
-          ],
-          explanation:
-            "Actual delivery times are consistently better than projected.",
-        },
-        deliveryStatus: {
-          status: "On Time",
-          explanation: "All deliveries are currently on schedule.",
-        },
-        costEfficiency: {
-          laborEfficiency: "Labor efficiency improved by 15%",
-          dockUtilization: "Dock utilization increased to 92%",
-          truckCapacityUtilization: "Truck capacity utilization at 95%",
-        },
-      },
-    },
-  }
-) {
+export default function Component({ data }: { data: CrossDockingResponse }) {
   const { response } = data;
 
   return (

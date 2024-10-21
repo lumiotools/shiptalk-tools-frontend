@@ -20,7 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon, PlusCircle, Trash2 } from "lucide-react";
-import { format } from "date-fns";
+import { format, setISODay } from "date-fns";
 import { cn } from "@/lib/utils";
 import CrossDockingVisualization from "./cross-docking-visualization";
 
@@ -45,6 +45,7 @@ type FormData = {
 export default function CrossDockingForm() {
   const [apiResponse, setApiResponse] = useState(null);
   const [formData, setFormData] = useState<FormData | null>(null);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     control,
@@ -83,6 +84,7 @@ export default function CrossDockingForm() {
   });
 
   const onSubmit = async (data: FormData) => {
+    setLoading(true);
     try {
       // Convert number types to integers
       const processedData = {
@@ -103,7 +105,6 @@ export default function CrossDockingForm() {
         laborAvailable: parseInt(data.laborAvailable.toString(), 10),
       };
 
-      console.log(processedData);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cross-docking`,
         {
@@ -117,10 +118,11 @@ export default function CrossDockingForm() {
         }
       );
       const result = await response.json();
-      console.log(result);
       setApiResponse(result);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -400,8 +402,8 @@ export default function CrossDockingForm() {
         </CardContent>
       </Card>
 
-      <Button type="submit" className="w-full">
-        Submit
+      <Button type="submit" disabled={loading} className="w-full">
+        {loading ? "Submitting..." : "Submit"}
       </Button>
 
       {formData && (
