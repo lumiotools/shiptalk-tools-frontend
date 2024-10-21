@@ -22,10 +22,11 @@ import {
 import { CalendarIcon, PlusCircle, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import CrossDockingVisualization from "./cross-docking-visualization";
 
 type TruckData = {
-  arrivalDate?: Date;
-  departureDate?: Date;
+  arrivalTime?: Date;
+  departureTime?: Date;
   loadType?: string;
   quantity?: number;
   capacity?: number;
@@ -42,6 +43,7 @@ type FormData = {
 };
 
 export default function CrossDockingForm() {
+  const [apiResponse, setApiResponse] = useState(null);
   const [formData, setFormData] = useState<FormData | null>(null);
   const {
     register,
@@ -51,9 +53,9 @@ export default function CrossDockingForm() {
   } = useForm<FormData>({
     defaultValues: {
       incomingTrucks: [
-        { arrivalDate: new Date(), loadType: "Regular", quantity: 0 },
+        { arrivalTime: new Date(), loadType: "Regular", quantity: 0 },
       ],
-      outboundTrucks: [{ departureDate: new Date(), capacity: 0 }],
+      outboundTrucks: [{ departureTime: new Date(), capacity: 0 }],
       docksAvailable: 1,
       laborAvailable: 5,
       priorityLevel: "High",
@@ -80,10 +82,51 @@ export default function CrossDockingForm() {
     name: "outboundTrucks",
   });
 
-  const onSubmit = (data: FormData) => {
-    setFormData(data);
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      // Convert number types to integers
+      const processedData = {
+        ...data,
+        incomingTrucks: data.incomingTrucks.map((truck) => ({
+          ...truck,
+          quantity: truck.quantity
+            ? parseInt(truck.quantity.toString(), 10)
+            : undefined,
+        })),
+        outboundTrucks: data.outboundTrucks.map((truck) => ({
+          ...truck,
+          capacity: truck.capacity
+            ? parseInt(truck.capacity.toString(), 10)
+            : undefined,
+        })),
+        docksAvailable: parseInt(data.docksAvailable.toString(), 10),
+        laborAvailable: parseInt(data.laborAvailable.toString(), 10),
+      };
+
+      console.log(processedData);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cross-docking`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...processedData,
+          }),
+        }
+      );
+      const result = await response.json();
+      console.log(result);
+      setApiResponse(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
+
+  if (apiResponse) {
+    return <CrossDockingVisualization data={apiResponse} />;
+  }
 
   return (
     <form
@@ -109,7 +152,7 @@ export default function CrossDockingForm() {
                     </Label>
                     <Controller
                       control={control}
-                      name={`incomingTrucks.${index}.arrivalDate`}
+                      name={`incomingTrucks.${index}.arrivalTime`}
                       render={({ field }) => (
                         <Popover>
                           <PopoverTrigger asChild>
@@ -192,7 +235,7 @@ export default function CrossDockingForm() {
                 type="button"
                 onClick={() =>
                   appendIncoming({
-                    arrivalDate: new Date(),
+                    arrivalTime: new Date(),
                     loadType: "Regular",
                     quantity: 0,
                   })
@@ -217,7 +260,7 @@ export default function CrossDockingForm() {
                     </Label>
                     <Controller
                       control={control}
-                      name={`outboundTrucks.${index}.departureDate`}
+                      name={`outboundTrucks.${index}.departureTime`}
                       render={({ field }) => (
                         <Popover>
                           <PopoverTrigger asChild>
@@ -266,15 +309,14 @@ export default function CrossDockingForm() {
                     onClick={() => removeOutbound(index)}
                     className="flex items-center"
                   >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               ))}
               <Button
                 type="button"
                 onClick={() =>
-                  appendOutbound({ departureDate: new Date(), capacity: 0 })
+                  appendOutbound({ departureTime: new Date(), capacity: 0 })
                 }
                 className="mt-4 flex items-center"
               >
