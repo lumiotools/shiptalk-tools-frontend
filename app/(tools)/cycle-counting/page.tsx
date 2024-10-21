@@ -1,14 +1,14 @@
 "use client";
-import DynamicRoutingToolInputForm from "@/components/dynamic-routing/inputForm";
-import DynamicRoutingToolOutput, {
-  DynamicRoutingToolOutputProps,
-} from "@/components/dynamic-routing/output";
+import CycleCountingToolInputForm from "@/components/cycle-counting/inputForm";
+import CycleCountingToolOutput, {
+  CycleCountingToolOutputProps,
+} from "@/components/cycle-counting/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const DynamicRoutingToolPage = () => {
+const CycleCountingToolPage = () => {
   const [options, setOptions] = useState<any>({});
   const [data, setData] = useState<any>({
     warehouseRegions: [],
@@ -17,7 +17,7 @@ const DynamicRoutingToolPage = () => {
     productType: "",
   });
   const [results, setResults] = useState<
-    DynamicRoutingToolOutputProps | undefined
+    CycleCountingToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
   const router = useRouter();
@@ -30,7 +30,7 @@ const DynamicRoutingToolPage = () => {
     setLoading("options");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=dynamic-routing`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=cycle-counting`
       );
 
       if (!response.ok) {
@@ -51,7 +51,7 @@ const DynamicRoutingToolPage = () => {
       setData(data);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=dynamic-routing`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cycle-counting`,
         {
           method: "POST",
           headers: {
@@ -83,9 +83,9 @@ const DynamicRoutingToolPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Dynamic Routing</h1>
+      <h1 className="text-4xl font-bold">Cycle Counting</h1>
       {!results ? (
-        <DynamicRoutingToolInputForm
+        <CycleCountingToolInputForm
           loading={loading === "results"}
           options={options}
           data={data}
@@ -101,11 +101,11 @@ const DynamicRoutingToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
-          <DynamicRoutingToolOutput {...results} />
+          <CycleCountingToolOutput {...results} />
         </>
       )}
     </div>
   );
 };
 
-export default DynamicRoutingToolPage;
+export default CycleCountingToolPage;
