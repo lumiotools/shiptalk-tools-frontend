@@ -11,6 +11,7 @@ declare module "rehype-sanitize";
 
 interface MarkdownRendererProps {
   markdownText: string;
+  className?: string;
 }
 
 const components: Components = {
@@ -30,9 +31,11 @@ const components: Components = {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
   markdownText,
+  className,
 }) => {
   return (
     <ReactMarkdown
+      className={className}
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeHighlight, rehypeSanitize]}
       components={components}
