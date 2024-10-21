@@ -19,8 +19,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, PlusCircle, Trash2 } from "lucide-react";
-import { format, setISODay } from "date-fns";
+import { CalendarIcon, PlusCircle, Trash2, LoaderCircle } from "lucide-react";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import CrossDockingVisualization from "./cross-docking-visualization";
 
@@ -403,7 +403,7 @@ export default function CrossDockingForm() {
       </Card>
 
       <Button type="submit" disabled={loading} className="w-full">
-        {loading ? "Submitting..." : "Submit"}
+        {loading && <LoaderCircle className="animate-spin" />} Submit
       </Button>
 
       {formData && (
