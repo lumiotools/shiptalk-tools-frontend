@@ -1,14 +1,14 @@
 "use client";
-import DistributedInventoryToolInputForm from "@/components/distributed-inventory/inputForm";
-import DistributedInventoryToolOutput, {
-  DistributedInventoryToolOutputProps,
-} from "@/components/distributed-inventory/output";
+import CycleCountingToolInputForm from "@/components/cycle-counting/inputForm";
+import CycleCountingToolOutput, {
+  CycleCountingToolOutputProps,
+} from "@/components/cycle-counting/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const DistributedInventoryToolPage = () => {
+const CycleCountingToolPage = () => {
   const [options, setOptions] = useState<any>({});
   const [data, setData] = useState<any>({
     warehouseRegions: [],
@@ -17,7 +17,7 @@ const DistributedInventoryToolPage = () => {
     productType: "",
   });
   const [results, setResults] = useState<
-    DistributedInventoryToolOutputProps | undefined
+    CycleCountingToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
   const router = useRouter();
@@ -30,7 +30,7 @@ const DistributedInventoryToolPage = () => {
     setLoading("options");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=distributed-inventory`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=cycle-counting`
       );
 
       if (!response.ok) {
@@ -51,7 +51,7 @@ const DistributedInventoryToolPage = () => {
       setData(data);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=distributed-inventory`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cycle-counting`,
         {
           method: "POST",
           headers: {
@@ -83,9 +83,9 @@ const DistributedInventoryToolPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Distributed Inventory </h1>
+      <h1 className="text-4xl font-bold">Cycle Counting</h1>
       {!results ? (
-        <DistributedInventoryToolInputForm
+        <CycleCountingToolInputForm
           loading={loading === "results"}
           options={options}
           data={data}
@@ -101,11 +101,11 @@ const DistributedInventoryToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
-          <DistributedInventoryToolOutput {...results} />
+          <CycleCountingToolOutput {...results} />
         </>
       )}
     </div>
   );
 };
 
-export default DistributedInventoryToolPage;
+export default CycleCountingToolPage;

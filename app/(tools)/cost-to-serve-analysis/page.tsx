@@ -1,23 +1,30 @@
 "use client";
-import DistributedInventoryToolInputForm from "@/components/distributed-inventory/inputForm";
-import DistributedInventoryToolOutput, {
-  DistributedInventoryToolOutputProps,
-} from "@/components/distributed-inventory/output";
+import CostToServeAnalysisToolInputForm from "@/components/cost-to-serve-analysis/inputForm";
+import CostToServeAnalysisToolOutput, {
+  CostToServeAnalysisToolOutputProps,
+} from "@/components/cost-to-serve-analysis/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const DistributedInventoryToolPage = () => {
+const CostToServeAnalysisToolPage = () => {
   const [options, setOptions] = useState<any>({});
   const [data, setData] = useState<any>({
-    warehouseRegions: [],
-    demandLevels: [],
-    leadTime: 0,
-    productType: "",
+    business_model: "",
+    key_products: [""],
+    customer_segments: [""],
+    average_order_values: [],
+    supply_chain_costs: {
+      Manufacturing: 0,
+      Warehousing: 0,
+      Distribution: 0,
+    },
+    user_goals: [],
+    challenges: [],
   });
   const [results, setResults] = useState<
-    DistributedInventoryToolOutputProps | undefined
+    CostToServeAnalysisToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
   const router = useRouter();
@@ -30,7 +37,7 @@ const DistributedInventoryToolPage = () => {
     setLoading("options");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=distributed-inventory`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=cost-to-serve-analysis`
       );
 
       if (!response.ok) {
@@ -50,8 +57,23 @@ const DistributedInventoryToolPage = () => {
     try {
       setData(data);
 
+      data = {
+        ...data,
+        average_order_values: Object.fromEntries(
+          data.average_order_values.map(
+            ({
+              customer_segment,
+              cost,
+            }: {
+              customer_segment: string;
+              cost: number;
+            }) => [customer_segment, cost]
+          )
+        ),
+      };
+
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=distributed-inventory`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cost-to-serve-analysis`,
         {
           method: "POST",
           headers: {
@@ -83,9 +105,9 @@ const DistributedInventoryToolPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Distributed Inventory </h1>
+      <h1 className="text-4xl font-bold">Cost to Serve Analysis</h1>
       {!results ? (
-        <DistributedInventoryToolInputForm
+        <CostToServeAnalysisToolInputForm
           loading={loading === "results"}
           options={options}
           data={data}
@@ -101,11 +123,11 @@ const DistributedInventoryToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
-          <DistributedInventoryToolOutput {...results} />
+          <CostToServeAnalysisToolOutput {...results} />
         </>
       )}
     </div>
   );
 };
 
-export default DistributedInventoryToolPage;
+export default CostToServeAnalysisToolPage;
