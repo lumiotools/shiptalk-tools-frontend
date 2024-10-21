@@ -103,7 +103,7 @@ export default function CrossDockingForm() {
                   key={field.id}
                   className="flex flex-wrap items-end gap-4 mt-4"
                 >
-                  <div className="flex-1 min-w-[200px]">
+                  <div className="flex-1 min-w-[100px] overflow-hidden">
                     <Label htmlFor={`incomingTrucks.${index}.arrivalDate`}>
                       Arrival Date
                     </Label>
@@ -120,9 +120,9 @@ export default function CrossDockingForm() {
                                 !field.value && "text-muted-foreground"
                               )}
                             >
-                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              <CalendarIcon className="mr-1 h-4 w-4" />
                               {field.value ? (
-                                format(field.value, "PPP")
+                                format(field.value, "P")
                               ) : (
                                 <span>Pick a date</span>
                               )}
@@ -140,7 +140,7 @@ export default function CrossDockingForm() {
                       )}
                     />
                   </div>
-                  <div className="flex-1 min-w-[200px]">
+                  <div className="flex-1 min-w-[100px]">
                     <Label htmlFor={`incomingTrucks.${index}.loadType`}>
                       Load Type
                     </Label>
@@ -166,7 +166,7 @@ export default function CrossDockingForm() {
                       )}
                     />
                   </div>
-                  <div className="flex-1 min-w-[200px]">
+                  <div className="flex-1 min-w-[100px]">
                     <Label htmlFor={`incomingTrucks.${index}.quantity`}>
                       Quantity
                     </Label>
@@ -184,8 +184,7 @@ export default function CrossDockingForm() {
                     onClick={() => removeIncoming(index)}
                     className="flex items-center"
                   >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Remove
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               ))}
