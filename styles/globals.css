@@ -3,7 +3,23 @@
 @tailwind utilities;
 
 body {
+  min-width: 100vw;
+  min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(14, 15, 20);
+  background-image: radial-gradient(
+      farthest-side at 100% 10%,
+      #1a8dbe30,
+      #0e0f14
+    ),
+    radial-gradient(
+      farthest-side at 0% 100%,
+      rgba(26, 141, 190, 0.19),
+      rgb(14, 15, 20)
+    );
+  background-size: 50% 50%, 50% 50%;
+  background-repeat: no-repeat, no-repeat;
+  background-position: 100% 0%, 0% 100%;
 }
 
 @layer utilities {
