@@ -19,7 +19,7 @@ const DistributedInventoryToolPage = () => {
   const [results, setResults] = useState<
     DistributedInventoryToolOutputProps | undefined
   >();
-  const [isLoading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<string | boolean>("options");
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const DistributedInventoryToolPage = () => {
   }, []);
 
   const fetchOptions = async () => {
-    setLoading(true);
+    setLoading("options");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=distributed-inventory`
@@ -38,20 +38,7 @@ const DistributedInventoryToolPage = () => {
       }
 
       const responseData = await response.json();
-      setOptions({
-        ...responseData.options,
-        regions: ["North America", "Europe", "Asia", "Africa", "South America"],
-        productTypes: [
-          "Luxury Goods",
-          "Consumer Goods",
-          "Electronics",
-          "Food",
-          "Clothing",
-          "Furniture",
-          "Automotive",
-          "Medical Supplies",
-        ],
-      });
+      setOptions(responseData.options);
     } catch (error) {
       router.replace("/not-found");
     }
@@ -59,7 +46,7 @@ const DistributedInventoryToolPage = () => {
   };
 
   const fetchResults = async (data: any) => {
-    setLoading(true);
+    setLoading("results");
     try {
       setData(data);
 
@@ -86,7 +73,7 @@ const DistributedInventoryToolPage = () => {
     setLoading(false);
   };
 
-  if (isLoading) {
+  if (loading === "options") {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
         <LoaderCircle className="size-16 animate-spin text-primary" />
@@ -99,6 +86,7 @@ const DistributedInventoryToolPage = () => {
       <h1 className="text-4xl font-bold">Distributed Inventory </h1>
       {!results ? (
         <DistributedInventoryToolInputForm
+          loading={loading === "results"}
           options={options}
           data={data}
           handleSubmit={fetchResults}

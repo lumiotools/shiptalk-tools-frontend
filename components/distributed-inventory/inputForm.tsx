@@ -21,7 +21,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Plus, X } from "lucide-react";
+import { LoaderCircle, Plus, X } from "lucide-react";
 
 const formSchema = z.object({
   warehouseRegions: z.array(z.string()).min(1, "Select at least one region"),
@@ -36,10 +36,12 @@ const formSchema = z.object({
 });
 
 const DistributedInventoryToolInputForm = ({
+  loading,
   options,
   data,
   handleSubmit,
 }: {
+  loading: boolean;
   options: {
     demandLevels: string[];
     regions: string[];
@@ -48,7 +50,9 @@ const DistributedInventoryToolInputForm = ({
   data: any;
   handleSubmit: any;
 }) => {
-  const [selectedRegions, setSelectedRegions] = useState(0);
+  const [selectedRegions, setSelectedRegions] = useState(
+    Math.max(data.warehouseRegions.length, 3)
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,7 +75,7 @@ const DistributedInventoryToolInputForm = ({
         onSubmit={form.handleSubmit(onSubmit, onError)}
         className="max-w-screen-md w-full flex flex-col gap-8"
       >
-        {Array(selectedRegions + 1)
+        {Array(selectedRegions)
           .fill(null)
           .map((_, index) => (
             <div
@@ -105,7 +109,6 @@ const DistributedInventoryToolInputForm = ({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -211,12 +214,12 @@ const DistributedInventoryToolInputForm = ({
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button className="w-full" type="submit">
+        <Button className="w-full gap-2" type="submit" disabled={loading}>
+          {loading && <LoaderCircle className="animate-spin" />}
           Submit
         </Button>
       </form>

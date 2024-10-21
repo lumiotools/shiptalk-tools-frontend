@@ -22,6 +22,7 @@ import {
   YAxis,
 } from "recharts";
 import { Progress } from "../ui/progress";
+import MarkdownRenderer from "../ui/markdown";
 
 interface DistributedInventoryToolPlot {
   xLabel: string;
@@ -112,7 +113,9 @@ const DistributedInventoryToolOutput = ({
           <CardHeader>
             <CardTitle>Inventory Distribution</CardTitle>
             <CardDescription>
-              {inventoryDistribution.explanation}
+              <MarkdownRenderer
+                markdownText={inventoryDistribution.explanation}
+              />
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -169,7 +172,9 @@ const DistributedInventoryToolOutput = ({
           <CardHeader>
             <CardTitle>Replenishment Schedule</CardTitle>
             <CardDescription>
-              {replenishmentSchedule.explanation}
+              <MarkdownRenderer
+                markdownText={replenishmentSchedule.explanation}
+              />
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -213,7 +218,9 @@ const DistributedInventoryToolOutput = ({
           <CardHeader>
             <CardTitle>Shipping Costs and Times</CardTitle>
             <CardDescription>
-              {shippingCostsAndTimes.explanation}
+              <MarkdownRenderer
+                markdownText={shippingCostsAndTimes.explanation}
+              />
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -272,7 +279,9 @@ const DistributedInventoryToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle>Demand Forecast</CardTitle>
-            <CardDescription>{demandForecast.explanation}</CardDescription>
+            <CardDescription>
+              <MarkdownRenderer markdownText={demandForecast.explanation} />
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer className="h-[300px]" config={{}}>
@@ -314,7 +323,9 @@ const DistributedInventoryToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle>Cost to Serve</CardTitle>
-            <CardDescription>{costToServe.explanation}</CardDescription>
+            <CardDescription>
+              <MarkdownRenderer markdownText={costToServe.explanation} />
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer className="h-[300px]" config={{}}>
@@ -336,7 +347,11 @@ const DistributedInventoryToolOutput = ({
                         return null;
                       }}
                     />
-                    <Bar dataKey="value" fill="#8884d8" name={costToServe.yLabel}/>
+                    <Bar
+                      dataKey="value"
+                      fill="#8884d8"
+                      name={costToServe.yLabel}
+                    />
                   </BarChart>
                 ) : (
                   <div className="flex items-center justify-center h-full">
@@ -352,7 +367,9 @@ const DistributedInventoryToolOutput = ({
           <CardHeader>
             <CardTitle>New Warehouse Recommendation</CardTitle>
             <CardDescription>
-              {newWarehouseRecommendation.explanation}
+              <MarkdownRenderer
+                markdownText={newWarehouseRecommendation.explanation}
+              />
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -376,7 +393,11 @@ const DistributedInventoryToolOutput = ({
                         return null;
                       }}
                     />
-                    <Bar dataKey="value" fill="#8884d8" name={newWarehouseRecommendation.yLabel}/>
+                    <Bar
+                      dataKey="value"
+                      fill="#8884d8"
+                      name={newWarehouseRecommendation.yLabel}
+                    />
                   </BarChart>
                 ) : (
                   <div className="flex items-center justify-center h-full">
@@ -394,7 +415,9 @@ const DistributedInventoryToolOutput = ({
           <CardHeader>
             <CardTitle>Inventory Risk Assessment</CardTitle>
             <CardDescription>
-              {inventoryRiskAssessment.explanation}
+              <MarkdownRenderer
+                markdownText={inventoryRiskAssessment.explanation}
+              />
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -415,7 +438,9 @@ const DistributedInventoryToolOutput = ({
           <CardHeader>
             <CardTitle>Replenishment Urgency</CardTitle>
             <CardDescription>
-              {replenishmentUrgency.explanation}
+              <MarkdownRenderer
+                markdownText={replenishmentUrgency.explanation}
+              />
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -435,7 +460,9 @@ const DistributedInventoryToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle>Demand Volatility</CardTitle>
-            <CardDescription>{demandVolatility.explanation}</CardDescription>
+            <CardDescription>
+              <MarkdownRenderer markdownText={demandVolatility.explanation} />
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -454,7 +481,9 @@ const DistributedInventoryToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle>Cost Efficiency</CardTitle>
-            <CardDescription>{costEfficiency.explanation}</CardDescription>
+            <CardDescription>
+              <MarkdownRenderer markdownText={costEfficiency.explanation} />
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -473,7 +502,11 @@ const DistributedInventoryToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle>Warehouse Efficiency</CardTitle>
-            <CardDescription>{warehouseEfficiency.explanation}</CardDescription>
+            <CardDescription>
+              <MarkdownRenderer
+                markdownText={warehouseEfficiency.explanation}
+              />
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
@@ -495,7 +528,9 @@ const DistributedInventoryToolOutput = ({
           <CardTitle>Conclusion</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>{conclusion}</p>
+          <MarkdownRenderer
+            markdownText={conclusion.replace("Conclusion", "")}
+          />
         </CardContent>
       </Card>
     </div>
