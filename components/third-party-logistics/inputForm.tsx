@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -21,10 +21,20 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { LoaderCircle, Plus, X } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+
+export interface ThirdPartyLogisticsToolOptions {
+  compunknown_size: string[];
+  logistics_functions_to_outsource: string[];
+  types_of_products: string[];
+  user_objectives: string[];
+  constraints: string[];
+  current_challenges: string[];
+  geographic_regions: string[];
+}
 
 const formSchema = z.object({
-  company_size: z.string().min(1, "Company size is required"),
+  compunknown_size: z.string().min(1, "Compunknown size is required"),
   logistics_functions_to_outsource: z
     .array(z.string().min(1, "Logistics function is required"))
     .min(1, "Logistics functions is required"),
@@ -47,17 +57,18 @@ const ThirdPartyLogisticsToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    company_size: string[];
+  options: ThirdPartyLogisticsToolOptions;
+  data: {
+    compunknown_size: string;
     logistics_functions_to_outsource: string[];
+    geographic_regions: string[];
     types_of_products: string[];
+    shipment_volume_per_month: number;
     user_objectives: string[];
     constraints: string[];
     current_challenges: string[];
-    geographic_regions: string[];
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,12 +76,10 @@ const ThirdPartyLogisticsToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 
@@ -83,21 +92,21 @@ const ThirdPartyLogisticsToolInputForm = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
             control={form.control}
-            name="company_size"
+            name="compunknown_size"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Company Size</FormLabel>
+                <FormLabel>Compunknown Size</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Company Size" />
+                      <SelectValue placeholder="Select Compunknown Size" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {options.company_size.map((item) => (
+                    {options.compunknown_size.map((item) => (
                       <SelectItem key={item} value={item}>
                         {item}
                       </SelectItem>

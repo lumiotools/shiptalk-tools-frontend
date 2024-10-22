@@ -1,5 +1,7 @@
 "use client";
-import CycleCountingToolInputForm from "@/components/cycle-counting/inputForm";
+import CycleCountingToolInputForm, {
+  CycleCountingToolOptions,
+} from "@/components/cycle-counting/inputForm";
 import CycleCountingToolOutput, {
   CycleCountingToolOutputProps,
 } from "@/components/cycle-counting/output";
@@ -9,8 +11,23 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const CycleCountingToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
+  const [options, setOptions] = useState<object>({});
+  interface CycleCountingData {
+    cycleCountFrequency: string;
+    expectedCount: number;
+    currentInventoryLevels: number;
+    priorityLevel: string;
+    warehouseRegions: string[];
+    demandLevels: string[];
+    leadTime: number;
+    productType: string;
+  }
+
+  const [data, setData] = useState<CycleCountingData>({
+    cycleCountFrequency: "",
+    expectedCount: 0,
+    currentInventoryLevels: 0,
+    priorityLevel: "",
     warehouseRegions: [],
     demandLevels: [],
     leadTime: 0,
@@ -48,10 +65,10 @@ const CycleCountingToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as CycleCountingData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cycle-counting`,
@@ -93,7 +110,7 @@ const CycleCountingToolPage = () => {
       {!results ? (
         <CycleCountingToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as CycleCountingToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

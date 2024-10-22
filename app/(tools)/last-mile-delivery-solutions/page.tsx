@@ -1,5 +1,5 @@
 "use client";
-import LastMileDeliverySolutionsToolInputForm from "@/components/last-mile-delivery-solutions/inputForm";
+import LastMileDeliverySolutionsToolInputForm, { LastMileDeliverySolutionsToolOptions } from "@/components/last-mile-delivery-solutions/inputForm";
 import LastMileDeliverySolutionsToolOutput, {
   LastMileDeliverySolutionsToolOutputProps,
 } from "@/components/last-mile-delivery-solutions/output";
@@ -9,9 +9,17 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const LastMileDeliverySolutionsToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
-    daily_orders: null,
+  const [options, setOptions] = useState<object>({});
+  interface LastMileDeliveryData {
+    daily_orders: number;
+    delivery_locations: string[];
+    delivery_method: string;
+    user_objectives: string[];
+    type_of_products: string[];
+  }
+
+  const [data, setData] = useState<LastMileDeliveryData>({
+    daily_orders: 0,
     delivery_locations: [],
     delivery_method: "",
     user_objectives: [],
@@ -49,10 +57,10 @@ const LastMileDeliverySolutionsToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as LastMileDeliveryData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=last-mile-delivery-solutions`,
@@ -94,7 +102,7 @@ const LastMileDeliverySolutionsToolPage = () => {
       {!results ? (
         <LastMileDeliverySolutionsToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as LastMileDeliverySolutionsToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

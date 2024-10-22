@@ -11,9 +11,6 @@ import {
   Bar,
   BarChart,
   Cell,
-  Legend,
-  Line,
-  LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -185,7 +182,10 @@ const DynamicRoutingToolOutput = ({
                   labelLine={false}
                 >
                   {priorityBasedRecommendation.data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip content={<ChartTooltipContent />} />
@@ -231,9 +231,7 @@ const DynamicRoutingToolOutput = ({
         </CardHeader>
         <CardContent className="space-y-2">
           <Progress value={riskProgress} className="w-full" />
-          <MarkdownRenderer
-            markdownText={riskExplanation}
-          />
+          <MarkdownRenderer markdownText={riskExplanation} />
         </CardContent>
       </Card>
 
@@ -245,9 +243,7 @@ const DynamicRoutingToolOutput = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <MarkdownRenderer
-            markdownText={trafficSensitivity.explanation}
-          />
+          <MarkdownRenderer markdownText={trafficSensitivity.explanation} />
         </CardContent>
       </Card>
 
@@ -259,9 +255,7 @@ const DynamicRoutingToolOutput = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <MarkdownRenderer
-            markdownText={weatherImpactAssessment}
-          />
+          <MarkdownRenderer markdownText={weatherImpactAssessment} />
         </CardContent>
       </Card>
 

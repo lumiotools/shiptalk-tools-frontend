@@ -1,5 +1,7 @@
 "use client";
-import SeasonalPlanningToolInputForm from "@/components/seasonal-planning/inputForm";
+import SeasonalPlanningToolInputForm, {
+  SeasonalPlanningToolOptions,
+} from "@/components/seasonal-planning/inputForm";
 import SeasonalPlanningToolOutput, {
   SeasonalPlanningToolOutputProps,
 } from "@/components/seasonal-planning/output";
@@ -9,12 +11,20 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const SeasonalPlanningToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
+  const [options, setOptions] = useState<object>({});
+  interface SeasonalPlanningData {
+    peak_season_periods: string[];
+    daily_shipments: number;
+    expected_demand_increase_percentage: number;
+    available_capacity: number;
+    constraints: string[];
+  }
+
+  const [data, setData] = useState<SeasonalPlanningData>({
     peak_season_periods: [],
-    daily_shipments: null,
-    expected_demand_increase_percentage: null,
-    available_capacity: null,
+    daily_shipments: 0,
+    expected_demand_increase_percentage: 0,
+    available_capacity: 0,
     constraints: [],
   });
   const [results, setResults] = useState<
@@ -49,10 +59,10 @@ const SeasonalPlanningToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as SeasonalPlanningData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=seasonal-planning`,
@@ -94,7 +104,7 @@ const SeasonalPlanningToolPage = () => {
       {!results ? (
         <SeasonalPlanningToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as SeasonalPlanningToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

@@ -1,5 +1,7 @@
 "use client";
-import FreightConsolidationToolInputForm from "@/components/freight-consolidation/inputForm";
+import FreightConsolidationToolInputForm, {
+  FreightConsolidationToolOptions,
+} from "@/components/freight-consolidation/inputForm";
 import FreightConsolidationToolOutput, {
   FreightConsolidationToolOutputProps,
 } from "@/components/freight-consolidation/output";
@@ -9,14 +11,29 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const FreightConsolidationToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
+  const [options, setOptions] = useState<object>({});
+  interface FreightConsolidationData {
+    orders: {
+      orderWeight: number;
+      destinationAddress: string;
+      originAddress: string;
+      serviceType: string;
+    }[];
+    carrierOptions: { carrierName: string; carrierCapacity: number }[];
+    maxDeliveryTime: number;
+    consolidationThreshold: number;
+    shippingCostPerUnit: number;
+    bulkDiscountRate: number;
+    priorityLevel: string;
+  }
+
+  const [data, setData] = useState<FreightConsolidationData>({
     orders: [],
     carrierOptions: [],
-    maxDeliveryTime: null,
-    consolidationThreshold: null,
-    shippingCostPerUnit: null,
-    bulkDiscountRate: null,
+    maxDeliveryTime: 0,
+    consolidationThreshold: 0,
+    shippingCostPerUnit: 0,
+    bulkDiscountRate: 0,
     priorityLevel: "",
   });
   const [results, setResults] = useState<
@@ -51,10 +68,10 @@ const FreightConsolidationToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as FreightConsolidationData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=freight-consolidation`,
@@ -96,7 +113,7 @@ const FreightConsolidationToolPage = () => {
       {!results ? (
         <FreightConsolidationToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as FreightConsolidationToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

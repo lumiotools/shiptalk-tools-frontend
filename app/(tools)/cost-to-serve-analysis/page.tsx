@@ -1,5 +1,7 @@
 "use client";
-import CostToServeAnalysisToolInputForm from "@/components/cost-to-serve-analysis/inputForm";
+import CostToServeAnalysisToolInputForm, {
+  CostToServeAnalysisToolOptions,
+} from "@/components/cost-to-serve-analysis/inputForm";
 import CostToServeAnalysisToolOutput, {
   CostToServeAnalysisToolOutputProps,
 } from "@/components/cost-to-serve-analysis/output";
@@ -9,12 +11,23 @@ import { ChevronLeft, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 const CostToServeAnalysisToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
+  const [options, setOptions] = useState<object>({});
+  interface CostToServeAnalysisData {
+    business_model: string;
+    customer_segments: string[];
+    total_supply_chain_cost: number;
+    average_order_value: number;
+    user_goals: string[];
+    challenges: string[];
+    industry_type: string;
+    geographical_scope: string;
+  }
+
+  const [data, setData] = useState<CostToServeAnalysisData>({
     business_model: "",
     customer_segments: [],
-    total_supply_chain_cost: null,
-    average_order_value: null,
+    total_supply_chain_cost: 0,
+    average_order_value: 0,
     user_goals: [],
     challenges: [],
     industry_type: "",
@@ -52,10 +65,10 @@ const CostToServeAnalysisToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as CostToServeAnalysisData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cost-to-serve-analysis`,
@@ -97,8 +110,8 @@ const CostToServeAnalysisToolPage = () => {
       {!results ? (
         <CostToServeAnalysisToolInputForm
           loading={loading === "results"}
-          options={options}
-          data={data}
+          options={options as CostToServeAnalysisToolOptions}
+          data={data as CostToServeAnalysisData}
           handleSubmit={fetchResults}
         />
       ) : (

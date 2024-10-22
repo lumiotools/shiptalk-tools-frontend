@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,8 +19,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { LoaderCircle, Plus, X } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+
+export interface DynamicRoutingToolOptions {
+  priorityLevels: string[];
+  trafficConditions: string[];
+  weatherConditions: string[];
+}
 
 const formSchema = z.object({
   destinationAddress: z.string().min(1, "Destination address is required"),
@@ -38,13 +44,16 @@ const DynamicRoutingToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    priorityLevels: string[];
-    trafficConditions: string[];
-    weatherConditions: string[];
+  options: DynamicRoutingToolOptions;
+  data: {
+    destinationAddress: string;
+    currentLocation: string;
+    expectedDeliveryTime: string;
+    priorityLevel: string;
+    trafficConditions: string;
+    weatherConditions: string;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (data: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,12 +61,10 @@ const DynamicRoutingToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +20,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
+
+export interface DistributedInventoryToolOptions {
+  demandLevels: string[];
+  regions: string[];
+  productTypes: string[];
+}
 
 const formSchema = z.object({
   warehouseRegions: z.array(z.string()).min(1, "Select at least one region"),
@@ -42,13 +46,14 @@ const DistributedInventoryToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    demandLevels: string[];
-    regions: string[];
-    productTypes: string[];
+  options: DistributedInventoryToolOptions;
+  data: {
+    warehouseRegions: string[];
+    demandLevels: { region: string; demandLevel: "Low" | "Medium" | "High" }[];
+    leadTime: number;
+    productType: string;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const [selectedRegions, setSelectedRegions] = useState(
     Math.max(data.warehouseRegions.length, 3)
@@ -60,12 +65,10 @@ const DistributedInventoryToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

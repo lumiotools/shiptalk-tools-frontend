@@ -1,5 +1,7 @@
 "use client";
-import SalesAndOperationsPlanningToolInputForm from "@/components/sales-and-operations-planning/inputForm";
+import SalesAndOperationsPlanningToolInputForm, {
+  SalesAndOperationsPlanningToolOptions,
+} from "@/components/sales-and-operations-planning/inputForm";
 import SalesAndOperationsPlanningToolOutput, {
   SalesAndOperationsPlanningToolOutputProps,
 } from "@/components/sales-and-operations-planning/output";
@@ -9,30 +11,43 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const SalesAndOperationsPlanningToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
-    company_size: "",
+  const [options, setOptions] = useState<object>({});
+  interface SalesAndOperationsPlanningData {
+    compunknown_size: string;
+    industry_sector: string;
+    current_sales_data: { month: string; sales: number }[];
+    inventory_levels: { name: string; quantity: number }[];
+    operational_constraints: string[];
+    demand_forecast_horizon_months: number;
+    user_objectives: string[];
+    current_challenges: string[];
+    seasonal_factors: { factor: string }[];
+    budget_constraints: number;
+  }
+
+  const [data, setData] = useState<SalesAndOperationsPlanningData>({
+    compunknown_size: "",
     industry_sector: "",
     current_sales_data: [
-      { month: "", sales: null },
-      { month: "", sales: null },
+      { month: "", sales: 0 },
+      { month: "", sales: 0 },
     ],
     inventory_levels: [
       {
         name: "",
-        quantity: null,
+        quantity: 0,
       },
       {
         name: "",
-        quantity: null,
+        quantity: 0,
       },
     ],
     operational_constraints: [],
-    demand_forecast_horizon_months: null,
+    demand_forecast_horizon_months: 0,
     user_objectives: [],
     current_challenges: [],
     seasonal_factors: [{ factor: "" }],
-    budget_constraints: null,
+    budget_constraints: 0,
   });
   const [results, setResults] = useState<
     SalesAndOperationsPlanningToolOutputProps | undefined
@@ -66,13 +81,15 @@ const SalesAndOperationsPlanningToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: {
+    current_sales_data: { month: string; sales: number }[];
+    seasonal_factors: { factor: string }[];
+  }) => {
     setLoading("results");
     try {
-      
-      setData(data);
-      
-      data = {
+      setData(data as SalesAndOperationsPlanningData);
+
+      const updatedData = {
         ...data,
         current_sales_data: Object.fromEntries(
           data.current_sales_data.map(
@@ -95,7 +112,7 @@ const SalesAndOperationsPlanningToolPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(updatedData),
         }
       );
 
@@ -130,7 +147,7 @@ const SalesAndOperationsPlanningToolPage = () => {
       {!results ? (
         <SalesAndOperationsPlanningToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as SalesAndOperationsPlanningToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

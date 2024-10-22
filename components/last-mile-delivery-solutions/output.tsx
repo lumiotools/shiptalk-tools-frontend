@@ -1,23 +1,13 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import MarkdownRenderer from "../ui/markdown";
-import RenderChart, { ComparisonPlot, Plot } from "../common/renderChart";
+import RenderChart, { Plot } from "../common/renderChart";
 import {
   AlertTriangle,
-  Boxes,
   CheckCircle2,
   Clock,
-  DollarSign,
-  List,
   ThumbsUp,
   TrendingDown,
-  TrendingUp,
   Truck,
 } from "lucide-react";
 import { Progress } from "../ui/progress";

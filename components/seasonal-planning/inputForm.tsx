@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,17 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { LoaderCircle, Plus, X } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+
+export interface SeasonalPlanningToolOptions {
+  peak_season_periods: string[];
+  constraints: string[];
+}
 
 const formSchema = z.object({
   peak_season_periods: z
@@ -42,12 +40,15 @@ const SeasonalPlanningToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
+  options: SeasonalPlanningToolOptions;
+  data: {
     peak_season_periods: string[];
+    daily_shipments: number;
+    expected_demand_increase_percentage: number;
+    available_capacity: number;
     constraints: string[];
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,12 +56,10 @@ const SeasonalPlanningToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

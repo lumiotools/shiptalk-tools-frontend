@@ -1,35 +1,9 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import MarkdownRenderer from "../ui/markdown";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import RenderChart, { ComparisonPlot, Plot } from "../common/renderChart";
-import {
-  AlertTriangle,
-  Boxes,
-  CheckCircle2,
-  Clock,
-  ListChecks,
-  TrendingUp,
-  Truck,
-} from "lucide-react";
+import { AlertTriangle, Clock, TrendingUp, Truck } from "lucide-react";
 import { Progress } from "../ui/progress";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../ui/table";
-
-interface NamedPlot extends Plot {
-  name: string;
-}
+import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
 export interface CrossDockingToolOutputProps {
   carrierOptimization: Plot;
@@ -65,7 +39,11 @@ const CrossDockingToolOutput = ({
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <RenderChart chart={carrierOptimization} title="Carrier Optimization" index={3} />
+        <RenderChart
+          chart={carrierOptimization}
+          title="Carrier Optimization"
+          index={3}
+        />
         <RenderChart chart={laborAllocation} title="Labor Allocation" />
       </div>
 

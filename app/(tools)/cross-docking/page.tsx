@@ -1,5 +1,7 @@
 "use client";
-import CrossDockingToolInputForm from "@/components/cross-docking/inputForm";
+import CrossDockingToolInputForm, {
+  CrossDockingToolOptions,
+} from "@/components/cross-docking/inputForm";
 import CrossDockingToolOutput, {
   CrossDockingToolOutputProps,
 } from "@/components/cross-docking/output";
@@ -8,29 +10,46 @@ import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
+interface CrossDockingData {
+  incomingTrucks: {
+    arrivalTime: string;
+    loadType: string;
+    quantity: number;
+  }[];
+  outboundTrucks: {
+    departureTime: string;
+    capacity: number;
+  }[];
+  docksAvailable: number;
+  laborAvailable: number;
+  priorityLevel: string;
+  trafficConditions: string;
+  weatherConditions: string;
+}
+
 const CrossDockingToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
+  const [options, setOptions] = useState<object>({});
+  const [data, setData] = useState<CrossDockingData>({
     incomingTrucks: [
       {
         arrivalTime: "",
         loadType: "",
-        quantity: null,
+        quantity: 0,
       },
       {
         arrivalTime: "",
         loadType: "",
-        quantity: null,
+        quantity: 0,
       },
     ],
     outboundTrucks: [
       {
         departureTime: "",
-        capacity: null,
+        capacity: 0,
       },
     ],
-    docksAvailable: null,
-    laborAvailable: null,
+    docksAvailable: 0,
+    laborAvailable: 0,
     priorityLevel: "",
     trafficConditions: "",
     weatherConditions: "",
@@ -67,10 +86,10 @@ const CrossDockingToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as CrossDockingData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cross-docking`,
@@ -112,8 +131,8 @@ const CrossDockingToolPage = () => {
       {!results ? (
         <CrossDockingToolInputForm
           loading={loading === "results"}
-          options={options}
-          data={data}
+          options={options as CrossDockingToolOptions}
+          data={data as CrossDockingData}
           handleSubmit={fetchResults}
         />
       ) : (

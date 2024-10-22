@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +21,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+
+export interface FreightConsolidationToolOptions {
+  serviceType: string[];
+  priorityLevel: string[];
+}
 
 const formSchema = z.object({
   orders: z
@@ -63,12 +66,25 @@ const FreightConsolidationToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    serviceType: string[];
-    priorityLevel: string[];
+  options: FreightConsolidationToolOptions;
+  data: {
+    orders: {
+      orderWeight: number;
+      destinationAddress: string;
+      originAddress: string;
+      serviceType: string;
+    }[];
+    carrierOptions: {
+      carrierName: string;
+      carrierCapacity: number;
+    }[];
+    maxDeliveryTime: number;
+    consolidationThreshold: number;
+    shippingCostPerUnit: number;
+    bulkDiscountRate: number;
+    priorityLevel: string;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (data: z.infer<typeof formSchema>) => void;
 }) => {
   const [orders, setOrders] = useState(Math.max(data.orders.length, 2));
 
@@ -82,12 +98,10 @@ const FreightConsolidationToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 
@@ -380,33 +394,34 @@ const FreightConsolidationToolInputForm = ({
             )}
           />
 
-<FormField
-          control={form.control}
-          name="priorityLevel"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Priority Level</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a priority level" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {options.priorityLevel.map((level) => (
-                    <SelectItem key={level} value={level}>
-                      {level}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="priorityLevel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Priority Level</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a priority level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {options.priorityLevel.map((level) => (
+                      <SelectItem key={level} value={level}>
+                        {level}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-
-       
 
         <Button className="w-full gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}

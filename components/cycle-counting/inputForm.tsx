@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,7 +19,12 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { LoaderCircle, Plus, X } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+
+export interface CycleCountingToolOptions {
+  cycleCountFrequency: string[];
+  priorityLevel: string[];
+}
 
 const formSchema = z.object({
   cycleCountFrequency: z.string().min(1, "Cycle count frequency is required"),
@@ -39,12 +42,14 @@ const CycleCountingToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    cycleCountFrequency: string[];
-    priorityLevel: string[];
+  options: CycleCountingToolOptions;
+  data: {
+    cycleCountFrequency: string;
+    expectedCount: number;
+    currentInventoryLevels: number;
+    priorityLevel: string;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,12 +57,10 @@ const CycleCountingToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

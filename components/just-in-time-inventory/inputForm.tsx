@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -11,17 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { LoaderCircle, Plus, X } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+
+export interface JustInTimeInventoryToolOptions {
+  main_objectives: string[];
+  current_challenges: string[];
+}
 
 const formSchema = z.object({
   average_monthly_demand_units: z
@@ -49,12 +47,16 @@ const JustInTimeInventoryToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
+  options: JustInTimeInventoryToolOptions;
+  data: {
+    average_monthly_demand_units: number;
+    current_inventory_level_units: number;
+    production_capacity_units_per_month: number;
+    warehouse_capacity_units: number;
     main_objectives: string[];
     current_challenges: string[];
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,12 +64,10 @@ const JustInTimeInventoryToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

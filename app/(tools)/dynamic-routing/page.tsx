@@ -1,5 +1,7 @@
 "use client";
-import DynamicRoutingToolInputForm from "@/components/dynamic-routing/inputForm";
+import DynamicRoutingToolInputForm, {
+  DynamicRoutingToolOptions,
+} from "@/components/dynamic-routing/inputForm";
 import DynamicRoutingToolOutput, {
   DynamicRoutingToolOutputProps,
 } from "@/components/dynamic-routing/output";
@@ -8,13 +10,24 @@ import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
+interface Data {
+  destinationAddress: string;
+  currentLocation: string;
+  expectedDeliveryTime: string;
+  priorityLevel: string;
+  trafficConditions: string;
+  weatherConditions: string;
+}
+
 const DynamicRoutingToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
-    warehouseRegions: [],
-    demandLevels: [],
-    leadTime: 0,
-    productType: "",
+  const [options, setOptions] = useState<object>({});
+  const [data, setData] = useState<Data>({
+    destinationAddress: "",
+    currentLocation: "",
+    expectedDeliveryTime: "",
+    priorityLevel: "",
+    trafficConditions: "",
+    weatherConditions: "",
   });
   const [results, setResults] = useState<
     DynamicRoutingToolOutputProps | undefined
@@ -48,10 +61,10 @@ const DynamicRoutingToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as Data);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=dynamic-routing`,
@@ -93,7 +106,7 @@ const DynamicRoutingToolPage = () => {
       {!results ? (
         <DynamicRoutingToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as DynamicRoutingToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

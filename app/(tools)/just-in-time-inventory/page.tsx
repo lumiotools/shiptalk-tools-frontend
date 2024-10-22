@@ -1,5 +1,7 @@
 "use client";
-import JustInTimeInventoryToolInputForm from "@/components/just-in-time-inventory/inputForm";
+import JustInTimeInventoryToolInputForm, {
+  JustInTimeInventoryToolOptions,
+} from "@/components/just-in-time-inventory/inputForm";
 import JustInTimeInventoryToolOutput, {
   JustInTimeInventoryToolOutputProps,
 } from "@/components/just-in-time-inventory/output";
@@ -8,13 +10,22 @@ import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
+interface Data {
+  average_monthly_demand_units: number;
+  current_inventory_level_units: number;
+  production_capacity_units_per_month: number;
+  warehouse_capacity_units: number;
+  main_objectives: string[];
+  current_challenges: string[];
+}
+
 const JustInTimeInventoryToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
-    average_monthly_demand_units: null,
-    current_inventory_level_units: null,
-    production_capacity_units_per_month: null,
-    warehouse_capacity_units: null,
+  const [options, setOptions] = useState<object>({});
+  const [data, setData] = useState<Data>({
+    average_monthly_demand_units: 0,
+    current_inventory_level_units: 0,
+    production_capacity_units_per_month: 0,
+    warehouse_capacity_units: 0,
     main_objectives: [],
     current_challenges: [],
   });
@@ -50,10 +61,10 @@ const JustInTimeInventoryToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as Data);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=just-in-time-inventory`,
@@ -95,7 +106,7 @@ const JustInTimeInventoryToolPage = () => {
       {!results ? (
         <JustInTimeInventoryToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as JustInTimeInventoryToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

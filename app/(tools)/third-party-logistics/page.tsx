@@ -1,5 +1,7 @@
 "use client";
-import ThirdPartyLogisticsToolInputForm from "@/components/third-party-logistics/inputForm";
+import ThirdPartyLogisticsToolInputForm, {
+  ThirdPartyLogisticsToolOptions,
+} from "@/components/third-party-logistics/inputForm";
 import ThirdPartyLogisticsToolOutput, {
   ThirdPartyLogisticsToolOutputProps,
 } from "@/components/third-party-logistics/output";
@@ -9,13 +11,24 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const ThirdPartyLogisticsToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
-    company_size: "",
+  const [options, setOptions] = useState<object>({});
+  interface ThirdPartyLogisticsData {
+    compunknown_size: string;
+    logistics_functions_to_outsource: string[];
+    geographic_regions: string[];
+    types_of_products: string[];
+    shipment_volume_per_month: number;
+    user_objectives: string[];
+    constraints: string[];
+    current_challenges: string[];
+  }
+
+  const [data, setData] = useState<ThirdPartyLogisticsData>({
+    compunknown_size: "",
     logistics_functions_to_outsource: [],
     geographic_regions: [],
     types_of_products: [],
-    shipment_volume_per_month: null,
+    shipment_volume_per_month: 0,
     user_objectives: [],
     constraints: [],
     current_challenges: [],
@@ -52,10 +65,10 @@ const ThirdPartyLogisticsToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as ThirdPartyLogisticsData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=third-party-logistics`,
@@ -97,7 +110,7 @@ const ThirdPartyLogisticsToolPage = () => {
       {!results ? (
         <ThirdPartyLogisticsToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as ThirdPartyLogisticsToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />

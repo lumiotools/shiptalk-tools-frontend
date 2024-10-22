@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -23,8 +23,16 @@ import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, X, Plus } from "lucide-react";
 
+export interface SalesAndOperationsPlanningToolOptions {
+  compunknown_size: string[];
+  industry_sector: string[];
+  user_objectives: string[];
+  operational_constraints: string[];
+  current_challenges: string[];
+}
+
 const formSchema = z.object({
-  company_size: z.string().min(1, "Company size is required"),
+  compunknown_size: z.string().min(1, "Compunknown size is required"),
   industry_sector: z.string().min(1, "Industry sector is required"),
   current_sales_data: z
     .array(
@@ -72,15 +80,19 @@ const SalesAndOperationsPlanningToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    company_size: string[];
-    industry_sector: string[];
-    user_objectives: string[];
+  options: SalesAndOperationsPlanningToolOptions;
+  data: {
+    compunknown_size: string;
+    industry_sector: string;
+    current_sales_data: { month: string; sales: number }[];
+    inventory_levels: { name: string; quantity: number }[];
     operational_constraints: string[];
+    user_objectives: string[];
     current_challenges: string[];
+    seasonal_factors: { factor: string }[];
+    budget_constraints: number;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -115,12 +127,10 @@ const SalesAndOperationsPlanningToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 
@@ -133,21 +143,21 @@ const SalesAndOperationsPlanningToolInputForm = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
             control={form.control}
-            name="company_size"
+            name="compunknown_size"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Size</FormLabel>
+                <FormLabel>Compunknown Size</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select company size" />
+                      <SelectValue placeholder="Select compunknown size" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {options.company_size.map((size) => (
+                    {options.compunknown_size.map((size) => (
                       <SelectItem key={size} value={size}>
                         {size}
                       </SelectItem>
@@ -186,7 +196,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="budget_constraints"
             render={({ field }) => (
@@ -363,7 +373,6 @@ const SalesAndOperationsPlanningToolInputForm = ({
         >
           Add Seasonal Factor
         </Button>
-
 
         <FormField
           control={form.control}

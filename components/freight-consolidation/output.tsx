@@ -2,11 +2,9 @@ import React from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import MarkdownRenderer from "../ui/markdown";
 import RenderChart, { ComparisonPlot, Plot } from "../common/renderChart";
 import {
   AlertTriangle,

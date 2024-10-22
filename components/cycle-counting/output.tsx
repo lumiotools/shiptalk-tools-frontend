@@ -10,11 +10,8 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import {
   Bar,
   BarChart,
-  CartesianGrid,
   Cell,
   Legend,
-  Line,
-  LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
@@ -23,7 +20,6 @@ import {
   YAxis,
 } from "recharts";
 import { Progress } from "../ui/progress";
-import MarkdownRenderer from "../ui/markdown";
 import {
   AlertCircle,
   ArrowRight,

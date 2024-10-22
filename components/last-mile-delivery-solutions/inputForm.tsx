@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -23,6 +23,12 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
+export interface LastMileDeliverySolutionsToolOptions {
+  type_of_products: string[];
+  delivery_method: string[];
+  user_objectives: string[];
+}
+
 const formSchema = z.object({
   daily_orders: z.number().min(1, "Average monthly demand is required"),
   delivery_locations: z
@@ -40,13 +46,15 @@ const LastMileDeliverySolutionsToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    type_of_products: string[];
-    delivery_method: string[];
+  options: LastMileDeliverySolutionsToolOptions;
+  data: {
+    daily_orders: number;
+    delivery_locations: string[];
+    delivery_method: string;
     user_objectives: string[];
+    type_of_products: string[];
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const [deliveryLocations, setDeliveryLocations] = useState(
     Math.max(data.delivery_locations.length, 2)
@@ -58,12 +66,10 @@ const LastMileDeliverySolutionsToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

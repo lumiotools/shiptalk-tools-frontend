@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +20,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, X, Plus } from "lucide-react";
+
+export interface CrossDockingToolOptions {
+  loadType: string[];
+  priorityLevel: string[];
+  trafficConditions: string[];
+  weatherConditions: string[];
+}
 
 const formSchema = z.object({
   incomingTrucks: z
@@ -57,14 +62,24 @@ const CrossDockingToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    loadType: string[];
-    priorityLevel: string[];
-    trafficConditions: string[];
-    weatherConditions: string[];
+  options: CrossDockingToolOptions;
+  data: {
+    incomingTrucks: {
+      arrivalTime: string;
+      loadType: string;
+      quantity: number;
+    }[];
+    outboundTrucks: {
+      departureTime: string;
+      capacity: number;
+    }[];
+    docksAvailable: number;
+    laborAvailable: number;
+    priorityLevel: string;
+    trafficConditions: string;
+    weatherConditions: string;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (data: z.infer<typeof formSchema>) => void;
 }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,12 +104,10 @@ const CrossDockingToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 

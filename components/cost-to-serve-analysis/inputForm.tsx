@@ -23,6 +23,16 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
+export interface CostToServeAnalysisToolOptions {
+  business_model: string[];
+  customer_segments: string[];
+  user_goals: string[];
+  challenges: string[];
+  industry_type: string[];
+  geographical_scope: string[];
+  time_horizon: string[];
+}
+
 const formSchema = z.object({
   business_model: z.string().min(1, "Business model is required"),
   customer_segments: z.array(z.string()).min(1, "Customer segment is required"),
@@ -43,17 +53,18 @@ const CostToServeAnalysisToolInputForm = ({
   handleSubmit,
 }: {
   loading: boolean;
-  options: {
-    business_model: string[];
+  options: CostToServeAnalysisToolOptions;
+  data: {
+    business_model: string;
     customer_segments: string[];
+    total_supply_chain_cost: number;
+    average_order_value: number;
     user_goals: string[];
     challenges: string[];
-    industry_type: string[];
-    geographical_scope: string[];
-    time_horizon: string[];
+    industry_type: string;
+    geographical_scope: string;
   };
-  data: any;
-  handleSubmit: any;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const [customerSegments, setCustomerSegments] = useState(
     Math.max(data.customer_segments.length, 2)
@@ -65,12 +76,10 @@ const CostToServeAnalysisToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    
     handleSubmit(values);
   }
 
-  const onError = (error: any) => {
-    
+  const onError = (error: unknown) => {
     console.log(form.getValues());
   };
 
@@ -116,7 +125,10 @@ const CostToServeAnalysisToolInputForm = ({
                   render={({ field }) => (
                     <FormItem className="w-full flex-1">
                       <FormLabel>Customer Segment {index + 1}</FormLabel>
-                      <Select value={field.value} onValueChange={(value)=> field.onChange(value)}>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => field.onChange(value)}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a customer segment" />
@@ -335,9 +347,10 @@ const CostToServeAnalysisToolInputForm = ({
             render={({ field }) => (
               <FormItem className="w-full flex-1">
                 <FormLabel>Geographic Scope</FormLabel>
-                <Select 
+                <Select
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}>
+                  onValueChange={(value) => field.onChange(value)}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select geographic scope" />

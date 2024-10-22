@@ -1,5 +1,5 @@
 "use client";
-import DistributedInventoryToolInputForm from "@/components/distributed-inventory/inputForm";
+import DistributedInventoryToolInputForm, { DistributedInventoryToolOptions } from "@/components/distributed-inventory/inputForm";
 import DistributedInventoryToolOutput, {
   DistributedInventoryToolOutputProps,
 } from "@/components/distributed-inventory/output";
@@ -9,8 +9,15 @@ import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const DistributedInventoryToolPage = () => {
-  const [options, setOptions] = useState<any>({});
-  const [data, setData] = useState<any>({
+  const [options, setOptions] = useState<object>({});
+  interface Data {
+    warehouseRegions: string[];
+    demandLevels: { region: string; demandLevel: "Low" | "Medium" | "High" }[];
+    leadTime: number;
+    productType: string;
+  }
+
+  const [data, setData] = useState<Data>({
     warehouseRegions: [],
     demandLevels: [],
     leadTime: 0,
@@ -48,10 +55,10 @@ const DistributedInventoryToolPage = () => {
     setLoading(false);
   };
 
-  const fetchResults = async (data: any) => {
+  const fetchResults = async (data: object) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(data as Data);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=distributed-inventory`,
@@ -93,7 +100,7 @@ const DistributedInventoryToolPage = () => {
       {!results ? (
         <DistributedInventoryToolInputForm
           loading={loading === "results"}
-          options={options}
+          options={options as DistributedInventoryToolOptions}
           data={data}
           handleSubmit={fetchResults}
         />
