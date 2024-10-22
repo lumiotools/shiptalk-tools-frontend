@@ -24,7 +24,7 @@ import * as z from "zod";
 import { LoaderCircle, X, Plus } from "lucide-react";
 
 export interface SalesAndOperationsPlanningToolOptions {
-  compunknown_size: string[];
+  company_size: string[];
   industry_sector: string[];
   user_objectives: string[];
   operational_constraints: string[];
@@ -32,7 +32,7 @@ export interface SalesAndOperationsPlanningToolOptions {
 }
 
 const formSchema = z.object({
-  compunknown_size: z.string().min(1, "Compunknown size is required"),
+  company_size: z.string().min(1, "Company size is required"),
   industry_sector: z.string().min(1, "Industry sector is required"),
   current_sales_data: z
     .array(
@@ -82,7 +82,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
   loading: boolean;
   options: SalesAndOperationsPlanningToolOptions;
   data: {
-    compunknown_size: string;
+    company_size: string;
     industry_sector: string;
     current_sales_data: { month: string; sales: number }[];
     inventory_levels: { name: string; quantity: number }[];
@@ -130,7 +130,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = () => {
     console.log(form.getValues());
   };
 
@@ -143,21 +143,21 @@ const SalesAndOperationsPlanningToolInputForm = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
             control={form.control}
-            name="compunknown_size"
+            name="company_size"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Compunknown Size</FormLabel>
+                <FormLabel>Company Size</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select compunknown size" />
+                      <SelectValue placeholder="Select company size" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {options.compunknown_size.map((size) => (
+                    {options.company_size.map((size) => (
                       <SelectItem key={size} value={size}>
                         {size}
                       </SelectItem>

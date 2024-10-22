@@ -24,7 +24,7 @@ import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 
 export interface ThirdPartyLogisticsToolOptions {
-  compunknown_size: string[];
+  company_size: string[];
   logistics_functions_to_outsource: string[];
   types_of_products: string[];
   user_objectives: string[];
@@ -34,7 +34,7 @@ export interface ThirdPartyLogisticsToolOptions {
 }
 
 const formSchema = z.object({
-  compunknown_size: z.string().min(1, "Compunknown size is required"),
+  company_size: z.string().min(1, "company size is required"),
   logistics_functions_to_outsource: z
     .array(z.string().min(1, "Logistics function is required"))
     .min(1, "Logistics functions is required"),
@@ -59,7 +59,7 @@ const ThirdPartyLogisticsToolInputForm = ({
   loading: boolean;
   options: ThirdPartyLogisticsToolOptions;
   data: {
-    compunknown_size: string;
+    company_size: string;
     logistics_functions_to_outsource: string[];
     geographic_regions: string[];
     types_of_products: string[];
@@ -92,21 +92,21 @@ const ThirdPartyLogisticsToolInputForm = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
             control={form.control}
-            name="compunknown_size"
+            name="company_size"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Compunknown Size</FormLabel>
+                <FormLabel>company Size</FormLabel>
                 <Select
                   value={field.value}
                   onValueChange={(value) => field.onChange(value)}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Compunknown Size" />
+                      <SelectValue placeholder="Select company Size" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {options.compunknown_size.map((item) => (
+                    {options.company_size.map((item) => (
                       <SelectItem key={item} value={item}>
                         {item}
                       </SelectItem>

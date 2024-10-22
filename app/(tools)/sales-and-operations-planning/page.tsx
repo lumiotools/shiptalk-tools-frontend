@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 const SalesAndOperationsPlanningToolPage = () => {
   const [options, setOptions] = useState<object>({});
   interface SalesAndOperationsPlanningData {
-    compunknown_size: string;
+    company_size: string;
     industry_sector: string;
     current_sales_data: { month: string; sales: number }[];
     inventory_levels: { name: string; quantity: number }[];
@@ -26,7 +26,7 @@ const SalesAndOperationsPlanningToolPage = () => {
   }
 
   const [data, setData] = useState<SalesAndOperationsPlanningData>({
-    compunknown_size: "",
+    company_size: "",
     industry_sector: "",
     current_sales_data: [
       { month: "", sales: 0 },

@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 const ThirdPartyLogisticsToolPage = () => {
   const [options, setOptions] = useState<object>({});
   interface ThirdPartyLogisticsData {
-    compunknown_size: string;
+    company_size: string;
     logistics_functions_to_outsource: string[];
     geographic_regions: string[];
     types_of_products: string[];
@@ -24,7 +24,7 @@ const ThirdPartyLogisticsToolPage = () => {
   }
 
   const [data, setData] = useState<ThirdPartyLogisticsData>({
-    compunknown_size: "",
+    company_size: "",
     logistics_functions_to_outsource: [],
     geographic_regions: [],
     types_of_products: [],
