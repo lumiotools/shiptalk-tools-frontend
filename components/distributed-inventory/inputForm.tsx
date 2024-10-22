@@ -60,12 +60,12 @@ const DistributedInventoryToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    
     handleSubmit(values);
   }
 
   const onError = (error: any) => {
-    console.log(error);
+    
     console.log(form.getValues());
   };
 

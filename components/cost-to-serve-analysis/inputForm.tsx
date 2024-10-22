@@ -25,24 +25,15 @@ import { LoaderCircle, Plus, X } from "lucide-react";
 
 const formSchema = z.object({
   business_model: z.string().min(1, "Business model is required"),
-  key_products: z.array(z.string()).min(1, "Product is required"),
   customer_segments: z.array(z.string()).min(1, "Customer segment is required"),
-  average_order_values: z
-    .array(
-      z.object({
-        customer_segment: z.string().min(1, "Customer segment is required"),
-        cost: z.number().min(1, { message: "Cost is required" }),
-      })
-    )
-    .min(1, "At least one customer segment is required"),
-
-  supply_chain_costs: z.object({
-    Manufacturing: z.number().min(1, "Manufacturing cost is required"),
-    Warehousing: z.number().min(1, "Warehousing cost is required"),
-    Distribution: z.number().min(1, "Distribution cost is required"),
-  }),
+  total_supply_chain_cost: z
+    .number()
+    .min(1, "Total supply chain cost is required"),
+  average_order_value: z.number().min(1, "Average order value is required"),
   user_goals: z.array(z.string()).min(1, "User goal is required"),
   challenges: z.array(z.string()).min(1, "Challenge is required"),
+  industry_type: z.string().min(1, "Industry type is required"),
+  geographical_scope: z.string().min(1, "Geographical scope is required"),
 });
 
 const CostToServeAnalysisToolInputForm = ({
@@ -54,18 +45,18 @@ const CostToServeAnalysisToolInputForm = ({
   loading: boolean;
   options: {
     business_model: string[];
+    customer_segments: string[];
     user_goals: string[];
     challenges: string[];
+    industry_type: string[];
+    geographical_scope: string[];
+    time_horizon: string[];
   };
   data: any;
   handleSubmit: any;
 }) => {
-  const [keyProducts, setKeyProducts] = useState(
-    Math.max(data.key_products.length, 2)
-  );
-
-  const [averageOrderValues, setAverageOrderValues] = useState(
-    Math.max(data.average_order_values.length, 2)
+  const [customerSegments, setCustomerSegments] = useState(
+    Math.max(data.customer_segments.length, 2)
   );
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,12 +65,12 @@ const CostToServeAnalysisToolInputForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    
     handleSubmit(values);
   }
 
   const onError = (error: any) => {
-    console.log(error);
+    
     console.log(form.getValues());
   };
 
@@ -115,20 +106,31 @@ const CostToServeAnalysisToolInputForm = ({
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {Array(keyProducts)
+          {Array(customerSegments)
             .fill(null)
             .map((_, index) => (
               <div key={index} className="flex flex-col md:flex-row gap-8">
                 <FormField
                   control={form.control}
-                  name={`key_products.${index}`}
+                  name={`customer_segments.${index}`}
                   render={({ field }) => (
                     <FormItem className="w-full flex-1">
-                      <FormLabel>Product {index + 1}</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="Product" />
-                      </FormControl>
-                      <FormMessage />
+                      <FormLabel>Customer Segment {index + 1}</FormLabel>
+                      <Select value={field.value} onValueChange={(value)=> field.onChange(value)}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a customer segment" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <FormMessage />
+                        <SelectContent>
+                          {options.customer_segments.map((segment) => (
+                            <SelectItem key={segment} value={segment}>
+                              {segment}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </FormItem>
                   )}
                 />
@@ -137,18 +139,18 @@ const CostToServeAnalysisToolInputForm = ({
                   variant="destructive"
                   className="md:mt-8"
                   onClick={() => {
-                    if (keyProducts <= 2) return;
+                    if (customerSegments <= 2) return;
 
                     form.setValue(
-                      "key_products",
+                      "customer_segments",
                       form
-                        .getValues("key_products")
+                        .getValues("customer_segments")
                         .filter((_, i) => i !== index)
                     );
-                    setKeyProducts(keyProducts - 1);
+                    setCustomerSegments(customerSegments - 1);
                   }}
                 >
-                  <X /> <span className="md:hidden">Remove Product</span>
+                  <X /> <span className="md:hidden">Remove Segment</span>
                 </Button>
               </div>
             ))}
@@ -157,107 +159,24 @@ const CostToServeAnalysisToolInputForm = ({
         <Button
           type="button"
           className="w-full md:w-fit md:mx-auto"
-          onClick={() => setKeyProducts(keyProducts + 1)}
+          onClick={() => setCustomerSegments(customerSegments + 1)}
         >
-          <Plus /> Add More Products
+          <Plus /> Add More Segment
         </Button>
 
-        {Array(averageOrderValues)
-          .fill(null)
-          .map((_, index) => (
-            <div key={index} className="flex flex-col md:flex-row gap-8">
-              <FormField
-                control={form.control}
-                name={`average_order_values.${index}.customer_segment`}
-                render={({ field }) => (
-                  <FormItem className="w-full flex-1">
-                    <FormLabel>Customer Segment</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Customer Segment"
-                        onChange={(e) => {
-                          form.setValue(
-                            `customer_segments.${index}`,
-                            e.target.value
-                          );
-                          field.onChange({ target: { value: e.target.value } });
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name={`average_order_values.${index}.cost`}
-                render={({ field }) => (
-                  <FormItem className="w-full flex-1">
-                    <FormLabel>Average Cost</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Average Cost"
-                        onChange={(e) =>
-                          field.onChange(parseFloat(e.target.value))
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                type="button"
-                variant="destructive"
-                className="md:mt-8"
-                onClick={() => {
-                  if (averageOrderValues <= 2) return;
-
-                  form.setValue(
-                    "customer_segments",
-                    form
-                      .getValues("customer_segments")
-                      .filter((_, i) => i !== index)
-                  );
-
-                  form.setValue(
-                    "average_order_values",
-                    form
-                      .getValues("average_order_values")
-                      .filter((_, i) => i !== index)
-                  );
-                  setAverageOrderValues(averageOrderValues - 1);
-                }}
-              >
-                <X /> <span className="md:hidden">Remove Customer Segment</span>
-              </Button>
-            </div>
-          ))}
-
-        <Button
-          type="button"
-          className="w-full md:w-fit md:mx-auto"
-          onClick={() => setAverageOrderValues(averageOrderValues + 1)}
-        >
-          <Plus /> Add More Customer Segment
-        </Button>
-
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
             control={form.control}
-            name="supply_chain_costs.Manufacturing"
+            name="total_supply_chain_cost"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Manufacturing Cost</FormLabel>
+                <FormLabel>Total Supply Chain Cost</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="number"
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    placeholder="Total Supply Chain Cost"
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
@@ -267,33 +186,16 @@ const CostToServeAnalysisToolInputForm = ({
 
           <FormField
             control={form.control}
-            name="supply_chain_costs.Warehousing"
+            name="average_order_value"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Warehousing Cost</FormLabel>
+                <FormLabel>Average Order Value</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
                     type="number"
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="supply_chain_costs.Distribution"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Distribution Cost</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    placeholder="Average Order Value"
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
@@ -302,99 +204,158 @@ const CostToServeAnalysisToolInputForm = ({
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="user_goals"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel className="text-base">User Goals</FormLabel>
-                <FormDescription>
-                  Select the user goals that apply to your business.
-                </FormDescription>
-              </div>
-              {options.user_goals.map((item) => (
-                <FormField
-                  key={item}
-                  control={form.control}
-                  name="user_goals"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">{item}</FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <FormField
+            control={form.control}
+            name="user_goals"
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel className="text-base">User Goals</FormLabel>
+                  <FormDescription>
+                    Select the user goals that apply to your business.
+                  </FormDescription>
+                </div>
+                {options.user_goals.map((item) => (
+                  <FormField
+                    key={item}
+                    control={form.control}
+                    name="user_goals"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(item)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item
+                                      )
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">{item}</FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="challenges"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel className="text-base">Challenges</FormLabel>
-                <FormDescription>
-                  Select the challenges that your business faces.
-                </FormDescription>
-              </div>
-              {options.challenges.map((item) => (
-                <FormField
-                  key={item}
-                  control={form.control}
-                  name="challenges"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== item
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">{item}</FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="challenges"
+            render={() => (
+              <FormItem>
+                <div className="mb-4">
+                  <FormLabel className="text-base">Challenges</FormLabel>
+                  <FormDescription>
+                    Select the challenges that your business faces.
+                  </FormDescription>
+                </div>
+                {options.challenges.map((item) => (
+                  <FormField
+                    key={item}
+                    control={form.control}
+                    name="challenges"
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item}
+                          className="flex flex-row items-start space-x-3 space-y-0"
+                        >
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value?.includes(item)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item])
+                                  : field.onChange(
+                                      field.value?.filter(
+                                        (value) => value !== item
+                                      )
+                                    );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel className="font-normal">{item}</FormLabel>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <FormField
+            control={form.control}
+            name="industry_type"
+            render={({ field }) => (
+              <FormItem className="w-full flex-1">
+                <FormLabel>Industry Type</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your industry type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <FormMessage />
+                  <SelectContent>
+                    {options.industry_type.map((industry) => (
+                      <SelectItem key={industry} value={industry}>
+                        {industry}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="geographical_scope"
+            render={({ field }) => (
+              <FormItem className="w-full flex-1">
+                <FormLabel>Geographic Scope</FormLabel>
+                <Select 
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select geographic scope" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <FormMessage />
+                  <SelectContent>
+                    {options.geographical_scope.map((scope) => (
+                      <SelectItem key={scope} value={scope}>
+                        {scope}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
 
         <Button className="w-full gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}

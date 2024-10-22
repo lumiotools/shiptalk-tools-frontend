@@ -5,7 +5,7 @@ import DynamicRoutingToolOutput, {
 } from "@/components/dynamic-routing/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
 const DynamicRoutingToolPage = () => {
@@ -20,7 +20,7 @@ const DynamicRoutingToolPage = () => {
     DynamicRoutingToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
-  const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchOptions();
@@ -40,7 +40,10 @@ const DynamicRoutingToolPage = () => {
       const responseData = await response.json();
       setOptions(responseData.options);
     } catch (error) {
-      router.replace("/not-found");
+      toast({
+        variant: "destructive",
+        description: "Request Failed",
+      });
     }
     setLoading(false);
   };
@@ -68,7 +71,10 @@ const DynamicRoutingToolPage = () => {
       const responseData = await response.json();
       setResults(responseData.response);
     } catch (error) {
-      router.replace("/not-found");
+      toast({
+        variant: "destructive",
+        description: "Request Failed",
+      });
     }
     setLoading(false);
   };

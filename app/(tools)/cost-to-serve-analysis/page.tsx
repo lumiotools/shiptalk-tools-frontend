@@ -4,30 +4,27 @@ import CostToServeAnalysisToolOutput, {
   CostToServeAnalysisToolOutputProps,
 } from "@/components/cost-to-serve-analysis/output";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const CostToServeAnalysisToolPage = () => {
   const [options, setOptions] = useState<any>({});
   const [data, setData] = useState<any>({
     business_model: "",
-    key_products: [""],
-    customer_segments: [""],
-    average_order_values: [],
-    supply_chain_costs: {
-      Manufacturing: 0,
-      Warehousing: 0,
-      Distribution: 0,
-    },
+    customer_segments: [],
+    total_supply_chain_cost: null,
+    average_order_value: null,
     user_goals: [],
     challenges: [],
+    industry_type: "",
+    geographical_scope: "",
   });
   const [results, setResults] = useState<
     CostToServeAnalysisToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
-  const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchOptions();
@@ -47,7 +44,10 @@ const CostToServeAnalysisToolPage = () => {
       const responseData = await response.json();
       setOptions(responseData.options);
     } catch (error) {
-      router.replace("/not-found");
+      toast({
+        variant: "destructive",
+        description: "Request Failed",
+      });
     }
     setLoading(false);
   };
@@ -56,21 +56,6 @@ const CostToServeAnalysisToolPage = () => {
     setLoading("results");
     try {
       setData(data);
-
-      data = {
-        ...data,
-        average_order_values: Object.fromEntries(
-          data.average_order_values.map(
-            ({
-              customer_segment,
-              cost,
-            }: {
-              customer_segment: string;
-              cost: number;
-            }) => [customer_segment, cost]
-          )
-        ),
-      };
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cost-to-serve-analysis`,
@@ -90,7 +75,10 @@ const CostToServeAnalysisToolPage = () => {
       const responseData = await response.json();
       setResults(responseData.response);
     } catch (error) {
-      router.replace("/not-found");
+      toast({
+        variant: "destructive",
+        description: "Request Failed",
+      });
     }
     setLoading(false);
   };

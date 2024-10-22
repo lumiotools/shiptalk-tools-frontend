@@ -1,23 +1,27 @@
 "use client";
-import CycleCountingToolInputForm from "@/components/cycle-counting/inputForm";
-import CycleCountingToolOutput, {
-  CycleCountingToolOutputProps,
-} from "@/components/cycle-counting/output";
+import ThirdPartyLogisticsToolInputForm from "@/components/third-party-logistics/inputForm";
+import ThirdPartyLogisticsToolOutput, {
+  ThirdPartyLogisticsToolOutputProps,
+} from "@/components/third-party-logistics/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
-const CycleCountingToolPage = () => {
+const ThirdPartyLogisticsToolPage = () => {
   const [options, setOptions] = useState<any>({});
   const [data, setData] = useState<any>({
-    warehouseRegions: [],
-    demandLevels: [],
-    leadTime: 0,
-    productType: "",
+    company_size: "",
+    logistics_functions_to_outsource: [],
+    geographic_regions: [],
+    types_of_products: [],
+    shipment_volume_per_month: null,
+    user_objectives: [],
+    constraints: [],
+    current_challenges: [],
   });
   const [results, setResults] = useState<
-    CycleCountingToolOutputProps | undefined
+    ThirdPartyLogisticsToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
   const { toast } = useToast();
@@ -30,7 +34,7 @@ const CycleCountingToolPage = () => {
     setLoading("options");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=cycle-counting`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=third-party-logistics`
       );
 
       if (!response.ok) {
@@ -54,7 +58,7 @@ const CycleCountingToolPage = () => {
       setData(data);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cycle-counting`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=third-party-logistics`,
         {
           method: "POST",
           headers: {
@@ -89,9 +93,9 @@ const CycleCountingToolPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Cycle Counting</h1>
+      <h1 className="text-4xl font-bold">Third-Party Logistics (3PL)</h1>
       {!results ? (
-        <CycleCountingToolInputForm
+        <ThirdPartyLogisticsToolInputForm
           loading={loading === "results"}
           options={options}
           data={data}
@@ -107,11 +111,11 @@ const CycleCountingToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
-          <CycleCountingToolOutput {...results} />
+          <ThirdPartyLogisticsToolOutput {...results} />
         </>
       )}
     </div>
   );
 };
 
-export default CycleCountingToolPage;
+export default ThirdPartyLogisticsToolPage;

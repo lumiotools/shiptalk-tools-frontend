@@ -1,23 +1,24 @@
 "use client";
-import CycleCountingToolInputForm from "@/components/cycle-counting/inputForm";
-import CycleCountingToolOutput, {
-  CycleCountingToolOutputProps,
-} from "@/components/cycle-counting/output";
+import LastMileDeliverySolutionsToolInputForm from "@/components/last-mile-delivery-solutions/inputForm";
+import LastMileDeliverySolutionsToolOutput, {
+  LastMileDeliverySolutionsToolOutputProps,
+} from "@/components/last-mile-delivery-solutions/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
 
-const CycleCountingToolPage = () => {
+const LastMileDeliverySolutionsToolPage = () => {
   const [options, setOptions] = useState<any>({});
   const [data, setData] = useState<any>({
-    warehouseRegions: [],
-    demandLevels: [],
-    leadTime: 0,
-    productType: "",
+    daily_orders: null,
+    delivery_locations: [],
+    delivery_method: "",
+    user_objectives: [],
+    type_of_products: [],
   });
   const [results, setResults] = useState<
-    CycleCountingToolOutputProps | undefined
+    LastMileDeliverySolutionsToolOutputProps | undefined
   >();
   const [loading, setLoading] = useState<string | boolean>("options");
   const { toast } = useToast();
@@ -30,7 +31,7 @@ const CycleCountingToolPage = () => {
     setLoading("options");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=cycle-counting`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=last-mile-delivery-solutions`
       );
 
       if (!response.ok) {
@@ -54,7 +55,7 @@ const CycleCountingToolPage = () => {
       setData(data);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=cycle-counting`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=last-mile-delivery-solutions`,
         {
           method: "POST",
           headers: {
@@ -89,9 +90,9 @@ const CycleCountingToolPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Cycle Counting</h1>
+      <h1 className="text-4xl font-bold">Last-Mile Delivery Solutions</h1>
       {!results ? (
-        <CycleCountingToolInputForm
+        <LastMileDeliverySolutionsToolInputForm
           loading={loading === "results"}
           options={options}
           data={data}
@@ -107,11 +108,11 @@ const CycleCountingToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
-          <CycleCountingToolOutput {...results} />
+          <LastMileDeliverySolutionsToolOutput {...results} />
         </>
       )}
     </div>
   );
 };
 
-export default CycleCountingToolPage;
+export default LastMileDeliverySolutionsToolPage;
