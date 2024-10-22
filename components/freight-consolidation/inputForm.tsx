@@ -321,7 +321,7 @@ const FreightConsolidationToolInputForm = ({
             name="maxDeliveryTime"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Max Delivery Time</FormLabel>
+                <FormLabel>Max Delivery Time (Days)</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -380,7 +380,7 @@ const FreightConsolidationToolInputForm = ({
             name="bulkDiscountRate"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Bulk Discount Rate</FormLabel>
+                <FormLabel>Bulk Discount Rate (%)</FormLabel>
                 <FormControl>
                   <Input
                     {...field}

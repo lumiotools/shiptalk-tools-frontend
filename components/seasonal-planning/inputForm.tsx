@@ -143,7 +143,7 @@ const SeasonalPlanningToolInputForm = ({
             name="expected_demand_increase_percentage"
             render={({ field }) => (
               <FormItem className="w-full flex-1">
-                <FormLabel>Expected Demand Increase</FormLabel>
+                <FormLabel>Expected Demand Increase (%)</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
