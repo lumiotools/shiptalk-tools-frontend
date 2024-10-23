@@ -30,6 +30,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import RenderChart from "../common/renderChart";
 
 interface CycleCountingToolPlot {
   xLabel: string;
@@ -108,76 +109,17 @@ const CycleCountingToolOutput = ({
   return (
     <div className="container mx-auto p-4 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Discrepancy Analysis</CardTitle>
-            <CardDescription>{discrepancyAnalysis.explanation}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer
-              config={{
-                value: {
-                  label: discrepancyAnalysis.yLabel,
-                  color: "hsl(var(--chart-5))",
-                },
-              }}
-              className="h-[300px]"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={discrepancyAnalysis.data}>
-                  <XAxis dataKey="label" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="value" fill="var(--color-value)" />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+        <RenderChart
+          chart={discrepancyAnalysis}
+          title="Discrepancy Analysis"
+          index={1}
+        />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Priority Recommendation</CardTitle>
-            <CardDescription>
-              {priorityRecommendations.explanation}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer
-              config={{
-                value: {
-                  label: priorityRecommendations.xLabel,
-                  color: "hsl(var(--chart-2))",
-                },
-              }}
-              className="h-[300px]"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={priorityRecommendations.data}
-                    dataKey="value"
-                    nameKey="label"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="var(--color-value)"
-                    label
-                    labelLine={false}
-                  >
-                    {priorityRecommendations.data.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip content={<ChartTooltipContent />} />
-                </PieChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+        <RenderChart
+          chart={priorityRecommendations}
+          title="Priority Recommendation"
+          index={1}
+        />
 
         <Card>
           <CardHeader>
@@ -201,7 +143,6 @@ const CycleCountingToolOutput = ({
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader>
             <CardTitle>Cycle Count Efficiency</CardTitle>
@@ -227,82 +168,10 @@ const CycleCountingToolOutput = ({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Stock Level Analysis</CardTitle>
-            <CardDescription>{stockLevelAnalysis.explanation}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* <ChartContainer
-              config={{
-                value: {
-                  label: stockLevelAnalysis.yLabel,
-                  color: "hsl(var(--chart-3))",
-                },
-              }}
-              className="h-[300px]"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stockLevelAnalysis.data}>
-                  <XAxis dataKey="label" />
-                  <YAxis />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="value" fill="var(--color-value)" />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer> */}
-
-            <ChartContainer className="h-[300px]" config={{}}>
-              <ResponsiveContainer width="100%" height="100%">
-                {stockLevelAnalysis.actualData &&
-                stockLevelAnalysis.actualData.length > 0 ? (
-                  <BarChart
-                    data={stockLevelAnalysis.actualData.map(
-                      ({ label, value }, index) => ({
-                        label,
-                        actualValue: value,
-                        comparedValue:
-                          stockLevelAnalysis.comparedData[index].value,
-                      })
-                    )}
-                  >
-                    <XAxis dataKey="label" />
-                    <YAxis />
-                    <Tooltip
-                      content={({ payload, label }) => {
-                        if (payload && payload.length) {
-                          return (
-                            <div className="bg-background p-2 rounded shadow">
-                              <p className="font-semibold">{label}</p>
-                              <p>{`${payload[0].name}: ${payload[0].value}`}</p>
-                              <p>{`${payload[1].name}: ${payload[1].value}`}</p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Legend />
-                    <Bar
-                      dataKey="actualValue"
-                      name={stockLevelAnalysis.yActualLabel}
-                      fill="hsl(var(--chart-2))"
-                    />
-                    <Bar
-                      dataKey="comparedValue"
-                      name={stockLevelAnalysis.yComparedLabel}
-                      fill="hsl(var(--chart-3))"
-                    />
-                  </BarChart>
-                ) : (
-                  <div className="flex items-center justify-center h-full">
-                    No data available
-                  </div>
-                )}
-              </ResponsiveContainer>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+        <RenderChart
+          comparisonChart={stockLevelAnalysis}
+          title="Stock Level Analysis"
+        />
 
         <Card>
           <CardHeader>

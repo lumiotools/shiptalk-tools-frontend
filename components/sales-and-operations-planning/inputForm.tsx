@@ -215,7 +215,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
           />
         </div>
 
-        <h2 className="font-semibold text-lg underline">Current Sales Data</h2>
+        <h2 className="font-semibold text-lg underline">Previous Sales Data</h2>
 
         {salesFields.map((field, index) => (
           <div key={field.id} className="flex items-end gap-4">

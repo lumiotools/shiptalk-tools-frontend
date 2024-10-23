@@ -100,7 +100,10 @@ const DynamicRoutingToolOutput = ({
         <CardContent>
           <ChartContainer
             config={{
-              value: { label: "Hours", color: "hsl(var(--chart-1))" },
+              value: {
+                label: deliveryTimeComparison.yLabel,
+                color: "hsl(var(--chart-1))",
+              },
             }}
             className="h-[300px]"
           >
@@ -259,7 +262,7 @@ const DynamicRoutingToolOutput = ({
         </CardContent>
       </Card>
 
-      <Card className="col-span-full">
+      <Card>
         <CardHeader>
           <CardTitle>Priority Adjustment Suggestions</CardTitle>
         </CardHeader>

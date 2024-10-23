@@ -82,7 +82,7 @@ const RenderChart: React.FC<{
                 ({ label, value }, index) => ({
                   label,
                   actualValue: value,
-                  comparedValue: comparisonChart.comparedData[index].value,
+                  comparedValue: comparisonChart.comparedData[index]?.value,
                 })
               )}
             >
@@ -94,8 +94,8 @@ const RenderChart: React.FC<{
                     return (
                       <div className="bg-background p-2 rounded shadow">
                         <p className="font-semibold">{label}</p>
-                        <p>{`${payload[0].name}: ${payload[0].value}`}</p>
-                        <p>{`${payload[1].name}: ${payload[1].value}`}</p>
+                        <p>{`${payload[0]?.name}: ${payload[0]?.value}`}</p>
+                        <p>{`${payload[1]?.name}: ${payload[1]?.value}`}</p>
                       </div>
                     );
                   }

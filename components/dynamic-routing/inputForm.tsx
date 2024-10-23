@@ -31,7 +31,6 @@ export interface DynamicRoutingToolOptions {
 const formSchema = z.object({
   destinationAddress: z.string().min(1, "Destination address is required"),
   currentLocation: z.string().min(1, "Current location is required"),
-  expectedDeliveryTime: z.string().min(1, "Expected delivery time is required"),
   priorityLevel: z.string().min(1, "Priority level is required"),
   trafficConditions: z.string().min(1, "Traffic conditions is required"),
   weatherConditions: z.string().min(1, "Weather conditions is required"),
@@ -48,7 +47,6 @@ const DynamicRoutingToolInputForm = ({
   data: {
     destinationAddress: string;
     currentLocation: string;
-    expectedDeliveryTime: string;
     priorityLevel: string;
     trafficConditions: string;
     weatherConditions: string;
@@ -96,20 +94,6 @@ const DynamicRoutingToolInputForm = ({
               <FormLabel>Current Location</FormLabel>
               <FormControl>
                 <Textarea {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="expectedDeliveryTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Expected Delivery Time</FormLabel>
-              <FormControl>
-                <Input type="datetime-local" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -50,10 +50,6 @@ const formSchema = z.object({
     )
     .min(1, "Carrier options is required"),
 
-  maxDeliveryTime: z.number().min(1, "Max delivery time is required"),
-  consolidationThreshold: z
-    .number()
-    .min(1, "Consolidation threshold is required"),
   shippingCostPerUnit: z.number().min(1, "Shipping cost per unit is required"),
   bulkDiscountRate: z.number().min(1, "Bulk discount rate is required"),
   priorityLevel: z.string().min(1, "Priority level is required"),
@@ -89,7 +85,7 @@ const FreightConsolidationToolInputForm = ({
   const [orders, setOrders] = useState(Math.max(data.orders.length, 2));
 
   const [carrierOptions, setCarrierOptions] = useState(
-    Math.max(data.orders.length, 1)
+    Math.max(data.carrierOptions.length, 1)
   );
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -314,46 +310,6 @@ const FreightConsolidationToolInputForm = ({
         >
           <Plus /> Add More Carrier
         </Button>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <FormField
-            control={form.control}
-            name="maxDeliveryTime"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Max Delivery Time (Days)</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="Max Delivery Time"
-                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="consolidationThreshold"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Consolidation Threshold (%)</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    placeholder="Consolidation Threshold"
-                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <FormField

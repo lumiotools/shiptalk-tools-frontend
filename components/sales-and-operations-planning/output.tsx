@@ -167,7 +167,7 @@ const SalesAndOperationsPlanningToolOutput = ({
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        {charts.slice(0, 5).map((chart, index) => (
+        {charts.map((chart, index) => (
           <RenderChart
             key={index}
             chart={chart}
@@ -176,31 +176,17 @@ const SalesAndOperationsPlanningToolOutput = ({
           />
         ))}
 
-        <div className="flex flex-col gap-8">
-          <Card className="flex-1 w-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5" />
-                Implementation Plan
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <MarkdownRenderer markdownText={implementation_plan} />
-            </CardContent>
-          </Card>
-
-          <Card className="flex-1 w-full">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5" />
-                Risk Analysis
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <MarkdownRenderer markdownText={risk_analysis} />
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="flex-1 w-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5" />
+              Implementation Plan
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <MarkdownRenderer markdownText={implementation_plan} />
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
@@ -215,6 +201,18 @@ const SalesAndOperationsPlanningToolOutput = ({
                 <li key={index}>{consideration}</li>
               ))}
             </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="flex-1 w-full">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5" />
+              Risk Analysis
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <MarkdownRenderer markdownText={risk_analysis} />
           </CardContent>
         </Card>
 
