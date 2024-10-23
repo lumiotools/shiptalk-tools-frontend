@@ -124,6 +124,9 @@ const RenderChart: React.FC<{
     }
 
     if (!chart) return <></>;
+
+    chart.data = chart.data.filter(({ value }) => value > 0);
+    
     switch (chart.chartType) {
       case "barChart":
         return (
@@ -196,7 +199,7 @@ const RenderChart: React.FC<{
       case "lineChart":
         return (
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chart.data} >
+            <LineChart data={chart.data}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="label" />
               <YAxis />
@@ -241,7 +244,7 @@ const RenderChart: React.FC<{
       case "radarChart":
         return (
           <ResponsiveContainer width="100%" height={300}>
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chart.data} >
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chart.data}>
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <PolarAngleAxis dataKey="value" label={"hi"} />
               <PolarGrid />
