@@ -21,11 +21,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 
-export interface CycleCountingToolOptions {
-  cycleCountFrequency: string[];
-  priorityLevel: string[];
-}
-
 const formSchema = z.object({
   cycleCountFrequency: z.string().min(1, "Cycle count frequency is required"),
   expectedCount: z.number().min(1, "Expected count is required"),
@@ -40,27 +35,17 @@ const CycleCountingToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: CycleCountingToolOptions;
-  data: {
-    cycleCountFrequency: string;
-    expectedCount: number;
-    currentInventoryLevels: number;
-    priorityLevel: string;
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

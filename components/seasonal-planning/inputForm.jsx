@@ -16,11 +16,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 
-export interface SeasonalPlanningToolOptions {
-  peak_season_periods: string[];
-  constraints: string[];
-}
-
 const formSchema = z.object({
   peak_season_periods: z
     .array(z.string())
@@ -38,28 +33,17 @@ const SeasonalPlanningToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: SeasonalPlanningToolOptions;
-  data: {
-    peak_season_periods: string[];
-    daily_shipments: number;
-    expected_demand_increase_percentage: number;
-    available_capacity: number;
-    constraints: string[];
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

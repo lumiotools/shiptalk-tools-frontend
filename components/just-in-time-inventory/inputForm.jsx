@@ -16,11 +16,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 
-export interface JustInTimeInventoryToolOptions {
-  main_objectives: string[];
-  current_challenges: string[];
-}
-
 const formSchema = z.object({
   average_monthly_demand_units: z
     .number()
@@ -45,29 +40,17 @@ const JustInTimeInventoryToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: JustInTimeInventoryToolOptions;
-  data: {
-    average_monthly_demand_units: number;
-    current_inventory_level_units: number;
-    production_capacity_units_per_month: number;
-    warehouse_capacity_units: number;
-    main_objectives: string[];
-    current_challenges: string[];
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

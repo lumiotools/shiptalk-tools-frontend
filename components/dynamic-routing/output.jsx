@@ -23,42 +23,6 @@ import MarkdownRenderer from "../ui/markdown";
 import { RiskBadge, StatusBadge, TrafficSensitivityBadge } from "./badges";
 import { CloudSnow, Truck } from "lucide-react";
 
-interface DynamicRoutingToolPlot {
-  xLabel: string;
-  yLabel: string;
-  chartType: string;
-  data: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-interface DynamicRoutingToolImpactAnalysis {
-  label: string;
-  value: number;
-}
-
-interface DynamicRoutingToolTrafficSensitivity {
-  level: string;
-  explanation: string;
-}
-
-export interface DynamicRoutingToolOutputProps {
-  deliveryTimeComparison: DynamicRoutingToolPlot;
-  conditionImpactChart: DynamicRoutingToolPlot;
-  priorityBasedRecommendation: DynamicRoutingToolPlot;
-  riskLevel: string;
-  riskProgress: number;
-  riskExplanation: string;
-  delayImpactAnalysis: DynamicRoutingToolImpactAnalysis[];
-  deliveryStatus: string;
-  deliveryStatusExplanation: string;
-  trafficSensitivity: DynamicRoutingToolTrafficSensitivity;
-  weatherImpactAssessment: string;
-  priorityAdjustmentSuggestions: string;
-}
-
 const DynamicRoutingToolOutput = ({
   deliveryTimeComparison,
   conditionImpactChart,
@@ -72,7 +36,7 @@ const DynamicRoutingToolOutput = ({
   trafficSensitivity,
   weatherImpactAssessment,
   priorityAdjustmentSuggestions,
-}: DynamicRoutingToolOutputProps) => {
+}) => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
   return (

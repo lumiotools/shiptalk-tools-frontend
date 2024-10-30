@@ -23,16 +23,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
-export interface CostToServeAnalysisToolOptions {
-  business_model: string[];
-  customer_segments: string[];
-  user_goals: string[];
-  challenges: string[];
-  industry_type: string[];
-  geographical_scope: string[];
-  time_horizon: string[];
-}
-
 const formSchema = z.object({
   business_model: z.string().min(1, "Business model is required"),
   customer_segments: z.array(z.string()).min(1, "Customer segment is required"),
@@ -51,35 +41,21 @@ const CostToServeAnalysisToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: CostToServeAnalysisToolOptions;
-  data: {
-    business_model: string;
-    customer_segments: string[];
-    total_supply_chain_cost: number;
-    average_order_value: number;
-    user_goals: string[];
-    challenges: string[];
-    industry_type: string;
-    geographical_scope: string;
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const [customerSegments, setCustomerSegments] = useState(
     Math.max(data.customer_segments.length, 2)
   );
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

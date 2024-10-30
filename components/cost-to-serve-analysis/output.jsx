@@ -8,30 +8,6 @@ import {
 import MarkdownRenderer from "../ui/markdown";
 import RenderChart from "../common/renderChart";
 
-interface CostToServeAnalysisToolPlot {
-  xLabel: string;
-  yLabel: string;
-  chartType: string;
-  data: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-export interface CostToServeAnalysisToolOutputProps {
-  total_cost_to_serve: number;
-  optimization_recommendations: string;
-  strategic_insights: string;
-  implementation_steps: string;
-  risk_evaluation: string;
-  final_recommendation: string;
-  success_probability: number;
-  potential_savings: number;
-  customer_impact: string;
-  charts: CostToServeAnalysisToolPlot[];
-}
-
 const CostToServeAnalysisToolOutput = ({
   total_cost_to_serve,
   optimization_recommendations,
@@ -43,7 +19,7 @@ const CostToServeAnalysisToolOutput = ({
   potential_savings,
   customer_impact,
   charts,
-}: CostToServeAnalysisToolOutputProps) => {
+}) => {
   const COLORS = [
     "#8884d8",
     "#00C49F",

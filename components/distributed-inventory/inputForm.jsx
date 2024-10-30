@@ -21,12 +21,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
-export interface DistributedInventoryToolOptions {
-  demandLevels: string[];
-  regions: string[];
-  productTypes: string[];
-}
-
 const formSchema = z.object({
   warehouseRegions: z.array(z.string()).min(1, "Select at least one region"),
   demandLevels: z.array(
@@ -44,31 +38,21 @@ const DistributedInventoryToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: DistributedInventoryToolOptions;
-  data: {
-    warehouseRegions: string[];
-    demandLevels: { region: string; demandLevel: "Low" | "Medium" | "High" }[];
-    leadTime: number;
-    productType: string;
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const [selectedRegions, setSelectedRegions] = useState(
     Math.max(data.warehouseRegions.length, 3)
   );
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

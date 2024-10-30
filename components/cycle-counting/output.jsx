@@ -32,59 +32,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import RenderChart from "../common/renderChart";
 
-interface CycleCountingToolPlot {
-  xLabel: string;
-  yLabel: string;
-  chartType: string;
-  data: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-interface CycleCountingToolComparisonPlot {
-  xLabel: string;
-  yLabel: string;
-  yActualLabel: string;
-  yComparedLabel: string;
-  chartType: string;
-  actualData: {
-    label: string;
-    value: number;
-  }[];
-  comparedData: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-interface CycleCountingToolFrequency {
-  label: string;
-  value: number;
-  explanation: string;
-}
-
-interface CycleCountingToolRiskAssessment {
-  riskLevel: string;
-  riskProgress: number;
-  explanation: string;
-}
-
-export interface CycleCountingToolOutputProps {
-  discrepancyAnalysis: CycleCountingToolPlot;
-  cycleCountFrequencySuggestion: CycleCountingToolFrequency;
-  inventoryRiskAssessment: CycleCountingToolRiskAssessment;
-  priorityRecommendations: CycleCountingToolPlot;
-  cycleCountEfficiency: CycleCountingToolFrequency;
-  nextCycleCountPeriod: string;
-  replenishmentSuggestion: string;
-  stockLevelAnalysis: CycleCountingToolComparisonPlot;
-  accuracyImprovementSuggestions: string;
-  processStreamliningSuggestions: string;
-}
-
 const CycleCountingToolOutput = ({
   discrepancyAnalysis,
   cycleCountFrequencySuggestion,
@@ -96,7 +43,7 @@ const CycleCountingToolOutput = ({
   stockLevelAnalysis,
   accuracyImprovementSuggestions,
   processStreamliningSuggestions,
-}: CycleCountingToolOutputProps) => {
+}) => {
   const COLORS = [
     "#8884d8",
     "#00C49F",

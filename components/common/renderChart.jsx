@@ -29,34 +29,6 @@ import {
 } from "../ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 
-export interface Plot {
-  xLabel: string;
-  yLabel: string;
-  chartType: string;
-  data: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-export interface ComparisonPlot {
-  xLabel: string;
-  yLabel: string;
-  yActualLabel: string;
-  yComparedLabel: string;
-  chartType: string;
-  actualData: {
-    label: string;
-    value: number;
-  }[];
-  comparedData: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
 const COLORS = [
   "hsl(var(--chart-1))",
   "hsl(var(--chart-2))",
@@ -65,12 +37,7 @@ const COLORS = [
   "hsl(var(--chart-5))",
 ];
 
-const RenderChart: React.FC<{
-  index?: number;
-  chart?: Plot;
-  comparisonChart?: ComparisonPlot;
-  title?: string;
-}> = ({ index = 0, title, chart, comparisonChart }) => {
+export const RenderChart = ({ index = 0, title, chart, comparisonChart }) => {
   const renderChart = () => {
     if (comparisonChart) {
       return (
@@ -284,5 +251,3 @@ const RenderChart: React.FC<{
     </Card>
   );
 };
-
-export default RenderChart;

@@ -25,33 +25,34 @@ import {
   TableRow,
 } from "../ui/table";
 
-interface NamedPlot extends Plot {
-  name: string;
-}
+// Remove TypeScript interfaces and type annotations
+// interface NamedPlot extends Plot {
+//   name: string;
+// }
 
-export interface SalesAndOperationsPlanningToolOutputProps {
-  recommended_inventory_levels: {
-    name: string;
-    quantity: number;
-  }[];
-  estimated_cost_savings_percentage: number;
-  expected_improvement_in_service_levels: {
-    percentage: number;
-    explanation: string;
-  };
-  key_performance_indicators: {
-    kpi_name: string;
-    current_value: number;
-    expected_improvement_percentage: number;
-  }[];
-  implementation_plan: string;
-  risk_analysis: string;
-  key_considerations: string[];
-  charts: NamedPlot[];
-  scenario_analysis?: string | null;
-  success_stories?: string | null;
-  overall_suggestion: string;
-}
+// export interface SalesAndOperationsPlanningToolOutputProps {
+//   recommended_inventory_levels: {
+//     name: string;
+//     quantity: number;
+//   }[];
+//   estimated_cost_savings_percentage: number;
+//   expected_improvement_in_service_levels: {
+//     percentage: number;
+//     explanation: string;
+//   };
+//   key_performance_indicators: {
+//     kpi_name: string;
+//     current_value: number;
+//     expected_improvement_percentage: number;
+//   }[];
+//   implementation_plan: string;
+//   risk_analysis: string;
+//   key_considerations: string[];
+//   charts: NamedPlot[];
+//   scenario_analysis?: string | null;
+//   success_stories?: string | null;
+//   overall_suggestion: string;
+// }
 
 const SalesAndOperationsPlanningToolOutput = ({
   recommended_inventory_levels,
@@ -65,7 +66,7 @@ const SalesAndOperationsPlanningToolOutput = ({
   scenario_analysis,
   success_stories,
   overall_suggestion,
-}: SalesAndOperationsPlanningToolOutputProps) => {
+}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
