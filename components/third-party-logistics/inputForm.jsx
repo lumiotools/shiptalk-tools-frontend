@@ -23,6 +23,23 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 
+const formSchema = z.object({
+  company_size: z.string().min(1, "company size is required"),
+  logistics_functions_to_outsource: z
+    .array(z.string().min(1, "Logistics function is required"))
+    .min(1, "Logistics functions is required"),
+  geographic_regions: z
+    .array(z.string().min(1, "Geographic region is required"))
+    .min(1, "Geographic regions is required"),
+  types_of_products: z
+    .array(z.string().min(1, "Product type is required"))
+    .min(1, "Product types is required"),
+  shipment_volume_per_month: z.number().min(1, "Shipment volume is required"),
+  user_objectives: z.array(z.string()).min(1, "User objectives is required"),
+  constraints: z.array(z.string()).min(1, "Constraints is required"),
+  current_challenges: z.array(z.string()).min(1, "Challenges is required"),
+});
+
 const ThirdPartyLogisticsToolInputForm = ({
   loading,
   options,

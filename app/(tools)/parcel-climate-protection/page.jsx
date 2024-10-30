@@ -1,21 +1,27 @@
 "use client";
-import LastMileDeliverySolutionsToolInputForm from "@/components/last-mile-delivery-solutions/inputForm";
-import LastMileDeliverySolutionsToolOutput from "@/components/last-mile-delivery-solutions/output";
+
+import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import React, { useEffect, useState } from "react";
+import ParcelClimateProtectionInputForm from "@/components/parcel-climate-protection/inputForm";
+import ParcelClimateProtectionOutput from "@/components/parcel-climate-protection/output";
 
-const LastMileDeliverySolutionsToolPage = () => {
-  const [options, setOptions] = useState({});
+const ParcelClimateProtectionPage = () => {
+  const [options, setOptions] = useState({
+    sensitivityLevel: [],
+    climateCondition: [],
+    urgencyLevel: [],
+  });
 
   const [data, setData] = useState({
-    daily_orders: 0,
-    delivery_locations: [],
-    delivery_method: "",
-    user_objectives: [],
-    type_of_products: [],
+    productType: "",
+    climateCondition: "",
+    sensitivityLevel: "",
+    carrierOptions: [],
+    urgencyLevel: "",
   });
+
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();
@@ -28,7 +34,7 @@ const LastMileDeliverySolutionsToolPage = () => {
     setLoading("options");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=last-mile-delivery-solutions`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=parcel-climate-protection`
       );
 
       if (!response.ok) {
@@ -40,25 +46,25 @@ const LastMileDeliverySolutionsToolPage = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Request Failed",
+        description: "Failed to fetch options",
       });
     }
     setLoading(false);
   };
 
-  const fetchResults = async (data) => {
+  const fetchResults = async (formData) => {
     setLoading("results");
     try {
-      setData(data);
+      setData(formData);
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=last-mile-delivery-solutions`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=parcel-climate-protection`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(formData),
         }
       );
 
@@ -87,9 +93,9 @@ const LastMileDeliverySolutionsToolPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Last-Mile Delivery Solutions</h1>
+      <h1 className="text-4xl font-bold">Parcel Climate Protection</h1>
       {!results ? (
-        <LastMileDeliverySolutionsToolInputForm
+        <ParcelClimateProtectionInputForm
           loading={loading === "results"}
           options={options}
           data={data}
@@ -105,11 +111,11 @@ const LastMileDeliverySolutionsToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
-          <LastMileDeliverySolutionsToolOutput {...results} />
+          <ParcelClimateProtectionOutput {...results} />
         </>
       )}
     </div>
   );
 };
 
-export default LastMileDeliverySolutionsToolPage;
+export default ParcelClimateProtectionPage;
