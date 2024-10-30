@@ -8,7 +8,16 @@ import React, { useEffect, useState } from "react";
 
 const CostToServeAnalysisToolPage = () => {
   const [options, setOptions] = useState({});
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    business_model: "",
+    customer_segments: [],
+    total_supply_chain_cost: 0,
+    average_order_value: 0,
+    user_goals: [],
+    challenges: [],
+    industry_type: "",
+    geographical_scope: "",
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();
@@ -98,6 +107,7 @@ const CostToServeAnalysisToolPage = () => {
             <ChevronLeft />
             Back
           </Button>
+
           <CostToServeAnalysisToolOutput {...results} />
         </>
       )}

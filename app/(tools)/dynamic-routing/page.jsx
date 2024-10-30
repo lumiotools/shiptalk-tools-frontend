@@ -8,7 +8,14 @@ import React, { useEffect, useState } from "react";
 
 const DynamicRoutingToolPage = () => {
   const [options, setOptions] = useState({});
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    destinationAddress: "",
+    currentLocation: "",
+    expectedDeliveryTime: "",
+    priorityLevel: "",
+    trafficConditions: "",
+    weatherConditions: "",
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

@@ -9,7 +9,13 @@ import React, { useEffect, useState } from "react";
 const SeasonalPlanningToolPage = () => {
   const [options, setOptions] = useState({});
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    peak_season_periods: [],
+    daily_shipments: 0,
+    expected_demand_increase_percentage: 0,
+    available_capacity: 0,
+    constraints: [],
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

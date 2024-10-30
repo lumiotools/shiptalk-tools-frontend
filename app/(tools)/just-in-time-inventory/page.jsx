@@ -8,7 +8,14 @@ import React, { useEffect, useState } from "react";
 
 const JustInTimeInventoryToolPage = () => {
   const [options, setOptions] = useState({});
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    average_monthly_demand_units: 0,
+    current_inventory_level_units: 0,
+    production_capacity_units_per_month: 0,
+    warehouse_capacity_units: 0,
+    main_objectives: [],
+    current_challenges: [],
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

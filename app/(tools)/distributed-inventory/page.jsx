@@ -9,7 +9,12 @@ import React, { useEffect, useState } from "react";
 const DistributedInventoryToolPage = () => {
   const [options, setOptions] = useState({});
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    warehouseRegions: [],
+    demandLevels: [],
+    leadTime: 0,
+    productType: "",
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

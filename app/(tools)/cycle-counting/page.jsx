@@ -9,7 +9,16 @@ import React, { useEffect, useState } from "react";
 const CycleCountingToolPage = () => {
   const [options, setOptions] = useState({});
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    cycleCountFrequency: "",
+    expectedCount: 0,
+    currentInventoryLevels: 0,
+    priorityLevel: "",
+    warehouseRegions: [],
+    demandLevels: [],
+    leadTime: 0,
+    productType: "",
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

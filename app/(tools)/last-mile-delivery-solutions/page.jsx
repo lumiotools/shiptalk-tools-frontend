@@ -9,7 +9,13 @@ import React, { useEffect, useState } from "react";
 const LastMileDeliverySolutionsToolPage = () => {
   const [options, setOptions] = useState({});
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    daily_orders: 0,
+    delivery_locations: [],
+    delivery_method: "",
+    user_objectives: [],
+    type_of_products: [],
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState > "options";
   const { toast } = useToast();

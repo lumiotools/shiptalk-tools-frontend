@@ -8,7 +8,31 @@ import React, { useEffect, useState } from "react";
 
 const CrossDockingToolPage = () => {
   const [options, setOptions] = useState({});
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    incomingTrucks: [
+      {
+        arrivalTime: "",
+        loadType: "",
+        quantity: 0,
+      },
+      {
+        arrivalTime: "",
+        loadType: "",
+        quantity: 0,
+      },
+    ],
+    outboundTrucks: [
+      {
+        departureTime: "",
+        capacity: 0,
+      },
+    ],
+    docksAvailable: 0,
+    laborAvailable: 0,
+    priorityLevel: "",
+    trafficConditions: "",
+    weatherConditions: "",
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

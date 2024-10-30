@@ -37,7 +37,7 @@ const COLORS = [
   "hsl(var(--chart-5))",
 ];
 
-export const RenderChart = ({ index = 0, title, chart, comparisonChart }) => {
+const RenderChart = ({ index = 0, title, chart, comparisonChart }) => {
   const renderChart = () => {
     if (comparisonChart) {
       return (
@@ -93,7 +93,7 @@ export const RenderChart = ({ index = 0, title, chart, comparisonChart }) => {
     if (!chart) return <></>;
 
     chart.data = chart.data.filter(({ value }) => value > 0);
-    
+
     switch (chart.chartType) {
       case "barChart":
         return (
@@ -251,3 +251,5 @@ export const RenderChart = ({ index = 0, title, chart, comparisonChart }) => {
     </Card>
   );
 };
+
+export default RenderChart;

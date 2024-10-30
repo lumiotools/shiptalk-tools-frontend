@@ -9,7 +9,30 @@ import React, { useEffect, useState } from "react";
 const SalesAndOperationsPlanningToolPage = () => {
   const [options, setOptions] = useState({});
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    company_size: "",
+    industry_sector: "",
+    current_sales_data: [
+      { month: "", sales: 0 },
+      { month: "", sales: 0 },
+    ],
+    inventory_levels: [
+      {
+        name: "",
+        quantity: 0,
+      },
+      {
+        name: "",
+        quantity: 0,
+      },
+    ],
+    operational_constraints: [],
+    demand_forecast_horizon_months: 0,
+    user_objectives: [],
+    current_challenges: [],
+    seasonal_factors: [{ factor: "" }],
+    budget_constraints: 0,
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

@@ -9,7 +9,15 @@ import React, { useEffect, useState } from "react";
 const FreightConsolidationToolPage = () => {
   const [options, setOptions] = useState({});
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    orders: [],
+    carrierOptions: [],
+    maxDeliveryTime: 0,
+    consolidationThreshold: 0,
+    shippingCostPerUnit: 0,
+    bulkDiscountRate: 0,
+    priorityLevel: "",
+  });
   const [results, setResults] = useState();
   const [loading, setLoading] = useState("options");
   const { toast } = useToast();

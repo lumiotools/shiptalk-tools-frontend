@@ -28,6 +28,7 @@ const CostToServeAnalysisToolOutput = ({
     "#00C49F",
     "#FFBB28",
   ];
+  
 
   return (
     <div className="container mx-auto p-4">
