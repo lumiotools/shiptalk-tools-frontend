@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const ThirdPartyLogisticsToolPage = () => {
   const [options, setOptions] = useState({});
-
   const [data, setData] = useState({
     company_size: "",
     logistics_functions_to_outsource: [],
@@ -88,29 +89,28 @@ const ThirdPartyLogisticsToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Third-Party Logistics (3PL)"
+          description="Evaluate and Optimize Your Outsourcing Needs for Efficient Logistics Operations"
+        >
+          <ThirdPartyLogisticsToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Third-Party Logistics (3PL)</h1>
-      {!results ? (
-        <ThirdPartyLogisticsToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <ThirdPartyLogisticsToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <ThirdPartyLogisticsToolOutput {...results} />
     </div>
   );
 };

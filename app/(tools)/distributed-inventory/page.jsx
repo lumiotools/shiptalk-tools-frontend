@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const DistributedInventoryToolPage = () => {
   const [options, setOptions] = useState({});
-
   const [data, setData] = useState({
     warehouseRegions: [],
     demandLevels: [],
@@ -84,29 +85,28 @@ const DistributedInventoryToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Distributed Inventory"
+          description="Optimize Inventory Distribution Across Multiple Regions for Enhanced Demand Fulfillment"
+        >
+          <DistributedInventoryToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Distributed Inventory</h1>
-      {!results ? (
-        <DistributedInventoryToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <DistributedInventoryToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <DistributedInventoryToolOutput {...results} />
     </div>
   );
 };

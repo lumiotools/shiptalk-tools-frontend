@@ -1,4 +1,6 @@
 "use client";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 import CycleCountingToolInputForm from "@/components/cycle-counting/inputForm";
 import CycleCountingToolOutput from "@/components/cycle-counting/output";
 import { Button } from "@/components/ui/button";
@@ -88,29 +90,29 @@ const CycleCountingToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Cycle Counting"
+          description="Optimize Inventory Management through Accurate Cycle Counting Analysis"
+          className="max-w-screen-sm"
+        >
+          <CycleCountingToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Cycle Counting</h1>
-      {!results ? (
-        <CycleCountingToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <CycleCountingToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <CycleCountingToolOutput {...results} />
     </div>
   );
 };

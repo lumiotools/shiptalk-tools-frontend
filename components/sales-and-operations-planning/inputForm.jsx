@@ -115,7 +115,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
@@ -203,7 +203,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
                 <FormItem className="flex-1">
                   <FormLabel>Month</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Enter month name"{...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -217,6 +217,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
                   <FormLabel>Sales</FormLabel>
                   <FormControl>
                     <Input
+                    placeholder="Enter month sales"
                       type="number"
                       value={field.value}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
@@ -228,7 +229,6 @@ const SalesAndOperationsPlanningToolInputForm = ({
             />
             <Button
               type="button"
-              variant="destructive"
               size="icon"
               onClick={() => {
                 if (salesFields.length <= 2) return;
@@ -241,7 +241,8 @@ const SalesAndOperationsPlanningToolInputForm = ({
         ))}
         <Button
           type="button"
-          className="w-fit mx-auto gap-2"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => appendSales({ month: "", sales: 0 })}
         >
           <Plus className="h-4 w-4" />
@@ -259,7 +260,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
                 <FormItem className="flex-1">
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Enter product name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -273,6 +274,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
                     <Input
+                    placeholder="Enter product quantity sold"
                       type="number"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
@@ -284,7 +286,6 @@ const SalesAndOperationsPlanningToolInputForm = ({
             />
             <Button
               type="button"
-              variant="destructive"
               size="icon"
               onClick={() => {
                 if (salesFields.length <= 2) return;
@@ -297,7 +298,8 @@ const SalesAndOperationsPlanningToolInputForm = ({
         ))}
         <Button
           type="button"
-          className="w-fit mx-auto gap-2"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => appendInventory({ name: "", quantity: 0 })}
         >
           <Plus className="h-4 w-4" />
@@ -317,6 +319,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
                     <FormLabel>Factor {index + 1}</FormLabel>
                     <FormControl>
                       <Input
+                        placeholder="Enter seasonal factor (e.g., Holiday Peaks)"
                         {...field}
                         value={field.value.factor}
                         onChange={(e) =>
@@ -330,7 +333,6 @@ const SalesAndOperationsPlanningToolInputForm = ({
               />
               <Button
                 type="button"
-                variant="destructive"
                 size="icon"
                 onClick={() => {
                   if (seasonalFields.length <= 1) return;
@@ -345,7 +347,8 @@ const SalesAndOperationsPlanningToolInputForm = ({
 
         <Button
           type="button"
-          className="w-fit mx-auto gap-2"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => appendSeasonal({ factor: "" })}
         >
           Add Seasonal Factor
@@ -506,9 +509,13 @@ const SalesAndOperationsPlanningToolInputForm = ({
           )}
         />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Align and Optimize
         </Button>
       </form>
     </Form>

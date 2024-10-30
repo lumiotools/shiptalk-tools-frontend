@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const DynamicRoutingToolPage = () => {
   const [options, setOptions] = useState({});
@@ -85,29 +87,29 @@ const DynamicRoutingToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Dynamic Routing"
+          description="Optimize Delivery Routes by Considering Traffic, Weather, and Priority Levels"
+          className="max-w-screen-sm"
+        >
+          <DynamicRoutingToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Dynamic Routing</h1>
-      {!results ? (
-        <DynamicRoutingToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <DynamicRoutingToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <DynamicRoutingToolOutput {...results} />
     </div>
   );
 };

@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
   destinationAddress: z.string().min(1, "Destination address is required"),
@@ -53,7 +55,7 @@ const DynamicRoutingToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <FormField
           control={form.control}
@@ -83,95 +85,95 @@ const DynamicRoutingToolInputForm = ({
           )}
         />
 
-        <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
-          <FormField
-            control={form.control}
-            name="priorityLevel"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Priority Level</FormLabel>
-                <Select
+        <FormField
+          control={form.control}
+          name="weatherConditions"
+          render={({ field }) => (
+            <FormItem className="w-full flex-1">
+              <FormLabel>Weather Condition</FormLabel>
+              <Select
+                value={field.value}
+                onValueChange={(value) => field.onChange(value)}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select weather condition" />
+                  </SelectTrigger>
+                </FormControl>
+                <FormMessage />
+                <SelectContent>
+                  {options.weatherConditions.map((condition) => (
+                    <SelectItem key={condition} value={condition}>
+                      {condition}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="priorityLevel"
+          render={({ field }) => (
+            <FormItem className="w-full flex-1">
+              <FormLabel>Priority Level</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  className="h-10 flex items-center gap-8"
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={field.onChange}
                 >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select priority level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <FormMessage />
-                  <SelectContent>
-                    {options.priorityLevels.map((level) => (
-                      <SelectItem key={level} value={level}>
+                  {options.priorityLevels.map((level, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value={level}
+                        id={`priority_${level}`}
+                      />
+                      <Label htmlFor={`priority_${level}`}>
                         {level}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="trafficConditions"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Traffic Condition</FormLabel>
-                <Select
+        <FormField
+          control={form.control}
+          name="trafficConditions"
+          render={({ field }) => (
+            <FormItem className="w-full flex-1">
+              <FormLabel>Traffic Condition</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  className="h-10 flex items-center gap-8"
                   value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
+                  onValueChange={field.onChange}
                 >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select traffic condition" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <FormMessage />
-                  <SelectContent>
-                    {options.trafficConditions.map((condition) => (
-                      <SelectItem key={condition} value={condition}>
+                  {options.trafficConditions.map((condition, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value={condition}
+                        id={`traffic_${condition}`}
+                      />
+                      <Label htmlFor={`traffic_${condition}`}>
                         {condition}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="weatherConditions"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Weather Condition</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select weather condition" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <FormMessage />
-                  <SelectContent>
-                    {options.weatherConditions.map((condition) => (
-                      <SelectItem key={condition} value={condition}>
-                        {condition}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Optimize Route
         </Button>
       </form>
     </Form>

@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const LastMileDeliverySolutionsToolPage = () => {
   const [options, setOptions] = useState({});
-
   const [data, setData] = useState({
     daily_orders: 0,
     delivery_locations: [],
@@ -85,29 +86,28 @@ const LastMileDeliverySolutionsToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Last-Mile Delivery Solutions"
+          description="Enhance Efficiency with Tailored Solutions for Last-Mile Delivery Challenges"
+        >
+          <LastMileDeliverySolutionsToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Last-Mile Delivery Solutions</h1>
-      {!results ? (
-        <LastMileDeliverySolutionsToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <LastMileDeliverySolutionsToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <LastMileDeliverySolutionsToolOutput {...results} />
     </div>
   );
 };

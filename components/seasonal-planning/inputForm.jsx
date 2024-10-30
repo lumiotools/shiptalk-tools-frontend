@@ -51,7 +51,7 @@ const SeasonalPlanningToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <FormField
           control={form.control}
@@ -210,9 +210,9 @@ const SeasonalPlanningToolInputForm = ({
           )}
         />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Optimize for Peak Season
         </Button>
       </form>
     </Form>

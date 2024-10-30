@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
   warehouseRegions: z.array(z.string()).min(1, "Select at least one region"),
@@ -60,18 +62,18 @@ const DistributedInventoryToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         {Array(selectedRegions)
           .fill(null)
-          .map((_, index) => (
+          .map((_, regionIndex) => (
             <div
-              key={index}
+              key={regionIndex}
               className="w-full flex flex-col md:flex-row gap-8 justify-center"
             >
               <FormField
                 control={form.control}
-                name={`demandLevels.${index}.region`}
+                name={`demandLevels.${regionIndex}.region`}
                 render={({ field }) => (
                   <FormItem className="w-full flex-1">
                     <FormLabel>Warehouse Region</FormLabel>
@@ -79,7 +81,7 @@ const DistributedInventoryToolInputForm = ({
                       value={field.value}
                       onValueChange={(value) => {
                         field.onChange(value);
-                        form.setValue(`warehouseRegions.${index}`, value);
+                        form.setValue(`warehouseRegions.${regionIndex}`, value);
                       }}
                     >
                       <FormControl>
@@ -101,113 +103,120 @@ const DistributedInventoryToolInputForm = ({
               />
               <FormField
                 control={form.control}
-                name={`demandLevels.${index}.demandLevel`}
+                name={`demandLevels.${regionIndex}.demandLevel`}
                 render={({ field }) => (
                   <FormItem className="w-full flex-1">
                     <FormLabel>Demand Level</FormLabel>
-                    <Select
-                      value={field.value}
-                      onValueChange={(value) => field.onChange(value)}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select demand level" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <FormMessage />
-                      <SelectContent>
-                        {options.demandLevels.map((level) => (
-                          <SelectItem key={level} value={level}>
-                            {level}
-                          </SelectItem>
+                    <FormControl>
+                      <RadioGroup
+                        className="h-10 flex items-center gap-8"
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        {options.demandLevels.map((level, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center space-x-2"
+                          >
+                            <RadioGroupItem
+                              value={level}
+                              id={`demain_${regionIndex}_${level}`}
+                            />
+                            <Label htmlFor={`demain_${regionIndex}_${level}`}>
+                              {level}
+                            </Label>
+                          </div>
                         ))}
-                      </SelectContent>
-                    </Select>
+                      </RadioGroup>
+                    </FormControl>
                   </FormItem>
                 )}
               />
 
               <Button
                 type="button"
-                variant="destructive"
+                size="icon"
                 className="md:mt-8"
                 onClick={() => {
                   if (selectedRegions === 0) return;
                   form.setValue(
                     "demandLevels",
-                    form.getValues("demandLevels").filter((_, i) => i !== index)
+                    form.getValues("demandLevels").filter((_, i) => i !== regionIndex)
                   );
                   form.setValue(
                     "warehouseRegions",
                     form
                       .getValues("warehouseRegions")
-                      .filter((_, i) => i !== index)
+                      .filter((_, i) => i !== regionIndex)
                   );
                   setSelectedRegions(selectedRegions - 1);
                 }}
               >
-                <X /> <span className="md:hidden">Remove Region</span>
+                <X /> 
               </Button>
             </div>
           ))}
 
         <Button
           type="button"
-          className="w-full md:w-fit md:mx-auto"
+          variant="link"
+          className="w-fit mr-auto p-0 h-6"
           onClick={() => setSelectedRegions(selectedRegions + 1)}
         >
           <Plus /> Add More Regions
         </Button>
 
-        <FormField
-          control={form.control}
-          name="leadTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Lead Time (days)</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="productType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Type</FormLabel>
-              <Select
-                value={field.value}
-                onValueChange={(value) => field.onChange(value)}
-              >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <FormField
+            control={form.control}
+            name="leadTime"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Lead Time (days)</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select product type" />
-                  </SelectTrigger>
+                  <Input
+                    type="number"
+                    {...field}
+                    onChange={(e) => field.onChange(parseInt(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
-                <SelectContent>
-                  {options.productTypes.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </FormItem>
-          )}
-        />
+              </FormItem>
+            )}
+          />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+          <FormField
+            control={form.control}
+            name="productType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Type</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select product type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <FormMessage />
+                  <SelectContent>
+                    {options.productTypes.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Optimize Inventory Distribution
         </Button>
       </form>
     </Form>

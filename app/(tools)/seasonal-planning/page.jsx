@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const SeasonalPlanningToolPage = () => {
   const [options, setOptions] = useState({});
-
   const [data, setData] = useState({
     peak_season_periods: [],
     daily_shipments: 0,
@@ -85,29 +86,28 @@ const SeasonalPlanningToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Seasonal Planning"
+          description="Prepare for Peak Seasons by Strategically Adjusting Inventory, Capacity, and Resources"
+        >
+          <SeasonalPlanningToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Seasonal Planning</h1>
-      {!results ? (
-        <SeasonalPlanningToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <SeasonalPlanningToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <SeasonalPlanningToolOutput {...results} />
     </div>
   );
 };

@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const FreightConsolidationToolPage = () => {
   const [options, setOptions] = useState({});
-
   const [data, setData] = useState({
     orders: [],
     carrierOptions: [],
@@ -87,29 +88,28 @@ const FreightConsolidationToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Freight Consolidation"
+          description="Consolidate Shipments Efficiently by Combining Orders to Reduce Costs and Maximize Carrier Utilization"
+        >
+          <FreightConsolidationToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Freight Consolidation</h1>
-      {!results ? (
-        <FreightConsolidationToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <FreightConsolidationToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <FreightConsolidationToolOutput {...results} />
     </div>
   );
 };

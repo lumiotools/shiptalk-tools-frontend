@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, X, Plus } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
   incomingTrucks: z
@@ -88,7 +90,7 @@ const CrossDockingToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <h2 className="font-semibold text-lg underline">
           Incoming Trucks Details
@@ -158,7 +160,7 @@ const CrossDockingToolInputForm = ({
 
             <Button
               type="button"
-              variant="destructive"
+              size="icon"
               className="md:mt-8"
               onClick={() => {
                 if (incomingTrucksFields.length <= 2) return;
@@ -166,13 +168,13 @@ const CrossDockingToolInputForm = ({
               }}
             >
               <X className="h-4 w-4" />
-              <span className="md:hidden">Remove Truck</span>
             </Button>
           </div>
         ))}
         <Button
           type="button"
-          className="w-fit mx-auto gap-2"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() =>
             appendIncomingTruck({ arrivalTime: "", loadType: "", quantity: 0 })
           }
@@ -221,7 +223,7 @@ const CrossDockingToolInputForm = ({
 
             <Button
               type="button"
-              variant="destructive"
+              size="icon"
               className="md:mt-8"
               onClick={() => {
                 if (outboundTrucksFields.length <= 1) return;
@@ -229,13 +231,13 @@ const CrossDockingToolInputForm = ({
               }}
             >
               <X className="h-4 w-4" />
-              <span className="md:hidden">Remove Truck</span>
             </Button>
           </div>
         ))}
         <Button
           type="button"
-          className="w-fit mx-auto gap-2"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() =>
             appendOutboundTruck({ departureTime: "", capacity: 0 })
           }
@@ -244,7 +246,35 @@ const CrossDockingToolInputForm = ({
           Add Outbound Truck
         </Button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <FormField
+            control={form.control}
+            name="weatherConditions"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Weather Conditions</FormLabel>
+                <FormControl>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Weather Conditions" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {options.weatherConditions.map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="docksAvailable"
@@ -284,7 +314,7 @@ const CrossDockingToolInputForm = ({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
             control={form.control}
             name="priorityLevel"
@@ -292,21 +322,21 @@ const CrossDockingToolInputForm = ({
               <FormItem>
                 <FormLabel>Priority Level</FormLabel>
                 <FormControl>
-                  <Select
+                  <RadioGroup
+                    className="h-10 flex items-center gap-8"
                     value={field.value}
-                    onValueChange={(value) => field.onChange(value)}
+                    onValueChange={field.onChange}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Priority Level" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.priorityLevel.map((item) => (
-                        <SelectItem key={item} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {options.priorityLevel.map((level, index) => (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value={level}
+                          id={`priority_${level}`}
+                        />
+                        <Label htmlFor={`priority_${level}`}>{level}</Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -320,49 +350,23 @@ const CrossDockingToolInputForm = ({
               <FormItem>
                 <FormLabel>Traffic Conditions</FormLabel>
                 <FormControl>
-                  <Select
+                  <RadioGroup
+                    className="h-10 flex items-center gap-8"
                     value={field.value}
-                    onValueChange={(value) => field.onChange(value)}
+                    onValueChange={field.onChange}
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Traffic Conditions" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.trafficConditions.map((item) => (
-                        <SelectItem key={item} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="weatherConditions"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Weather Conditions</FormLabel>
-                <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={(value) => field.onChange(value)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Weather Conditions" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {options.weatherConditions.map((item) => (
-                        <SelectItem key={item} value={item}>
-                          {item}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {options.trafficConditions.map((conditions, index) => (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value={conditions}
+                          id={`traffic_${conditions}`}
+                        />
+                        <Label htmlFor={`traffic_${conditions}`}>
+                          {conditions}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -370,9 +374,13 @@ const CrossDockingToolInputForm = ({
           />
         </div>
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Analyze Cross Docking
         </Button>
       </form>
     </Form>

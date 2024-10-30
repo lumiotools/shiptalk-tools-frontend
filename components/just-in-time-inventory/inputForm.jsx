@@ -58,7 +58,7 @@ const JustInTimeInventoryToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
@@ -244,9 +244,13 @@ const JustInTimeInventoryToolInputForm = ({
           )}
         />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Optimize Inventory
         </Button>
       </form>
     </Form>

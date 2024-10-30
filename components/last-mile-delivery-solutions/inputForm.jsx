@@ -60,7 +60,7 @@ const LastMileDeliverySolutionsToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
@@ -131,7 +131,7 @@ const LastMileDeliverySolutionsToolInputForm = ({
                 />
                 <Button
                   type="button"
-                  variant="destructive"
+                  size="icon"
                   className="md:mt-8"
                   onClick={() => {
                     if (deliveryLocations <= 2) return;
@@ -145,7 +145,7 @@ const LastMileDeliverySolutionsToolInputForm = ({
                     setDeliveryLocations(deliveryLocations - 1);
                   }}
                 >
-                  <X /> <span className="md:hidden">Remove Location</span>
+                  <X />
                 </Button>
               </div>
             ))}
@@ -153,7 +153,8 @@ const LastMileDeliverySolutionsToolInputForm = ({
 
         <Button
           type="button"
-          className="w-full md:w-fit md:mx-auto"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => setDeliveryLocations(deliveryLocations + 1)}
         >
           <Plus /> Add More Locations
@@ -215,7 +216,7 @@ const LastMileDeliverySolutionsToolInputForm = ({
                 <FormLabel className="text-base">Type of Products</FormLabel>
                 <FormDescription>Select the type of products.</FormDescription>
               </div>
-              <div className="grid grid-cols-1  md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1  md:grid-cols-3 gap-4">
                 {options.type_of_products.map((item) => (
                   <FormField
                     key={item}
@@ -253,9 +254,13 @@ const LastMileDeliverySolutionsToolInputForm = ({
           )}
         />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Optimize Last-Mile Delivery
         </Button>
       </form>
     </Form>

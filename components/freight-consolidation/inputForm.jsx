@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
   orders: z
@@ -79,39 +81,38 @@ const FreightConsolidationToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         {Array(orders)
           .fill(null)
-          .map((_, index) => (
-            <div key={index} className="flex flex-col gap-8">
+          .map((_, orderIndex) => (
+            <div key={orderIndex} className="flex flex-col gap-8">
               <div className="w-full flex-1 flex flex-col md:flex-row gap-8 items-center">
                 <h2 className="flex-1 underline text-lg font-semibold">
-                  Order {index + 1} Details
+                  Order {orderIndex + 1} Details
                 </h2>
 
                 <Button
                   type="button"
-                  variant="destructive"
                   size="icon"
                   onClick={() => {
                     if (orders <= 2) return;
 
                     form.setValue(
                       "orders",
-                      form.getValues("orders").filter((_, i) => i !== index)
+                      form.getValues("orders").filter((_, i) => i !== orderIndex)
                     );
                     setOrders(orders - 1);
                   }}
                 >
-                  <X /> <span className="md:hidden">Remove Order</span>
+                  <X /> 
                 </Button>
               </div>
 
               <div className="w-full flex-1 flex flex-col md:flex-row gap-8">
                 <FormField
                   control={form.control}
-                  name={`orders.${index}.destinationAddress`}
+                  name={`orders.${orderIndex}.destinationAddress`}
                   render={({ field }) => (
                     <FormItem className="w-full flex-1">
                       <FormLabel>Destination Address</FormLabel>
@@ -128,7 +129,7 @@ const FreightConsolidationToolInputForm = ({
                 />
                 <FormField
                   control={form.control}
-                  name={`orders.${index}.originAddress`}
+                  name={`orders.${orderIndex}.originAddress`}
                   render={({ field }) => (
                     <FormItem className="w-full flex-1">
                       <FormLabel>Origin Address</FormLabel>
@@ -148,7 +149,7 @@ const FreightConsolidationToolInputForm = ({
               <div className="w-full flex-1 flex flex-col md:flex-row gap-8">
                 <FormField
                   control={form.control}
-                  name={`orders.${index}.orderWeight`}
+                  name={`orders.${orderIndex}.orderWeight`}
                   render={({ field }) => (
                     <FormItem className="w-full flex-1">
                       <FormLabel>Order Weight</FormLabel>
@@ -169,28 +170,30 @@ const FreightConsolidationToolInputForm = ({
 
                 <FormField
                   control={form.control}
-                  name={`orders.${index}.serviceType`}
+                  name={`orders.${orderIndex}.serviceType`}
                   render={({ field }) => (
                     <FormItem className="w-full flex-1">
                       <FormLabel>Service Type</FormLabel>
-                      <Select
-                        value={field.value}
-                        onValueChange={(value) => field.onChange(value)}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a service type" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <FormMessage />
-                        <SelectContent>
-                          {options.serviceType.map((type) => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
+                      <FormControl>
+                        <RadioGroup
+                          className="h-10 flex items-center gap-8"
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          {options.serviceType.map((type, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2"
+                            >
+                              <RadioGroupItem
+                                value={type}
+                                id={`service_${orderIndex}_${type}`}
+                              />
+                              <Label htmlFor={`service_${orderIndex}_${type}`}>{type}</Label>
+                            </div>
                           ))}
-                        </SelectContent>
-                      </Select>
+                        </RadioGroup>
+                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -200,7 +203,8 @@ const FreightConsolidationToolInputForm = ({
 
         <Button
           type="button"
-          className="w-full md:w-fit md:mx-auto"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => setOrders(orders + 1)}
         >
           <Plus /> Add More Order
@@ -217,7 +221,6 @@ const FreightConsolidationToolInputForm = ({
 
                 <Button
                   type="button"
-                  variant="destructive"
                   size="icon"
                   onClick={() => {
                     if (carrierOptions <= 1) return;
@@ -231,7 +234,7 @@ const FreightConsolidationToolInputForm = ({
                     setCarrierOptions(carrierOptions - 1);
                   }}
                 >
-                  <X /> <span className="md:hidden">Remove Carrier Option</span>
+                  <X /> 
                 </Button>
               </div>
 
@@ -279,7 +282,8 @@ const FreightConsolidationToolInputForm = ({
 
         <Button
           type="button"
-          className="w-full md:w-fit md:mx-auto"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => setCarrierOptions(carrierOptions + 1)}
         >
           <Plus /> Add More Carrier
@@ -330,32 +334,35 @@ const FreightConsolidationToolInputForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Priority Level</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a priority level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {options.priorityLevel.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                        <RadioGroup
+                          className="h-10 flex items-center gap-8"
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
+                          {options.priorityLevel.map((level, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-2"
+                            >
+                              <RadioGroupItem
+                                value={level}
+                                id={`priority_${level}`}
+                              />
+                              <Label htmlFor={`priority_${level}`}>{level}</Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Consolidate Shipments
         </Button>
       </form>
     </Form>

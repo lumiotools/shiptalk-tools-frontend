@@ -1,4 +1,6 @@
 "use client";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 import CostToServeAnalysisToolInputForm from "@/components/cost-to-serve-analysis/inputForm";
 import CostToServeAnalysisToolOutput from "@/components/cost-to-serve-analysis/output";
 import { Button } from "@/components/ui/button";
@@ -87,30 +89,28 @@ const CostToServeAnalysisToolPage = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
+        <FormContainer
+          title="Cost to Serve Analysis"
+          description="Assess Service Costs Across the Supply Chain to Enhance Profitability and Operational Efficiency"
+        >
+          <CostToServeAnalysisToolInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Cost to Serve Analysis</h1>
-      {!results ? (
-        <CostToServeAnalysisToolInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-
-          <CostToServeAnalysisToolOutput {...results} />
-        </>
-      )}
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <CostToServeAnalysisToolOutput {...results} />
     </div>
   );
 };

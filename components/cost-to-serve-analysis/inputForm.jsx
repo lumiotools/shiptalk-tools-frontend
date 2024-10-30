@@ -63,33 +63,8 @@ const CostToServeAnalysisToolInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit, onError)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
-        <FormField
-          control={form.control}
-          name="business_model"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Business Model</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a business model" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {options.business_model.map((model) => (
-                    <SelectItem key={model} value={model}>
-                      {model}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {Array(customerSegments)
             .fill(null)
@@ -124,8 +99,8 @@ const CostToServeAnalysisToolInputForm = ({
                 />
                 <Button
                   type="button"
-                  variant="destructive"
                   className="md:mt-8"
+                  size="icon"
                   onClick={() => {
                     if (customerSegments <= 2) return;
 
@@ -138,7 +113,7 @@ const CostToServeAnalysisToolInputForm = ({
                     setCustomerSegments(customerSegments - 1);
                   }}
                 >
-                  <X /> <span className="md:hidden">Remove Segment</span>
+                  <X />
                 </Button>
               </div>
             ))}
@@ -146,13 +121,42 @@ const CostToServeAnalysisToolInputForm = ({
 
         <Button
           type="button"
-          className="w-full md:w-fit md:mx-auto"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => setCustomerSegments(customerSegments + 1)}
         >
           <Plus /> Add More Segment
         </Button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <FormField
+            control={form.control}
+            name="business_model"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Business Model</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a business model" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {options.business_model.map((model) => (
+                      <SelectItem key={model} value={model}>
+                        {model}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="total_supply_chain_cost"
@@ -187,6 +191,61 @@ const CostToServeAnalysisToolInputForm = ({
                   />
                 </FormControl>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="industry_type"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Industry Type</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your industry type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <FormMessage />
+                  <SelectContent>
+                    {options.industry_type.map((industry) => (
+                      <SelectItem key={industry} value={industry}>
+                        {industry}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="geographical_scope"
+            render={({ field }) => (
+              <FormItem className="col-span-2">
+                <FormLabel>Geographic Scope</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select geographic scope" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <FormMessage />
+                  <SelectContent>
+                    {options.geographical_scope.map((scope) => (
+                      <SelectItem key={scope} value={scope}>
+                        {scope}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
           />
@@ -288,67 +347,13 @@ const CostToServeAnalysisToolInputForm = ({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <FormField
-            control={form.control}
-            name="industry_type"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Industry Type</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select your industry type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <FormMessage />
-                  <SelectContent>
-                    {options.industry_type.map((industry) => (
-                      <SelectItem key={industry} value={industry}>
-                        {industry}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="geographical_scope"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Geographic Scope</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select geographic scope" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <FormMessage />
-                  <SelectContent>
-                    {options.geographical_scope.map((scope) => (
-                      <SelectItem key={scope} value={scope}>
-                        {scope}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Analyze Cost to Serve
         </Button>
       </form>
     </Form>
