@@ -34,7 +34,7 @@ export default function Component({ loading, options, data, handleSubmit }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
@@ -70,9 +70,9 @@ export default function Component({ loading, options, data, handleSubmit }) {
             name="itemType"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Item Type</FormLabel>
+                <FormLabel>Product Type</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter item type" />
+                  <Input {...field} placeholder="Enter product type" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,9 +94,9 @@ export default function Component({ loading, options, data, handleSubmit }) {
           />
         </div>
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Check Compliance Requirements
         </Button>
       </form>
     </Form>

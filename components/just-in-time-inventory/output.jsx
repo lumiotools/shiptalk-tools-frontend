@@ -58,8 +58,8 @@ const JustInTimeInventoryToolOutput = ({
         <div className="flex flex-col gap-6">
           <Card className="flex-1">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5" />
+              <CardTitle className="flex items-center">
+                <AlertTriangle />
                 Risk Assessment
               </CardTitle>
             </CardHeader>
@@ -72,8 +72,8 @@ const JustInTimeInventoryToolOutput = ({
 
           <Card className="flex-1">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5" />
+              <CardTitle className="flex items-center">
+                <DollarSign />
                 Cost Savings Potential
               </CardTitle>
             </CardHeader>
@@ -88,8 +88,8 @@ const JustInTimeInventoryToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Boxes className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Boxes />
               Implementation Plan
             </CardTitle>
           </CardHeader>
@@ -100,8 +100,8 @@ const JustInTimeInventoryToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <List className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <List />
               Key Performance Indicators
             </CardTitle>
           </CardHeader>
@@ -117,8 +117,8 @@ const JustInTimeInventoryToolOutput = ({
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <TrendingUp />
             Conclusion
           </CardTitle>
         </CardHeader>

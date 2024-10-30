@@ -21,8 +21,8 @@ const ParcelFlowOutput = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <AlertTriangle />
               Bottleneck Indicators
             </CardTitle>
           </CardHeader>
@@ -37,8 +37,8 @@ const ParcelFlowOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Clock />
               Delay Prediction
             </CardTitle>
           </CardHeader>
@@ -57,7 +57,6 @@ const ParcelFlowOutput = ({
           index={2}
           title="Processing Stages"
           chart={processingStage}
-          icon={<Package className="h-5 w-5" />}
         />
 
         <RenderChart
@@ -83,8 +82,11 @@ const ParcelFlowOutput = ({
           chart={volumeImpactAnalysis}
         />
 
-        <RenderChart 
-          index={1}title="Seasonal Risk Trends" chart={seasonalRiskTrends} />
+        <RenderChart
+          index={1}
+          title="Seasonal Risk Trends"
+          chart={seasonalRiskTrends}
+        />
 
         <RenderChart title="Staff Utilization" chart={staffUtilization} />
 

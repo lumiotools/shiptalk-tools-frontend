@@ -43,7 +43,7 @@ const HomePage = () => {
         Delivery Frequency Cost Impact Analyzer
       </Link>
       <Link href="/bulk-shipment-labeling-optimizer">
-        Bulk Shipment Labeling Optimizer**
+        Bulk Shipment Labeling Optimizer
       </Link>
       <Link href="/urban-parking-fee-minimizer">
         Urban Parking Fee Minimizer

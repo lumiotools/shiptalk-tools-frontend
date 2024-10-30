@@ -25,7 +25,6 @@ const ColdChainDeliveryCostEstimatorOutput = ({
 }) => {
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
       {/* Total Delivery Cost */}
       <Card>
         <CardHeader>
@@ -42,7 +41,7 @@ const ColdChainDeliveryCostEstimatorOutput = ({
           <CardTitle>Environmental Risk Level</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>{environmentalRiskLevel}</p>
+          <p className="text-4xl font-bold">{environmentalRiskLevel}</p>
         </CardContent>
       </Card>
 
@@ -110,6 +109,20 @@ const ColdChainDeliveryCostEstimatorOutput = ({
         </CardContent>
       </Card>
 
+      
+
+      {/* Side-by-Side Charts */}
+      <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Cost Breakdown Chart */}
+        <RenderChart chart={costBreakdownChart} title="Cost Breakdown" />
+
+        {/* Packaging Cost Efficiency Chart */}
+        <RenderChart
+          chart={packagingCostEfficiencyChart}
+          title="Packaging Cost Efficiency"
+        />
+      </div>
+
       {/* Estimated Delivery Time */}
       <Card>
         <CardHeader>
@@ -131,7 +144,7 @@ const ColdChainDeliveryCostEstimatorOutput = ({
       </Card>
 
       {/* Weather Impact Assessment */}
-      <Card className="lg:col-span-2">
+      <Card >
         <CardHeader>
           <CardTitle>Weather Impact Assessment</CardTitle>
         </CardHeader>
@@ -141,7 +154,7 @@ const ColdChainDeliveryCostEstimatorOutput = ({
       </Card>
 
       {/* Seasonal Adjustment Recommendations */}
-      <Card className="lg:col-span-2">
+      <Card >
         <CardHeader>
           <CardTitle>Seasonal Adjustment Recommendations</CardTitle>
         </CardHeader>
@@ -149,15 +162,6 @@ const ColdChainDeliveryCostEstimatorOutput = ({
           <p>{seasonalAdjustmentRecommendations}</p>
         </CardContent>
       </Card>
-
-      {/* Side-by-Side Charts */}
-      <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Cost Breakdown Chart */}
-        <RenderChart chart={costBreakdownChart} title="Cost Breakdown" />
-
-        {/* Packaging Cost Efficiency Chart */}
-        <RenderChart chart={packagingCostEfficiencyChart} title="Packaging Cost Efficiency" />
-      </div>
     </div>
   );
 };

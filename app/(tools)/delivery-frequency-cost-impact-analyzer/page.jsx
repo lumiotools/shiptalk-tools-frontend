@@ -1,10 +1,12 @@
 "use client";
-import DeliveryFrequencyCostImpactAnalyzerInputForm from "@/components/delivery-frequency-cost-impact-analyzer/DeliveryFrequencyCostImpactAnalyzerInputForm";
-import DeliveryFrequencyCostImpactAnalyzerOutput from "@/components/delivery-frequency-cost-impact-analyzer/DeliveryFrequencyCostImpactAnalyzerOutput";
+import DeliveryFrequencyCostImpactAnalyzerInputForm from "@/components/delivery-frequency-cost-impact-analyzer/inputForm";
+import DeliveryFrequencyCostImpactAnalyzerOutput from "@/components/delivery-frequency-cost-impact-analyzer/output";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import React, { useEffect, useState } from "react";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
 
 const page = () => {
   const [options, setOptions] = useState({});
@@ -83,29 +85,27 @@ const page = () => {
     );
   }
 
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer title="Delivery Frequency Cost Impact Analyzer" description="Evaluate the Cost Impact of Delivery Frequency Adjustments for Optimized Budgeting">
+          <DeliveryFrequencyCostImpactAnalyzerInputForm
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
-      <h1 className="text-4xl font-bold">Delivery Frequency Cost Impact Analyzer</h1>
-      {!results ? (
-        <DeliveryFrequencyCostImpactAnalyzerInputForm
-          loading={loading === "results"}
-          options={options}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            <ChevronLeft />
-            Back
-          </Button>
-          <DeliveryFrequencyCostImpactAnalyzerOutput {...results} />
-        </>
-      )}
+      <h1 className="text-4xl font-bold">
+        Delivery Frequency Cost Impact Analyzer
+      </h1>
+      <ResetButton resetResults={() => setResults(undefined)} />
+      <DeliveryFrequencyCostImpactAnalyzerOutput {...results} />
     </div>
   );
 };

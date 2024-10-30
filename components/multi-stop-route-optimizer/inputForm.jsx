@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { LoaderCircle, Plus, X } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 const stopSchema = z.object({
   address: z.string().min(1, "Address is required"),
@@ -67,19 +69,20 @@ export default function Component({ loading, options, data, handleSubmit }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
-        {fields.map((field, index) => (
-          <div key={field.id} className="flex flex-col gap-4">
+        {fields.map((field, stop) => (
+          <div key={field.id} className="flex flex-col">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Stop {index + 1}</h3>
+              <h3 className="text-lg font-semibold">
+                Delivery Stop {stop + 1}
+              </h3>
               <Button
                 type="button"
-                variant="destructive"
                 size="icon"
                 onClick={() => {
                   if (fields.length > 1) {
-                    remove(index);
+                    remove(stop);
                     setStopCount(stopCount - 1);
                   }
                 }}
@@ -87,23 +90,25 @@ export default function Component({ loading, options, data, handleSubmit }) {
                 <X className="h-4 w-4" />
               </Button>
             </div>
-            <FormField
-              control={form.control}
-              name={`stops.${index}.address`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Enter address" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <FormField
                 control={form.control}
-                name={`stops.${index}.parcelType`}
+                name={`stops.${stop}.address`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Enter address" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name={`stops.${stop}.parcelType`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Parcel Type</FormLabel>
@@ -130,27 +135,27 @@ export default function Component({ loading, options, data, handleSubmit }) {
               />
               <FormField
                 control={form.control}
-                name={`stops.${index}.priorityLevel`}
+                name={`stops.${stop}.priorityLevel`}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Priority Level</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select priority level" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {options.priorityLevel.map((level) => (
-                          <SelectItem key={level} value={level}>
-                            {level}
-                          </SelectItem>
+                    <FormControl>
+                      <RadioGroup
+                        className="h-10 flex items-center gap-8"
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        {options.priorityLevel.map((level, index) => (
+                          <div className="flex levels-center space-x-2">
+                            <RadioGroupItem
+                              value={level}
+                              id={`priority_${stop}_${level}`}
+                            />
+                            <Label htmlFor={`priority_${stop}_${level}`}>{level}</Label>
+                          </div>
                         ))}
-                      </SelectContent>
-                    </Select>
+                      </RadioGroup>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -161,21 +166,22 @@ export default function Component({ loading, options, data, handleSubmit }) {
 
         <Button
           type="button"
-          className="w-fit mx-auto gap-2"
+          variant="link"
+          className="w-fit mr-auto h-6 p-0"
           onClick={() => {
             append({ address: "", parcelType: "", priorityLevel: "" });
             setStopCount(stopCount + 1);
           }}
         >
-          <Plus className="h-4 w-4" /> Add Stop
+          <Plus className="h-4 w-4" /> Add Delivery Stop
         </Button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <FormField
             control={form.control}
             name="routeStart"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="col-span-2">
                 <FormLabel>Route Start</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="Enter route start address" />
@@ -191,31 +197,31 @@ export default function Component({ loading, options, data, handleSubmit }) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Urgency Level</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select urgency level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {options.urgencyLevel.map((level) => (
-                      <SelectItem key={level} value={level}>
-                        {level}
-                      </SelectItem>
+                <FormControl>
+                  <RadioGroup
+                    className="h-10 flex items-center gap-8"
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    {options.urgencyLevel.map((level, index) => (
+                      <div className="flex levels-center space-x-2">
+                        <RadioGroupItem
+                          value={level}
+                          id={`urgency_${level}`}
+                        />
+                        <Label htmlFor={`urgency_${level}`}>{level}</Label>
+                      </div>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button className="w-fit gap-2 ml-auto" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Optimize Route
         </Button>
       </form>
     </Form>

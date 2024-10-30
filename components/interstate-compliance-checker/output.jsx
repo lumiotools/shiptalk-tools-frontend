@@ -32,8 +32,8 @@ export default function Component({
     <div className="container mx-auto p-4">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <AlertTriangle  />
             Prohibition Status
           </CardTitle>
         </CardHeader>
@@ -45,8 +45,8 @@ export default function Component({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <FileText  />
               Required Documents
             </CardTitle>
           </CardHeader>
@@ -83,8 +83,8 @@ export default function Component({
       {carrierRestrictions.length > 0 ? (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Truck className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Truck  />
               Carrier Restrictions
             </CardTitle>
           </CardHeader>
@@ -112,8 +112,8 @@ export default function Component({
       ) : (
         <Card className="mb-6">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Truck className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Truck  />
               Carrier Restrictions
             </CardTitle>
           </CardHeader>
@@ -129,8 +129,8 @@ export default function Component({
         <div className="flex flex-col gap-8 [&>div]:flex-1">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Package className="h-5 w-5" />
+              <CardTitle className="flex items-center">
+                <Package  />
                 Packaging Requirements
               </CardTitle>
             </CardHeader>
@@ -149,8 +149,8 @@ export default function Component({
 
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5" />
+              <CardTitle className="flex items-center">
+                <DollarSign  />
                 Applicable Fees
               </CardTitle>
             </CardHeader>

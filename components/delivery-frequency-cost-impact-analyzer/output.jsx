@@ -31,8 +31,8 @@ const DeliveryFrequencyCostImpactAnalyzerOutput = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <DollarSign />
               Total Cost Estimation
             </CardTitle>
           </CardHeader>
@@ -45,8 +45,8 @@ const DeliveryFrequencyCostImpactAnalyzerOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingDown className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <TrendingDown />
               Savings Estimation
             </CardTitle>
           </CardHeader>
@@ -59,8 +59,8 @@ const DeliveryFrequencyCostImpactAnalyzerOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Clock />
               Optimal Frequency
             </CardTitle>
           </CardHeader>
@@ -105,39 +105,55 @@ const DeliveryFrequencyCostImpactAnalyzerOutput = ({
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
-        <RenderChart chart={frequencyCostAnalysis} />
-        <RenderChart chart={savingsPotentialAnalysis} />
-        <RenderChart chart={averageCostPerParcelTrend} />
-        <RenderChart chart={distanceCoverageAnalysis} />
+        <RenderChart
+          index={4}
+          title="Frequency Cost Analysis"
+          chart={frequencyCostAnalysis}
+        />
+        <RenderChart
+          index={2}
+          title="Savings Potential Analysis"
+          chart={savingsPotentialAnalysis}
+        />
+        <RenderChart
+          index={3}
+          title="Average Cost / Parcel Trend"
+          chart={averageCostPerParcelTrend}
+        />
+        <RenderChart
+          index={1}
+          title="Distance Coverage Analysis"
+          chart={distanceCoverageAnalysis}
+        />
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recommendations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5">
+              {recommendations.map((recommendation, index) => (
+                <li key={index}>{recommendation}</li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Key Insights</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-disc pl-5">
+              {keyInsights.map((insight, index) => (
+                <li key={index}>{insight}</li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Recommendations</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc pl-5">
-            {recommendations.map((recommendation, index) => (
-              <li key={index}>{recommendation}</li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Key Insights</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc pl-5">
-            {keyInsights.map((insight, index) => (
-              <li key={index}>{insight}</li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
-
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Financial Summary</CardTitle>
         </CardHeader>

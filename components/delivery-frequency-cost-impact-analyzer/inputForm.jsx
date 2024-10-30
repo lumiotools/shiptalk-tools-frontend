@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 // Define the schema for form validation using Zod
 const formSchema = z.object({
@@ -55,9 +57,9 @@ const DeliveryFrequencyCostImpactAnalyzerInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Delivery Frequency */}
           <FormField
             control={form.control}
@@ -97,9 +99,7 @@ const DeliveryFrequencyCostImpactAnalyzerInputForm = ({
               </FormItem>
             )}
           />
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Route Distance */}
           <FormField
             control={form.control}
@@ -119,41 +119,46 @@ const DeliveryFrequencyCostImpactAnalyzerInputForm = ({
               </FormItem>
             )}
           />
-
-          {/* Urgency Level */}
-          <FormField
-            control={form.control}
-            name="urgencyLevel"
-            render={({ field }) => (
-              <FormItem className="w-full flex-1">
-                <FormLabel>Urgency Level</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select Urgency Level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {options.urgencyLevel.map((item) => (
-                      <SelectItem key={item} value={item}>
-                        {item}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
 
+        <FormField
+          control={form.control}
+          name="urgencyLevel"
+          render={({ field }) => (
+            <FormItem className="w-full flex-1">
+              <FormLabel>Urgency Level</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  className="h-10 flex items-center gap-8"
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  {options.urgencyLevel.map((level, index) => (
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem
+                        value={level}
+                        id={`urgency_${level}`}
+                      />
+                      <Label htmlFor={`urgency_${level}`}>
+                        {level}
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Submit Button */}
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Analyze Cost Impact
         </Button>
       </form>
     </Form>

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -8,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -16,146 +18,141 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { Input } from "@/components/ui/input";
 import { LoaderCircle, Plus, X } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
-// Schema for form validation
+const deliveryLocationSchema = z.object({
+  location: z.string().min(1, "Location is required"),
+  deliveryTime: z.string().min(1, "Delivery time is required"),
+});
+
 const formSchema = z.object({
-  deliveryLocations: z.array(z.string().min(1)).min(1, "At least one delivery location is required"),
-  deliveryTimes: z.array(z.string().min(1)).min(1, "At least one delivery time is required"),
+  deliveryLocations: z
+    .array(deliveryLocationSchema)
+    .min(1, "At least one delivery location is required"),
   urgencyLevel: z.string().min(1, "Urgency level is required"),
 });
 
-const UrbanParkingFeeMinimizerInputForm = ({ loading, data, handleSubmit }) => {
-  const [deliveryLocations, setDeliveryLocations] = useState(data.deliveryLocations || [""]);
-  const [deliveryTimes, setDeliveryTimes] = useState(data.deliveryTimes || [""]);
-
+export default function Component({ loading, options, data, handleSubmit }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { ...data, deliveryLocations, deliveryTimes },
+    defaultValues: {
+      deliveryLocations:
+        data.deliveryLocations.length > 0
+          ? data.deliveryLocations
+          : [{ location: "", deliveryTime: "" }],
+      urgencyLevel: data.urgencyLevel,
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "deliveryLocations",
   });
 
   function onSubmit(values) {
-    handleSubmit({ ...values, deliveryLocations, deliveryTimes });
+    handleSubmit(values);
   }
-
-  const addLocationField = () => setDeliveryLocations([...deliveryLocations, ""]);
-  const removeLocationField = (index) =>
-    setDeliveryLocations(deliveryLocations.filter((_, i) => i !== index));
-
-  const addTimeField = () => setDeliveryTimes([...deliveryTimes, ""]);
-  const removeTimeField = (index) =>
-    setDeliveryTimes(deliveryTimes.filter((_, i) => i !== index));
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
-        {/* Delivery Locations */}
-        <div className="flex flex-col gap-4">
-          <FormLabel>Delivery Locations</FormLabel>
-          {deliveryLocations.map((location, index) => (
-            <div key={index} className="flex gap-2">
-              <Input
-                value={location}
-                placeholder="Enter delivery location"
-                onChange={(e) => {
-                  const newLocations = [...deliveryLocations];
-                  newLocations[index] = e.target.value;
-                  setDeliveryLocations(newLocations);
+        {fields.map((field, index) => (
+          <div key={field.id} className="flex flex-col">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold">
+                Delivery Location {index + 1}
+              </h3>
+              <Button
+                type="button"
+                size="icon"
+                onClick={() => {
+                  if (fields.length > 1) {
+                    remove(index);
+                  }
                 }}
-              />
-              {index > 0 && (
-                <Button
-                  variant="destructive"
-                  onClick={() => removeLocationField(index)}
-                >
-                  <X size={18} />
-                </Button>
-              )}
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            onClick={addLocationField}
-          >
-            <Plus size={18} /> Add Location
-          </Button>
-          <FormMessage />
-        </div>
 
-        {/* Delivery Times */}
-        <div className="flex flex-col gap-4">
-          <FormLabel>Delivery Times</FormLabel>
-          {deliveryTimes.map((time, index) => (
-            <div key={index} className="flex gap-2">
-              <Input
-                value={time}
-                placeholder="Enter delivery time (e.g., 8:00 AM)"
-                onChange={(e) => {
-                  const newTimes = [...deliveryTimes];
-                  newTimes[index] = e.target.value;
-                  setDeliveryTimes(newTimes);
-                }}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <FormField
+                control={form.control}
+                name={`deliveryLocations.${index}.location`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Enter location" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {index > 0 && (
-                <Button
-                  variant="destructive"
-                  onClick={() => removeTimeField(index)}
-                >
-                  <X size={18} />
-                </Button>
-              )}
+              <FormField
+                control={form.control}
+                name={`deliveryLocations.${index}.deliveryTime`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Delivery Time</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="time" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            onClick={addTimeField}
-          >
-            <Plus size={18} /> Add Time
-          </Button>
-          <FormMessage />
-        </div>
+          </div>
+        ))}
 
-        {/* Urgency Level */}
+        <Button
+          type="button"
+          variant="link"
+          className="w-fit mr-auto gap-2 h-6 p-0"
+          onClick={() => {
+            append({ location: "", deliveryTime: "" });
+          }}
+        >
+          <Plus className="h-4 w-4" /> Add Delivery Location
+        </Button>
+
         <FormField
           control={form.control}
           name="urgencyLevel"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Urgency Level</FormLabel>
-              <Select
-                value={field.value}
-                onValueChange={(value) => field.onChange(value)}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Urgency Level" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="Standard">Standard</SelectItem>
-                  <SelectItem value="Express">Express</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <RadioGroup
+                  className="h-10 flex items-center gap-4 md:gap-6"
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  {options.urgencyLevel.map((level, index) => (
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value={level} id={`urgency_${level}`} />
+                      <Label htmlFor={`urgency_${level}`}>{level}</Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Minimize Parking Fees
         </Button>
       </form>
     </Form>
   );
-};
-
-export default UrbanParkingFeeMinimizerInputForm;
+}

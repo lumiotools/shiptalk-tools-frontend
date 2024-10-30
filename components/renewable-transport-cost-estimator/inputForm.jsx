@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 // Schema for form validation
 const formSchema = z.object({
@@ -27,7 +29,12 @@ const formSchema = z.object({
   vehicleType: z.string().min(1, "Vehicle type is required"),
 });
 
-const RenewableTransportCostEstimatorInputForm = ({ loading, data, handleSubmit }) => {
+const RenewableTransportCostEstimatorInputForm = ({
+  loading,
+  options,
+  data,
+  handleSubmit,
+}) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
@@ -41,58 +48,65 @@ const RenewableTransportCostEstimatorInputForm = ({ loading, data, handleSubmit 
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
-        {/* Route Distance */}
-        <FormField
-          control={form.control}
-          name="routeDistance"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Route Distance (miles)</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  placeholder="Enter route distance"
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Vehicle Type */}
-        <FormField
-          control={form.control}
-          name="vehicleType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Vehicle Type</FormLabel>
-              <Select
-                value={field.value}
-                onValueChange={(value) => field.onChange(value)}
-              >
+        <div className="grid grid-cols-1 gap-8">
+          {/* Route Distance */}
+          <FormField
+            control={form.control}
+            name="routeDistance"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Route Distance (miles)</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select vehicle type" />
-                  </SelectTrigger>
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="Enter route distance"
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="electricVehicle">Electric Vehicle</SelectItem>
-                  <SelectItem value="hydrogenVehicle">Hydrogen Vehicle</SelectItem>
-                  <SelectItem value="biofuelVehicle">Biofuel Vehicle</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+          {/* Vehicle Type */}
+          <FormField
+            control={form.control}
+            name="vehicleType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vehicle Type</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    className="h-10 flex items-center gap-8"
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    {options.vehicleType.map((type, index) => (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value={type}
+                          id={`type_${type}`}
+                        />
+                        <Label htmlFor={`type_${type}`}>{type}</Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Estimate Renewable Transport Cost
         </Button>
       </form>
     </Form>

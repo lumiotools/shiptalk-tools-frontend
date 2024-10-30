@@ -21,11 +21,11 @@ const config = {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "#1a8dbe",
+          DEFAULT: "#FFB323",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#0e0f14",
+          DEFAULT: "#222224",
           foreground: "hsl(var(--secondary-foreground))",
         },
         muted: {

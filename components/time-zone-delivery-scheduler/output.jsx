@@ -29,8 +29,8 @@ export default function Component({
     <div className="container mx-auto p-4">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <Clock />
             Optimal Delivery Windows
           </CardTitle>
         </CardHeader>
@@ -59,8 +59,8 @@ export default function Component({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Truck className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Truck />
               Carrier Options
             </CardTitle>
           </CardHeader>
@@ -95,10 +95,14 @@ export default function Component({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <RenderChart index={2} title="Peak Time Analysis" chart={peakTimeAnalysis} />
+        <RenderChart
+          index={2}
+          title="Peak Time Analysis"
+          chart={peakTimeAnalysis}
+        />
 
         <RenderChart
-        index={3} 
+          index={3}
           title="Carrier Efficiency Comparison"
           chart={carrierEfficiencyComparison}
         />
@@ -151,8 +155,8 @@ export default function Component({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <AlertTriangle />
               Holiday Season Alerts
             </CardTitle>
           </CardHeader>

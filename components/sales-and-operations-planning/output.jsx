@@ -72,8 +72,8 @@ const SalesAndOperationsPlanningToolOutput = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Boxes className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Boxes />
               Recommended Inventory Levels
             </CardTitle>
           </CardHeader>
@@ -100,8 +100,8 @@ const SalesAndOperationsPlanningToolOutput = ({
         <div className="flex flex-col gap-8">
           <Card className="w-full flex-1">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
+              <CardTitle className="flex items-center">
+                <TrendingUp />
                 Estimated Cost Savings
               </CardTitle>
             </CardHeader>
@@ -114,8 +114,8 @@ const SalesAndOperationsPlanningToolOutput = ({
 
           <Card className="w-full flex-1">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5" />
+              <CardTitle className="flex items-center">
+                <CheckCircle2 />
                 Expected Service Level Improvement
               </CardTitle>
               <CardDescription>
@@ -133,8 +133,8 @@ const SalesAndOperationsPlanningToolOutput = ({
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <TrendingUp />
             Key Performance Indicators
           </CardTitle>
         </CardHeader>
@@ -179,8 +179,8 @@ const SalesAndOperationsPlanningToolOutput = ({
 
         <Card className="flex-1 w-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <CheckCircle2 />
               Implementation Plan
             </CardTitle>
           </CardHeader>
@@ -191,8 +191,8 @@ const SalesAndOperationsPlanningToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ListChecks className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <ListChecks />
               Key Considerations
             </CardTitle>
           </CardHeader>
@@ -207,8 +207,8 @@ const SalesAndOperationsPlanningToolOutput = ({
 
         <Card className="flex-1 w-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <AlertTriangle />
               Risk Analysis
             </CardTitle>
           </CardHeader>

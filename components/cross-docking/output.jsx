@@ -27,8 +27,8 @@ const CrossDockingToolOutput = ({
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Truck className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <Truck />
             Dock Scheduling
           </CardTitle>
         </CardHeader>
@@ -39,8 +39,8 @@ const CrossDockingToolOutput = ({
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <AlertTriangle />
             Risk Assessment
           </CardTitle>
         </CardHeader>
@@ -69,8 +69,8 @@ const CrossDockingToolOutput = ({
 
       <Card className="my-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <Clock />
             Delivery Status
           </CardTitle>
         </CardHeader>
@@ -93,8 +93,8 @@ const CrossDockingToolOutput = ({
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <TrendingUp />
             Cost Efficiency
           </CardTitle>
         </CardHeader>

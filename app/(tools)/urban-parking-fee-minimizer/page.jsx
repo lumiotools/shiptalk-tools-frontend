@@ -1,25 +1,58 @@
 "use client";
-import UrbanParkingFeeMinimizerInputForm from "@/components/urban-parking-fee-minimizer/inputForm";
-import UrbanParkingFeeMinimizerOutput from "@/components/urban-parking-fee-minimizer/output";
-import { Button } from "@/components/ui/button";
-import { LoaderCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import React, { useState } from "react";
 
-const UrbanParkingFeeMinimizerPage = () => {
+import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, LoaderCircle } from "lucide-react";
+import UrbanParkingFeeMinimizer from "@/components/urban-parking-fee-minimizer/inputForm";
+import UrbanParkingFeeMinimizerOutput from "@/components/urban-parking-fee-minimizer/output";
+import FormContainer from "@/components/common/formContainer";
+import ResetButton from "@/components/common/resetButton";
+
+export default function Component() {
+  const [options, setOptions] = useState({
+    urgencyLevel: [],
+  });
+
   const [data, setData] = useState({
     deliveryLocations: [],
-    deliveryTimes: [],
     urgencyLevel: "",
   });
+
   const [results, setResults] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState("options");
   const { toast } = useToast();
 
-  const fetchResults = async (inputData) => {
-    setLoading(true);
+  useEffect(() => {
+    fetchOptions();
+  }, []);
+
+  const fetchOptions = async () => {
+    setLoading("options");
     try {
-      setData(inputData);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/tools-options?tool_name=urban-parking-fee-minimizer`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch options");
+      }
+
+      const responseData = await response.json();
+      setOptions(responseData.options);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Failed to fetch options",
+      });
+    }
+    setLoading(false);
+  };
+
+  const fetchResults = async (formData) => {
+    setLoading("results");
+    try {
+      setData(formData);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/v1/chat-tools?tool=urban-parking-fee-minimizer`,
@@ -28,7 +61,7 @@ const UrbanParkingFeeMinimizerPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(inputData),
+          body: JSON.stringify(formData),
         }
       );
 
@@ -47,34 +80,37 @@ const UrbanParkingFeeMinimizerPage = () => {
     setLoading(false);
   };
 
+  if (loading === "options") {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <LoaderCircle className="size-16 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!results)
+    return (
+      <div className="w-full min-h-screen flex flex-col justify-center items-center gap-8 p-8">
+        <FormContainer
+          title="Urban Parking Fee Minimizer"
+          description="Strategically Plan Urban Delivery Stops to Minimize Parking Fees and Enhance Cost Efficiency"
+        >
+          <UrbanParkingFeeMinimizer
+            loading={loading === "results"}
+            options={options}
+            data={data}
+            handleSubmit={fetchResults}
+          />
+        </FormContainer>
+      </div>
+    );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center gap-8 p-8">
       <h1 className="text-4xl font-bold">Urban Parking Fee Minimizer</h1>
-      {!results ? (
-        <UrbanParkingFeeMinimizerInputForm
-          loading={loading}
-          data={data}
-          handleSubmit={fetchResults}
-        />
-      ) : (
-        <>
-          <Button
-            className="ml-0 mr-auto -my-8"
-            variant="link"
-            onClick={() => setResults(undefined)}
-          >
-            Back
-          </Button>
-          <UrbanParkingFeeMinimizerOutput {...results} />
-        </>
-      )}
-      {loading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
-          <LoaderCircle className="animate-spin text-white" />
-        </div>
-      )}
+
+      <ResetButton resetResults={() => setResults(null)} />
+      <UrbanParkingFeeMinimizerOutput {...results} />
     </div>
   );
-};
-
-export default UrbanParkingFeeMinimizerPage;
+}

@@ -25,8 +25,8 @@ const ParcelClimateProtectionOutput = ({
     <div className="container mx-auto p-4">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <AlertTriangle />
             Climate Risk Assessment
           </CardTitle>
         </CardHeader>
@@ -37,8 +37,8 @@ const ParcelClimateProtectionOutput = ({
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Package className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <Package />
             Packaging Recommendations
           </CardTitle>
         </CardHeader>
@@ -74,8 +74,8 @@ const ParcelClimateProtectionOutput = ({
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Truck className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <Truck />
             Carrier Comparisons
           </CardTitle>
         </CardHeader>
@@ -111,13 +111,13 @@ const ParcelClimateProtectionOutput = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <RenderChart
-        index={2}
+          index={2}
           title="Packaging Cost Analysis"
           chart={packagingCostAnalysis}
         />
 
         <RenderChart
-        index={4}
+          index={4}
           title="Carrier Capability Analysis"
           chart={carrierCapabilityAnalysis}
         />

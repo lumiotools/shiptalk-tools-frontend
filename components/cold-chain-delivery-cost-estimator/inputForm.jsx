@@ -20,6 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 // Schema for form validation
 const formSchema = z.object({
@@ -30,7 +32,12 @@ const formSchema = z.object({
   temperatureRequirement: z.number(),
 });
 
-const ColdChainDeliveryCostEstimatorInputForm = ({ loading, data, handleSubmit }) => {
+const ColdChainDeliveryCostEstimatorInputForm = ({
+  loading,
+  options,
+  data,
+  handleSubmit,
+}) => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
@@ -44,22 +51,82 @@ const ColdChainDeliveryCostEstimatorInputForm = ({ loading, data, handleSubmit }
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
-        {/* Product Type */}
-        <FormField
-          control={form.control}
-          name="productType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Type</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter product type (e.g., Electronics)" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Product Type */}
+          <FormField
+            control={form.control}
+            name="productType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Type</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Enter product type (e.g., Electronics)"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Carrier */}
+          <FormField
+            control={form.control}
+            name="carrier"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Carrier</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Enter carrier (e.g., DHL)" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Route Distance */}
+          <FormField
+            control={form.control}
+            name="routeDistance"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Route Distance (km)</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="Enter route distance"
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Temperature Requirement */}
+          <FormField
+            control={form.control}
+            name="temperatureRequirement"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Temperature Requirement (°C)</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="number"
+                    placeholder="e.g., -10"
+                    onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* Weather Condition */}
         <FormField
@@ -68,84 +135,35 @@ const ColdChainDeliveryCostEstimatorInputForm = ({ loading, data, handleSubmit }
           render={({ field }) => (
             <FormItem>
               <FormLabel>Weather Condition</FormLabel>
-              <Select
+              <RadioGroup
+                className="min-h-10 flex flex-wrap items-center gap-8"
                 value={field.value}
-                onValueChange={(value) => field.onChange(value)}
+                onValueChange={field.onChange}
               >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select weather condition" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="Normal">Normal</SelectItem>
-                  <SelectItem value="Extreme Heat">Extreme Heat</SelectItem>
-                  <SelectItem value="Extreme Cold">Extreme Cold</SelectItem>
-                </SelectContent>
-              </Select>
+                {options.weatherCondition.map((condition, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      value={condition}
+                      id={`condition_${condition}`}
+                    />
+                    <Label htmlFor={`condition_${condition}`}>
+                      {condition}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Route Distance */}
-        <FormField
-          control={form.control}
-          name="routeDistance"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Route Distance (km)</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  placeholder="Enter route distance"
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Carrier */}
-        <FormField
-          control={form.control}
-          name="carrier"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Carrier</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter carrier (e.g., DHL)" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Temperature Requirement */}
-        <FormField
-          control={form.control}
-          name="temperatureRequirement"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Temperature Requirement (°C)</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  placeholder="e.g., -10"
-                  onChange={(e) => field.onChange(parseFloat(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Estimate Delivery Cost
         </Button>
       </form>
     </Form>

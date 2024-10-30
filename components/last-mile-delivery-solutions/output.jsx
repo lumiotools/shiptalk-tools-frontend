@@ -36,8 +36,8 @@ const LastMileDeliverySolutionsToolOutput = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Truck className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Truck />
               Suggested Carriers
             </CardTitle>
           </CardHeader>
@@ -52,8 +52,8 @@ const LastMileDeliverySolutionsToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingDown className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <TrendingDown />
               Estimated Cost Savings
             </CardTitle>
           </CardHeader>
@@ -66,8 +66,8 @@ const LastMileDeliverySolutionsToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Clock />
               Expected Delivery Time Reduction
             </CardTitle>
           </CardHeader>
@@ -81,8 +81,8 @@ const LastMileDeliverySolutionsToolOutput = ({
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ThumbsUp className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <ThumbsUp />
             Key Performance Indicators
           </CardTitle>
         </CardHeader>
@@ -122,8 +122,8 @@ const LastMileDeliverySolutionsToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <AlertTriangle />
               Risk Analysis
             </CardTitle>
           </CardHeader>
@@ -134,8 +134,8 @@ const LastMileDeliverySolutionsToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <CheckCircle2 />
               Implementation Plan
             </CardTitle>
           </CardHeader>

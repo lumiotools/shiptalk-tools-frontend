@@ -1,16 +1,10 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import RenderChart from "@/components/common/renderChart";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import React from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { AlertTriangle, DollarSign, Clock } from "lucide-react"
+import RenderChart from "@/components/common/renderChart"
 
-const UrbanParkingFeeMinimizerOutput = ({
+export default function Component({
   totalEstimatedParkingCost,
   parkingCostAnalysis,
   trafficAnalysis,
@@ -19,22 +13,22 @@ const UrbanParkingFeeMinimizerOutput = ({
   seasonalEventImpact,
   parkingFeeComparison,
   congestionImpactAnalysis,
-}) => {
+}) {
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
-      {/* Total Estimated Parking Cost */}
-      <Card>
+    <div className="container mx-auto p-4">
+      <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Total Estimated Parking Cost</CardTitle>
+          <CardTitle className="flex items-center">
+            <DollarSign  />
+            Total Estimated Parking Cost
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-4xl font-bold">${totalEstimatedParkingCost}</p>
+          <p className="text-3xl font-bold">${totalEstimatedParkingCost.toFixed(2)}</p>
         </CardContent>
       </Card>
 
-      {/* Parking Cost Analysis */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Parking Cost Analysis</CardTitle>
         </CardHeader>
@@ -48,11 +42,11 @@ const UrbanParkingFeeMinimizerOutput = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {parkingCostAnalysis.map((item, index) => (
+              {parkingCostAnalysis.map((analysis, index) => (
                 <TableRow key={index}>
-                  <TableCell>{item.location}</TableCell>
-                  <TableCell>{item.zoneType}</TableCell>
-                  <TableCell>${item.estimatedParkingCost}</TableCell>
+                  <TableCell>{analysis.location}</TableCell>
+                  <TableCell>{analysis.zoneType}</TableCell>
+                  <TableCell>${analysis.estimatedParkingCost.toFixed(2)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -60,10 +54,12 @@ const UrbanParkingFeeMinimizerOutput = ({
         </CardContent>
       </Card>
 
-      {/* Traffic Analysis */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Traffic Analysis</CardTitle>
+          <CardTitle className="flex items-center">
+            <Clock  />
+            Traffic Analysis
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -75,11 +71,11 @@ const UrbanParkingFeeMinimizerOutput = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {trafficAnalysis.map((item, index) => (
+              {trafficAnalysis.map((analysis, index) => (
                 <TableRow key={index}>
-                  <TableCell>{item.location}</TableCell>
-                  <TableCell>{item.congestionLevel}</TableCell>
-                  <TableCell>{item.suggestedTime}</TableCell>
+                  <TableCell>{analysis.location}</TableCell>
+                  <TableCell>{analysis.congestionLevel}</TableCell>
+                  <TableCell>{analysis.suggestedTime}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -87,8 +83,7 @@ const UrbanParkingFeeMinimizerOutput = ({
         </CardContent>
       </Card>
 
-      {/* Loading Zone Information */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Loading Zone Information</CardTitle>
         </CardHeader>
@@ -97,50 +92,44 @@ const UrbanParkingFeeMinimizerOutput = ({
         </CardContent>
       </Card>
 
-      {/* Permit Recommendations */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Permit Recommendations</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Permit Type</TableHead>
-                <TableHead>Applicable Zones</TableHead>
-                <TableHead>Cost</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {permitRecommendations.map((permit, index) => (
-                <TableRow key={index}>
-                  <TableCell>{permit.permitType}</TableCell>
-                  <TableCell>{permit.applicableZones.join(", ")}</TableCell>
-                  <TableCell>{permit.cost}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          {permitRecommendations.map((permit, index) => (
+            <div key={index} className="mb-4">
+              <h4 className="font-semibold">{permit.permitType}</h4>
+              <p>Applicable Zones: {permit.applicableZones.join(", ")}</p>
+              <p>Cost: {permit.cost}</p>
+            </div>
+          ))}
         </CardContent>
       </Card>
 
-      {/* Seasonal Event Impact */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Seasonal Event Impact</CardTitle>
+          <CardTitle className="flex items-center">
+            <AlertTriangle  />
+            Seasonal Event Impact
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <p>{seasonalEventImpact}</p>
         </CardContent>
       </Card>
 
-      {/* Parking Fee Comparison Chart */}
-      <RenderChart chart={parkingFeeComparison} title="Parking Fee Comparison" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <RenderChart
+          title="Parking Fee Comparison"
+          chart={parkingFeeComparison}
+        />
 
-      {/* Congestion Impact Analysis Chart */}
-      <RenderChart chart={congestionImpactAnalysis} title="Congestion Impact Analysis" />
+        <RenderChart
+          title="Congestion Impact Analysis"
+          chart={congestionImpactAnalysis}
+        />
+      </div>
     </div>
-  );
-};
-
-export default UrbanParkingFeeMinimizerOutput;
+  )
+}

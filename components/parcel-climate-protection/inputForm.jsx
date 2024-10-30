@@ -20,12 +20,16 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { LoaderCircle, Plus, X } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
 
 const formSchema = z.object({
   productType: z.string().min(1, "Product type is required"),
   climateCondition: z.string().min(1, "Climate condition is required"),
   sensitivityLevel: z.string().min(1, "Sensitivity level is required"),
-  carrierOptions: z.array(z.string()).min(1, "At least one carrier is required"),
+  carrierOptions: z
+    .array(z.string())
+    .min(1, "At least one carrier is required"),
   urgencyLevel: z.string().min(1, "Urgency level is required"),
 });
 
@@ -52,7 +56,7 @@ const ParcelClimateProtectionInputForm = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-screen-md w-full flex flex-col gap-8"
+        className="w-full flex flex-col gap-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <FormField
@@ -63,6 +67,34 @@ const ParcelClimateProtectionInputForm = ({
                 <FormLabel>Product Type</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="Enter product type" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="sensitivityLevel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Sensitivity Level</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    className="h-10 flex items-center gap-8"
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    {options.sensitivityLevel.map((item, index) => (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value={item}
+                          id={`sensitivity_${item}`}
+                        />
+                        <Label htmlFor={`sensitivity_${item}`}>{item}</Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,55 +131,27 @@ const ParcelClimateProtectionInputForm = ({
 
           <FormField
             control={form.control}
-            name="sensitivityLevel"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sensitivity Level</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select sensitivity level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {options.sensitivityLevel.map((item) => (
-                      <SelectItem key={item} value={item}>
-                        {item}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="urgencyLevel"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Urgency Level</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select urgency level" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {options.urgencyLevel.map((item) => (
-                      <SelectItem key={item} value={item}>
-                        {item}
-                      </SelectItem>
+                <FormControl>
+                  <RadioGroup
+                    className="h-10 flex items-center gap-8"
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    {options.urgencyLevel.map((level, index) => (
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value={level}
+                          id={`urgency_${level}`}
+                        />
+                        <Label htmlFor={`urgency_${level}`}>{level}</Label>
+                      </div>
                     ))}
-                  </SelectContent>
-                </Select>
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -174,8 +178,8 @@ const ParcelClimateProtectionInputForm = ({
                 />
                 <Button
                   type="button"
-                  variant="destructive"
                   className="mt-8"
+                  size="icon"
                   onClick={() => {
                     if (carrierCount <= 2) return;
                     const currentCarriers = form.getValues("carrierOptions");
@@ -194,7 +198,8 @@ const ParcelClimateProtectionInputForm = ({
 
         <Button
           type="button"
-          className="w-full md:w-fit md:mx-auto"
+          className="w-fit mr-auto h-6 p-0"
+          variant="link"
           onClick={() => {
             form.setValue(`carrierOptions.${carrierCount}`, "");
             setCarrierCount(carrierCount + 1);
@@ -203,9 +208,13 @@ const ParcelClimateProtectionInputForm = ({
           <Plus /> Add More Carriers
         </Button>
 
-        <Button className="w-full gap-2" type="submit" disabled={loading}>
+        <Button
+          className="ml-auto gap-2 font-medium"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
-          Submit
+          Analyze Climate Protection Needs
         </Button>
       </form>
     </Form>

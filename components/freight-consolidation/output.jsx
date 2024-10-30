@@ -40,8 +40,8 @@ const FreightConsolidationToolOutput = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PackageCheck className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <PackageCheck />
               Consolidation Rate
             </CardTitle>
           </CardHeader>
@@ -54,8 +54,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <DollarSign />
               Cost Savings
             </CardTitle>
           </CardHeader>
@@ -68,8 +68,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Percent className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Percent />
               Discount Applied
             </CardTitle>
           </CardHeader>
@@ -97,8 +97,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <AlertTriangle />
               Delivery Delay Risk
             </CardTitle>
           </CardHeader>
@@ -109,8 +109,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Star className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Star />
               Priority Recommendations
             </CardTitle>
           </CardHeader>
@@ -121,8 +121,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Clock />
               Priority Impact
             </CardTitle>
           </CardHeader>
@@ -133,8 +133,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Ship className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Ship />
               Shipment Recommendations
             </CardTitle>
           </CardHeader>
@@ -145,8 +145,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <TrendingUp />
               Cost Efficiency Explanation
             </CardTitle>
           </CardHeader>
@@ -157,8 +157,8 @@ const FreightConsolidationToolOutput = ({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Users />
               Carrier Recommendations
             </CardTitle>
           </CardHeader>

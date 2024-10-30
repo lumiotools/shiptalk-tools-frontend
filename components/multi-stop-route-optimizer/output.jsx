@@ -28,8 +28,8 @@ export default function Component({
     <div className="container mx-auto p-4">
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Truck className="h-5 w-5" />
+          <CardTitle className="flex items-center">
+            <Truck  />
             Optimized Route
           </CardTitle>
         </CardHeader>
@@ -85,8 +85,8 @@ export default function Component({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <AlertTriangle  />
               High Risk Stops
             </CardTitle>
           </CardHeader>
@@ -133,8 +133,8 @@ export default function Component({
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
+            <CardTitle className="flex items-center">
+              <Package  />
               Recommendations
             </CardTitle>
           </CardHeader>
