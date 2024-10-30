@@ -50,7 +50,7 @@ const ThirdPartyLogisticsToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Building2  />
+              <Building2 />
               Suggested 3PL Providers
             </CardTitle>
           </CardHeader>
@@ -66,7 +66,7 @@ const ThirdPartyLogisticsToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <TrendingDown  />
+              <TrendingDown />
               Estimated Cost Savings
             </CardTitle>
           </CardHeader>
@@ -80,7 +80,7 @@ const ThirdPartyLogisticsToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <Clock  />
+              <Clock />
               Service Level Improvement
             </CardTitle>
           </CardHeader>
@@ -95,7 +95,7 @@ const ThirdPartyLogisticsToolOutput = ({
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <ThumbsUp  />
+            <ThumbsUp />
             Key Performance Indicators
           </CardTitle>
         </CardHeader>
@@ -130,13 +130,18 @@ const ThirdPartyLogisticsToolOutput = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
         {charts.map((chart, index) => (
-          <RenderChart key={index} chart={chart} index={index} />
+          <RenderChart
+            key={index}
+            chart={chart}
+            index={index}
+            title={`Analysis ${index + 1}`}
+          />
         ))}
 
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <CheckCircle2  />
+              <CheckCircle2 />
               Implementation Plan
             </CardTitle>
           </CardHeader>
@@ -148,7 +153,7 @@ const ThirdPartyLogisticsToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <AlertTriangle  />
+              <AlertTriangle />
               Risk Analysis
             </CardTitle>
           </CardHeader>
@@ -160,7 +165,7 @@ const ThirdPartyLogisticsToolOutput = ({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
-              <ListChecks  />
+              <ListChecks />
               Key Considerations
             </CardTitle>
           </CardHeader>

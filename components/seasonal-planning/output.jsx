@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import MarkdownRenderer from "../ui/markdown";
 import RenderChart from "../common/renderChart";
 
@@ -39,7 +34,11 @@ const SeasonalPlanningToolOutput = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {charts.map((chart, index) => (
-          <RenderChart key={index} chart={chart} />
+          <RenderChart
+            key={index}
+            chart={chart}
+            title={`Analysis ${index + 1}`}
+          />
         ))}
 
         <Card>

@@ -240,8 +240,8 @@ const RenderChart = ({ index = 0, title, chart, comparisonChart }) => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>{title ?? explanation}</CardTitle>
-        {title && <CardDescription>{explanation}</CardDescription>}
+        {title && <CardTitle>{title}</CardTitle>}
+        <CardDescription>{explanation}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={{}} className="h-[300px]">

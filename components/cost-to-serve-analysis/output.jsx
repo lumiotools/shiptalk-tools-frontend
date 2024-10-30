@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import MarkdownRenderer from "../ui/markdown";
 import RenderChart from "../common/renderChart";
 
@@ -28,7 +23,6 @@ const CostToServeAnalysisToolOutput = ({
     "#00C49F",
     "#FFBB28",
   ];
-  
 
   return (
     <div className="container mx-auto p-4">
@@ -78,7 +72,11 @@ const CostToServeAnalysisToolOutput = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {charts.map((chart, index) => (
-          <RenderChart key={index} chart={chart} />
+          <RenderChart
+            key={index}
+            chart={chart}
+            title={`Analysis ${index + 1}`}
+          />
         ))}
       </div>
 
@@ -124,7 +122,7 @@ const CostToServeAnalysisToolOutput = ({
             <CardTitle>Customer Impact</CardTitle>
           </CardHeader>
           <CardContent>
-          <MarkdownRenderer markdownText={customer_impact} />
+            <MarkdownRenderer markdownText={customer_impact} />
           </CardContent>
         </Card>
       </div>
