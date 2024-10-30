@@ -146,12 +146,17 @@ export default function Component({ loading, options, data, handleSubmit }) {
                         onValueChange={field.onChange}
                       >
                         {options.priorityLevel.map((level, index) => (
-                          <div className="flex levels-center space-x-2">
+                          <div
+                            key={index}
+                            className="flex levels-center space-x-2"
+                          >
                             <RadioGroupItem
                               value={level}
                               id={`priority_${stop}_${level}`}
                             />
-                            <Label htmlFor={`priority_${stop}_${level}`}>{level}</Label>
+                            <Label htmlFor={`priority_${stop}_${level}`}>
+                              {level}
+                            </Label>
                           </div>
                         ))}
                       </RadioGroup>
@@ -204,11 +209,8 @@ export default function Component({ loading, options, data, handleSubmit }) {
                     onValueChange={field.onChange}
                   >
                     {options.urgencyLevel.map((level, index) => (
-                      <div className="flex levels-center space-x-2">
-                        <RadioGroupItem
-                          value={level}
-                          id={`urgency_${level}`}
-                        />
+                      <div key={index} className="flex levels-center space-x-2">
+                        <RadioGroupItem value={level} id={`urgency_${level}`} />
                         <Label htmlFor={`urgency_${level}`}>{level}</Label>
                       </div>
                     ))}
@@ -219,7 +221,11 @@ export default function Component({ loading, options, data, handleSubmit }) {
             )}
           />
         </div>
-        <Button className="w-fit gap-2 ml-auto" type="submit" disabled={loading}>
+        <Button
+          className="w-fit gap-2 ml-auto"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
           Optimize Route
         </Button>

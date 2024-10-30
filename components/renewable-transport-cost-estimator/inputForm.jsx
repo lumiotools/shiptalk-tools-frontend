@@ -85,11 +85,8 @@ const RenewableTransportCostEstimatorInputForm = ({
                     onValueChange={field.onChange}
                   >
                     {options.vehicleType.map((type, index) => (
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value={type}
-                          id={`type_${type}`}
-                        />
+                      <div key={index} className="flex items-center space-x-2">
+                        <RadioGroupItem value={type} id={`type_${type}`} />
                         <Label htmlFor={`type_${type}`}>{type}</Label>
                       </div>
                     ))}

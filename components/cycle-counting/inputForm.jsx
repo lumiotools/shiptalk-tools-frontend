@@ -135,7 +135,7 @@ const CycleCountingToolInputForm = ({
                     onValueChange={field.onChange}
                   >
                     {options.priorityLevel.map((level, index) => (
-                      <div className="flex items-center space-x-2">
+                      <div key={index} className="flex items-center space-x-2">
                         <RadioGroupItem
                           value={level}
                           id={`priority_${level}`}

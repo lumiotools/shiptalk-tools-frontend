@@ -136,7 +136,7 @@ export default function Component({ loading, options, data, handleSubmit }) {
                   onValueChange={field.onChange}
                 >
                   {options.urgencyLevel.map((level, index) => (
-                    <div className="flex items-center space-x-2">
+                    <div key={index} className="flex items-center space-x-2">
                       <RadioGroupItem value={level} id={`urgency_${level}`} />
                       <Label htmlFor={`urgency_${level}`}>{level}</Label>
                     </div>
@@ -148,7 +148,11 @@ export default function Component({ loading, options, data, handleSubmit }) {
           )}
         />
 
-        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
           Minimize Parking Fees
         </Button>

@@ -146,7 +146,7 @@ export default function Component({ loading, options, data, handleSubmit }) {
                     onValueChange={field.onChange}
                   >
                     {options.priorityLevel.map((level, index) => (
-                      <div className="flex items-center space-x-2">
+                      <div key={index} className="flex items-center space-x-2">
                         <RadioGroupItem
                           value={level}
                           id={`priority_${level}`}
@@ -162,7 +162,11 @@ export default function Component({ loading, options, data, handleSubmit }) {
           />
         </div>
 
-        <Button className="w-fit ml-auto gap-2" type="submit" disabled={loading}>
+        <Button
+          className="w-fit ml-auto gap-2"
+          type="submit"
+          disabled={loading}
+        >
           {loading && <LoaderCircle className="animate-spin" />}
           Schedule Delivery
         </Button>

@@ -136,8 +136,11 @@ const ParcelFlowInputForm = ({ loading, options, data, handleSubmit }) => {
                     onValueChange={field.onChange}
                   >
                     {options.volume.map((volume, index) => (
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value={volume} id={`volume_${volume}`} />
+                      <div key={index} className="flex items-center space-x-2">
+                        <RadioGroupItem
+                          value={volume}
+                          id={`volume_${volume}`}
+                        />
                         <Label htmlFor={`volume_${volume}`}>{volume}</Label>
                       </div>
                     ))}
@@ -162,7 +165,10 @@ const ParcelFlowInputForm = ({ loading, options, data, handleSubmit }) => {
                   >
                     {options.priorityLevel.map((level, index) => (
                       <div key={index} className="flex items-center space-x-2">
-                        <RadioGroupItem value={level} id={`priority_${level}`} />
+                        <RadioGroupItem
+                          value={level}
+                          id={`priority_${level}`}
+                        />
                         <Label htmlFor={`priority_${level}`}>{level}</Label>
                       </div>
                     ))}

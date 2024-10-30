@@ -86,7 +86,7 @@ const ParcelClimateProtectionInputForm = ({
                     onValueChange={field.onChange}
                   >
                     {options.sensitivityLevel.map((item, index) => (
-                      <div className="flex items-center space-x-2">
+                      <div key={index} className="flex items-center space-x-2">
                         <RadioGroupItem
                           value={item}
                           id={`sensitivity_${item}`}
@@ -142,11 +142,8 @@ const ParcelClimateProtectionInputForm = ({
                     onValueChange={field.onChange}
                   >
                     {options.urgencyLevel.map((level, index) => (
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value={level}
-                          id={`urgency_${level}`}
-                        />
+                      <div key={index} className="flex items-center space-x-2">
+                        <RadioGroupItem value={level} id={`urgency_${level}`} />
                         <Label htmlFor={`urgency_${level}`}>{level}</Label>
                       </div>
                     ))}

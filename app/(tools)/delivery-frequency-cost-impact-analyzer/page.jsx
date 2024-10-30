@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import FormContainer from "@/components/common/formContainer";
 import ResetButton from "@/components/common/resetButton";
 
-const page = () => {
+const Page = () => {
   const [options, setOptions] = useState({});
   const [data, setData] = useState({
     deliveryFrequency: 0,
@@ -110,4 +110,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -125,7 +125,7 @@ const BulkShipmentLabelingOptimizerInputForm = ({
                   onValueChange={field.onChange}
                 >
                   {options.packageSize.map((size, index) => (
-                    <div className="flex items-center space-x-2">
+                    <div key={index} className="flex items-center space-x-2">
                       <RadioGroupItem value={size} id={`size_${size}`} />
                       <Label htmlFor={`size_${size}`}>{size}</Label>
                     </div>
