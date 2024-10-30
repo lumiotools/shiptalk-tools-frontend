@@ -17,7 +17,7 @@ const FormContainer = ({ title, description, children, className }) => {
       )}
     >
       <CardHeader>
-        <CardTitle className="text-white">{title}</CardTitle>
+        <CardTitle className="text-white text-3xl">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="w-full">{children}</CardContent>
