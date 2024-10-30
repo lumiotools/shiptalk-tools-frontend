@@ -1,7 +1,7 @@
 import { AlertTriangle, Clock, TrafficCone } from "lucide-react";
 import { Badge } from "../ui/badge";
 
-export const StatusBadge = ({ status }: { status: string }) => {
+export const StatusBadge = ({ status }) => {
   const color = status === "Delayed" ? "destructive" : "default";
   return (
     <Badge variant={color} className="ml-2">
@@ -11,7 +11,7 @@ export const StatusBadge = ({ status }: { status: string }) => {
   );
 };
 
-export const RiskBadge = ({ level }: { level: string }) => {
+export const RiskBadge = ({ level }) => {
   const color =
     level === "High"
       ? "destructive"
@@ -26,7 +26,7 @@ export const RiskBadge = ({ level }: { level: string }) => {
   );
 };
 
-export const TrafficSensitivityBadge = ({ level }: { level: string }) => {
+export const TrafficSensitivityBadge = ({ level }) => {
   const color =
     level === "High"
       ? "destructive"

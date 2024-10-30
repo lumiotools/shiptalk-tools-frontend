@@ -23,14 +23,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, X, Plus } from "lucide-react";
 
-export interface SalesAndOperationsPlanningToolOptions {
-  company_size: string[];
-  industry_sector: string[];
-  user_objectives: string[];
-  operational_constraints: string[];
-  current_challenges: string[];
-}
-
 const formSchema = z.object({
   company_size: z.string().min(1, "Company size is required"),
   industry_sector: z.string().min(1, "Industry sector is required"),
@@ -78,23 +70,8 @@ const SalesAndOperationsPlanningToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: SalesAndOperationsPlanningToolOptions;
-  data: {
-    company_size: string;
-    industry_sector: string;
-    current_sales_data: { month: string; sales: number }[];
-    inventory_levels: { name: string; quantity: number }[];
-    operational_constraints: string[];
-    user_objectives: string[];
-    current_challenges: string[];
-    seasonal_factors: { factor: string }[];
-    budget_constraints: number;
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
@@ -126,7 +103,7 @@ const SalesAndOperationsPlanningToolInputForm = ({
     control: form.control,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 

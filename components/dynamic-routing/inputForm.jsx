@@ -22,12 +22,6 @@ import * as z from "zod";
 import { LoaderCircle } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 
-export interface DynamicRoutingToolOptions {
-  priorityLevels: string[];
-  trafficConditions: string[];
-  weatherConditions: string[];
-}
-
 const formSchema = z.object({
   destinationAddress: z.string().min(1, "Destination address is required"),
   currentLocation: z.string().min(1, "Current location is required"),
@@ -41,28 +35,17 @@ const DynamicRoutingToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: DynamicRoutingToolOptions;
-  data: {
-    destinationAddress: string;
-    currentLocation: string;
-    priorityLevel: string;
-    trafficConditions: string;
-    weatherConditions: string;
-  };
-  handleSubmit: (data: z.infer<typeof formSchema>) => void;
 }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

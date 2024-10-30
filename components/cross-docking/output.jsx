@@ -5,28 +5,6 @@ import { AlertTriangle, Clock, TrendingUp, Truck } from "lucide-react";
 import { Progress } from "../ui/progress";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
 
-export interface CrossDockingToolOutputProps {
-  carrierOptimization: Plot;
-  dockScheduling: string;
-  laborAllocation: Plot;
-  riskAssessment: {
-    riskLevel: string;
-    riskProgress: number;
-    explanation: string;
-  };
-  deliveryTimelineComparison: ComparisonPlot;
-
-  deliveryStatus: {
-    status: string;
-    explanation: string;
-  };
-  costEfficiency: {
-    laborEfficiency: string;
-    dockUtilization: string;
-    truckCapacityUtilization: string;
-  };
-}
-
 const CrossDockingToolOutput = ({
   carrierOptimization,
   dockScheduling,
@@ -35,7 +13,7 @@ const CrossDockingToolOutput = ({
   deliveryTimelineComparison,
   deliveryStatus,
   costEfficiency,
-}: CrossDockingToolOutputProps) => {
+}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

@@ -18,24 +18,6 @@ import {
   Users,
 } from "lucide-react";
 
-export interface FreightConsolidationToolOutputProps {
-  consolidationRate: number;
-  consolidationDetails: Plot;
-  totalShippingCostBefore: number;
-  totalShippingCostAfter: number;
-  costSavings: number;
-  discountApplied: number;
-  carrierUsage: ComparisonPlot;
-  carrierLoadDistribution: Plot;
-  costComparison: Plot;
-  deliveryDelayRisk: string;
-  priorityRecommendations: string;
-  priorityImpact: string;
-  shipmentRecommendations: string;
-  costEfficiencyExplanation: string;
-  carrierRecommendations: string;
-}
-
 const FreightConsolidationToolOutput = ({
   consolidationRate,
   consolidationDetails,
@@ -52,7 +34,7 @@ const FreightConsolidationToolOutput = ({
   shipmentRecommendations,
   costEfficiencyExplanation,
   carrierRecommendations,
-}: FreightConsolidationToolOutputProps) => {
+}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">

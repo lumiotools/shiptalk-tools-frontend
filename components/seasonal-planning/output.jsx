@@ -8,30 +8,6 @@ import {
 import MarkdownRenderer from "../ui/markdown";
 import RenderChart from "../common/renderChart";
 
-interface SeasonalPlanningToolPlot {
-  xLabel: string;
-  yLabel: string;
-  chartType: string;
-  data: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-export interface SeasonalPlanningToolOutputProps {
-  estimated_cost_impact: number;
-  cost_breakdown: {
-    label: string;
-    cost: number;
-  }[];
-  potential_risks: string;
-  mitigation_strategies: string;
-  implementation_plan: string;
-  charts: SeasonalPlanningToolPlot[];
-  summary: string;
-}
-
 const SeasonalPlanningToolOutput = ({
   estimated_cost_impact,
   cost_breakdown,
@@ -40,7 +16,7 @@ const SeasonalPlanningToolOutput = ({
   implementation_plan,
   charts,
   summary,
-}: SeasonalPlanningToolOutputProps) => {
+}) => {
   const COLORS = [
     "hsl(var(--chart-1))",
     "hsl(var(--chart-2))",

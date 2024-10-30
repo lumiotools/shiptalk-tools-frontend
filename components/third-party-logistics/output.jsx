@@ -32,23 +32,6 @@ import {
   TableRow,
 } from "../ui/table";
 
-export interface ThirdPartyLogisticsToolOutputProps {
-  suggested_providers: string[];
-  estimated_cost_savings_percentage: number;
-  expected_improvement_in_service_levels: string;
-  key_performance_indicators: {
-    kpi_name: string;
-    current_value: number;
-    expected_improvement_percentage: number;
-  }[];
-  implementation_plan: string;
-  risk_analysis: string;
-  key_considerations: string;
-  charts: Plot[];
-  success_stories: string;
-  overall_suggestion: string;
-}
-
 const ThirdPartyLogisticsToolOutput = ({
   suggested_providers,
   estimated_cost_savings_percentage,
@@ -60,7 +43,7 @@ const ThirdPartyLogisticsToolOutput = ({
   charts,
   success_stories,
   overall_suggestion,
-}: ThirdPartyLogisticsToolOutputProps) => {
+}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">

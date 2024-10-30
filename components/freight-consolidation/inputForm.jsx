@@ -22,11 +22,6 @@ import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 
-export interface FreightConsolidationToolOptions {
-  serviceType: string[];
-  priorityLevel: string[];
-}
-
 const formSchema = z.object({
   orders: z
     .array(
@@ -60,27 +55,6 @@ const FreightConsolidationToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: FreightConsolidationToolOptions;
-  data: {
-    orders: {
-      orderWeight: number;
-      destinationAddress: string;
-      originAddress: string;
-      serviceType: string;
-    }[];
-    carrierOptions: {
-      carrierName: string;
-      carrierCapacity: number;
-    }[];
-    maxDeliveryTime: number;
-    consolidationThreshold: number;
-    shippingCostPerUnit: number;
-    bulkDiscountRate: number;
-    priorityLevel: string;
-  };
-  handleSubmit: (data: z.infer<typeof formSchema>) => void;
 }) => {
   const [orders, setOrders] = useState(Math.max(data.orders.length, 2));
 
@@ -88,16 +62,16 @@ const FreightConsolidationToolInputForm = ({
     Math.max(data.carrierOptions.length, 1)
   );
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 

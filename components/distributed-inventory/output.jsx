@@ -24,72 +24,6 @@ import {
 import { Progress } from "../ui/progress";
 import MarkdownRenderer from "../ui/markdown";
 
-interface DistributedInventoryToolPlot {
-  xLabel: string;
-  yLabel: string;
-  chartType: string;
-  data: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-interface DistributedInventoryToolComparisonPlot {
-  xLabel: string;
-  yLabel: string;
-  yActualLabel: string;
-  yComparedLabel: string;
-  chartType: string;
-  actualData: {
-    label: string;
-    value: number;
-  }[];
-  comparedData: {
-    label: string;
-    value: number;
-  }[];
-  explanation: string;
-}
-
-interface DistributedInventoryToolRiskAssessment {
-  riskLevel: string;
-  riskProgress: number;
-  explanation: string;
-}
-
-interface DistributedInventoryToolReplinishmentUrgency {
-  urgencyLevel: string;
-  replenishmentProgress: number;
-  explanation: string;
-}
-
-interface DistributedInventoryToolDemandVolatility {
-  volatilityPercentage: number;
-  explanation: string;
-}
-
-interface DistributedInventoryToolEfficiency {
-  efficiencyPercentage: number;
-  explanation: string;
-}
-
-export interface DistributedInventoryToolOutputProps {
-  inventoryDistribution: DistributedInventoryToolPlot;
-  replenishmentSchedule: DistributedInventoryToolPlot;
-  shippingCostsAndTimes: DistributedInventoryToolComparisonPlot;
-  warehouseUtilization: DistributedInventoryToolPlot;
-  demandForecast: DistributedInventoryToolPlot;
-  costToServe: DistributedInventoryToolPlot;
-  newWarehouseRecommendation: DistributedInventoryToolPlot;
-  inventoryRiskAssessment: DistributedInventoryToolRiskAssessment;
-  replenishmentUrgency: DistributedInventoryToolReplinishmentUrgency;
-  demandVolatility: DistributedInventoryToolDemandVolatility;
-  costEfficiency: DistributedInventoryToolEfficiency;
-  warehouseEfficiency: DistributedInventoryToolEfficiency;
-  conclusion: string;
-}
-
 const DistributedInventoryToolOutput = ({
   inventoryDistribution,
   replenishmentSchedule,
@@ -103,7 +37,7 @@ const DistributedInventoryToolOutput = ({
   costEfficiency,
   warehouseEfficiency,
   conclusion,
-}: DistributedInventoryToolOutputProps) => {
+}) => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
   return (

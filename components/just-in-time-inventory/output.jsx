@@ -16,26 +16,6 @@ import {
 } from "lucide-react";
 import { Progress } from "../ui/progress";
 
-export interface JustInTimeInventoryToolOutputProps {
-  inventoryLevelVsDemand: Plot;
-  productionCapacityUtilization: Plot;
-  warehouseCapacityVsInventory: ComparisonPlot;
-  objectiveFulfillmentAnalysis: Plot;
-  costToServeAnalysis: Plot;
-  riskAssessment: {
-    riskLevel: string;
-    progress: number;
-    explanation: string;
-  };
-  costSavingsPotential: {
-    percentage: number;
-    explanation: string;
-  };
-  keyPerformanceIndicators: string[];
-  implementationPlan: string;
-  conclusion: string;
-}
-
 const JustInTimeInventoryToolOutput = ({
   inventoryLevelVsDemand,
   productionCapacityUtilization,
@@ -47,7 +27,7 @@ const JustInTimeInventoryToolOutput = ({
   keyPerformanceIndicators,
   implementationPlan,
   conclusion,
-}: JustInTimeInventoryToolOutputProps) => {
+}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

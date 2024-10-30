@@ -20,22 +20,6 @@ import {
   TableRow,
 } from "../ui/table";
 
-export interface LastMileDeliverySolutionsToolOutputProps {
-  suggested_carriers: string[];
-  estimated_cost_savings_percentage: number;
-  expected_delivery_time_reduction_percentage: number;
-  key_performance_indicators: {
-    kpi_name: string;
-    current_value: number;
-    expected_improvement_percentage: number;
-  }[];
-  implementation_plan: string;
-  risk_analysis: string;
-  overall_suggestion: string;
-  charts: Plot[];
-  success_stories: string;
-}
-
 const LastMileDeliverySolutionsToolOutput = ({
   suggested_carriers,
   estimated_cost_savings_percentage,
@@ -46,7 +30,7 @@ const LastMileDeliverySolutionsToolOutput = ({
   overall_suggestion,
   charts,
   success_stories,
-}: LastMileDeliverySolutionsToolOutputProps) => {
+}) => {
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">

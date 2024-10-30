@@ -23,12 +23,6 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { LoaderCircle, Plus, X } from "lucide-react";
 
-export interface LastMileDeliverySolutionsToolOptions {
-  type_of_products: string[];
-  delivery_method: string[];
-  user_objectives: string[];
-}
-
 const formSchema = z.object({
   daily_orders: z.number().min(1, "Average monthly demand is required"),
   delivery_locations: z
@@ -44,32 +38,21 @@ const LastMileDeliverySolutionsToolInputForm = ({
   options,
   data,
   handleSubmit,
-}: {
-  loading: boolean;
-  options: LastMileDeliverySolutionsToolOptions;
-  data: {
-    daily_orders: number;
-    delivery_locations: string[];
-    delivery_method: string;
-    user_objectives: string[];
-    type_of_products: string[];
-  };
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 }) => {
   const [deliveryLocations, setDeliveryLocations] = useState(
     Math.max(data.delivery_locations.length, 2)
   );
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: data,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values) {
     handleSubmit(values);
   }
 
-  const onError = (error: unknown) => {
+  const onError = (error) => {
     console.log(form.getValues());
   };
 
