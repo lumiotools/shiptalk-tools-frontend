@@ -116,15 +116,6 @@ const ParcelFlowPage = () => {
       <h1 className="text-4xl font-semibold">Parcel Flow Analysis</h1>
 
       <ResetButton resetResults={() => setResults(undefined)} />
-
-      <Button
-        className="ml-0 mr-auto -my-8 text-lg gap-0 !text-muted-foreground hover:!text-primary"
-        variant="link"
-        onClick={() => setResults(undefined)}
-      >
-        <ChevronLeft className="!size-6" />
-        Back
-      </Button>
       <ParcelFlowOutput {...results} />
     </div>
   );
