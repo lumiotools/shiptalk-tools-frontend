@@ -47,7 +47,7 @@ const BulkShipmentLabelingOptimizerPage = () => {
   };
 
   const fetchResults = async (inputData) => {
-    setLoading(true);
+    setLoading("results");
     try {
       setData(inputData);
 
